@@ -1,0 +1,70 @@
+{
+  "Shops": [
+    {
+      "Shop_Name": "Stylo Saloon",
+      "Address": "Nallurhalli, Whitefield, Bengaluru, Karnataka 560066",
+      "Gender": "Male",
+      "Open": true,
+      "Image": "style_saloon",
+      "Contact": "+919738286038",
+      "Rating": "4",
+      "Minimum_Price": "250",
+      "Coordinates": "12.972794178122736, 77.73760667237441"
+    },
+    {
+      "Shop_Name": "RK men's saloon",
+      "Address": "Next to Bhoomi divine opposite to SOHUM ISIRI apartment, Nallurahalli, Borewell Rd, Whitefield, Bengaluru, Karnataka 560066",
+      "Gender": "Male",
+      "Open": false,
+      "Image": "rk_mens_saloon",
+      "Contact": "+919980739278",
+      "Rating": "3",
+      "Minimum_Price": "150",
+      "Coordinates": "12.968695695335894, 77.74228436224101"
+    },
+    {
+      "Shop_Name": "Ashiyana Beauty Saloon",
+      "Address": "3rd Cross Rd, Dodsworth Layout, Whitefield, Bengaluru, Karnataka 560066",
+      "Gender": "Female",
+      "Open": true,
+      "Image": "ashiyana_beauty_saloon",
+      "Contact": "+919739854854",
+      "Rating": "5",
+      "Minimum_Price": "300",
+      "Coordinates": "12.97003387150587, 77.74443017724339"
+    },
+    {
+      "Shop_Name": "Marvel Saloon",
+      "Address": "123, Ramachandra Rd, R S Puram West, Coimbatore, Tamil Nadu 641002",
+      "Gender": "Male",
+      "Open": true,
+      "Image": "marvel_saloon",
+      "Contact": "+919865336997",
+      "Rating": "3",
+      "Minimum_Price": "200",
+      "Coordinates": "11.009297023615574, 76.96029061395195"
+    },
+    {
+      "Shop_Name": "Vaigai Saloon",
+      "Address": "918, Sathy Rd, Opp G P Hospital, Raju Naidu Layout, Gandhipuram, Tamil Nadu 641012",
+      "Gender": "Male",
+      "Open": true,
+      "Image": "vaigai_saloon",
+      "Contact": "+919047436060",
+      "Rating": "3",
+      "Minimum_Price": "250",
+      "Coordinates": "11.023619907654027, 76.96149273647711"
+    },
+    {
+      "Shop_Name": "Deluxe Saloon",
+      "Address": "Shop No. 174/5, B K Chetty St, KR Puram, Town Hall, Coimbatore, Tamil Nadu 641001",
+      "Gender": "Unisex",
+      "Open": false,
+      "Image": "deelux_saloon",
+      "Contact": "+919790697790",
+      "Rating": "2",
+      "Minimum_Price": "200",
+      "Coordinates": "11.022942383274783, 77.00269548990832"
+    }
+  ]
+}

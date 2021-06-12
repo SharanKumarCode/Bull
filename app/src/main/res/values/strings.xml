@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Bull</string>
+    <string name="search_button">search button</string>
+    <string name="editTextHint">Search for shops, hairstyles...</string>
+    <string name="ratingContentDescription">rating</string>
+    <string name="genderContentDescription">gender</string>
+    <string name="openStatusContentDescription">open Status</string>
+</resources>
