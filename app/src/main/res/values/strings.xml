@@ -5,4 +5,8 @@
     <string name="ratingContentDescription">rating</string>
     <string name="genderContentDescription">gender</string>
     <string name="openStatusContentDescription">open Status</string>
+    <string name="splashScreenLogoContentDescr">splashScreenLogo</string>
+    <string name="shopNameTextView">Shop Name</string>
+    <string name="areaNameTextPlaceHolder">Gandhipuram</string>
+    <string name="openTextPlaceholder">Open</string>
 </resources>

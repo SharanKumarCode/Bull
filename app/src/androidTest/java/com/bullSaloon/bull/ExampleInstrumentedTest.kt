@@ -1,4 +1,4 @@
-package com.example.bull
+package com.bullSaloon.bull
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

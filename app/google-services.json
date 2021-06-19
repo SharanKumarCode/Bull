@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "912863210845",
+    "project_id": "bull-saloon",
+    "storage_bucket": "bull-saloon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912863210845:android:ff1a91ec6d2c40901cccb4",
+        "android_client_info": {
+          "package_name": "com.bullSaloon.bull"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912863210845-a8p6uig8ioidu2523h50m22g17keqg1b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNsNIFjs1XEDqvKiqOyaUN-RPjzDE5mKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912863210845-a8p6uig8ioidu2523h50m22g17keqg1b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912863210845:android:0135abf4e61751aa1cccb4",
+        "android_client_info": {
+          "package_name": "com.example.bull"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912863210845-a8p6uig8ioidu2523h50m22g17keqg1b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNsNIFjs1XEDqvKiqOyaUN-RPjzDE5mKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912863210845-a8p6uig8ioidu2523h50m22g17keqg1b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

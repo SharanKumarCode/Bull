@@ -1,4 +1,4 @@
-package com.example.bull
+package com.bullSaloon.bull
 
 import org.junit.Test
 

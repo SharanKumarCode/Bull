@@ -1,4 +1,4 @@
-package com.example.bull
+package com.bullSaloon.bull
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -22,20 +22,26 @@ class ShopRecyclerViewAdapter(lists: MutableList<shopDataPreviewClass>): Recycle
         holder.shopImage.setBackgroundResource(imageResource)
 
         holder.shopName.text = shopList[position].shopName
+        holder.areaName.text = shopList[position].areaName
+
 
         if (shopList[position].gender == "Male"){
             holder.gender.setImageResource(R.drawable.ic_male)
-        } else {
+        } else if (shopList[position].gender == "Female") {
             holder.gender.setImageResource(R.drawable.ic_female)
-        }
-
-        if (shopList[position].openStatus){
-            holder.openStatus.setImageResource(R.drawable.ic_open)
         } else {
-            holder.openStatus.setImageResource(R.drawable.ic_closed)
+            holder.gender.setImageResource(R.drawable.ic_unisex)
         }
 
-        for (i in 0 until shopList[position].rating){
+        if (shopList[position].openStatus == true){
+            holder.openStatus.text = "open"
+            holder.openStatus.setTextColor(context.getColor(R.color.openStatusColor))
+        } else {
+            holder.openStatus.text = "closed"
+            holder.openStatus.setTextColor(context.getColor(R.color.closeStatusColor))
+        }
+
+        for (i in 0 until shopList[position].rating!!){
             holder.ratingsImageViewList[i.toInt()].visibility = View.VISIBLE
         }
 
