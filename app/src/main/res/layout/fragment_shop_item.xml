@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ShopItemFragment">
+
+    <ImageView
+        android:id="@+id/shopFragmentImage"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@drawable/marvel_saloon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1Fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shopFragmentImage"
+        app:layout_constraintVertical_bias="0.02"
+        >
+
+        <TextView
+            android:id="@+id/shopNameFragmentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="300dp"
+            android:text="Style Saloon"
+            android:textColor="#DDDDDD"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/openStatus_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="10dp"
+            android:text="@string/openTextPlaceholder"
+            android:textColor="#0FFF33"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/addressFragmentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/shopNameFragmentTextView"
+            android:text="Nallurhalli, Whitefield, Bengaluru, Karnataka 560066"
+            android:textColor="#DDDDDD"
+            android:textSize="16sp"
+            />
+
+        <ImageView
+            android:contentDescription="@string/ratingFragmentContentDesc"
+            android:id="@+id/ratingFragmentImageView"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/addressFragmentTextView"
+            android:src="@drawable/avd_rating" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2Fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout1Fragment"
+        app:layout_constraintVertical_bias="0.07999998">
+
+        <ImageView
+            android:contentDescription="@string/mapButtonContentDescription"
+            android:id="@+id/googleMapImageView"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/callImageView"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/google_maps_logo_icon" />
+
+        <ImageView
+            android:contentDescription="@string/callButtonContentDescription"
+            android:id="@+id/callImageView"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/googleMapImageView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_call" />
+
+        <ImageView
+            android:contentDescription="@string/appointmentContentDescription"
+            android:id="@+id/appointmentImageView"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/googleMapImageView"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_appointment" />
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,4 +9,10 @@
     <string name="shopNameTextView">Shop Name</string>
     <string name="areaNameTextPlaceHolder">Gandhipuram</string>
     <string name="openTextPlaceholder">Open</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="appointmentContentDescription">appointment button</string>
+    <string name="callButtonContentDescription">callButton</string>
+    <string name="mapButtonContentDescription">mapButton</string>
+    <string name="ratingFragmentContentDesc">rating</string>
 </resources>

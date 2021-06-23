@@ -1,14 +1,22 @@
 package com.bullSaloon.bull
 
+import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.bullSaloon.bull.Fragments.ShopItemFragment
+import com.bullSaloon.bull.ViewModel.MainActivityViewModel
+import java.lang.Error
 
-class ShopRecyclerViewAdapter(lists: MutableList<shopDataPreviewClass>): RecyclerView.Adapter<ShopRecyclerViewHolder>() {
+class ShopRecyclerViewAdapter(lists: MutableList<shopDataPreviewClass>, dataViewModel: MainActivityViewModel): RecyclerView.Adapter<ShopRecyclerViewHolder>() {
 
     private val shopList = lists
+    private val dataModel = dataViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.shop_item_view_holder,parent,false)
@@ -45,9 +53,28 @@ class ShopRecyclerViewAdapter(lists: MutableList<shopDataPreviewClass>): Recycle
             holder.ratingsImageViewList[i.toInt()].visibility = View.VISIBLE
         }
 
+        holder.itemView.setOnClickListener {
+
+            Log.i("fragmenterror", "recycler view item: ${holder.areaName.id} clicked")
+            try {
+                Log.i("fragmenterror", "recycler view item: ${it.id} clicked")
+                startShopItemFragment(holder, dataModel, shopList[position])
+            }catch (e: Error){
+                Log.i("fragmenterror", "error occured: $e")
+            }
+
+        }
+
     }
 
     override fun getItemCount(): Int {
         return shopList.size
+    }
+
+    private fun startShopItemFragment(holder: ShopRecyclerViewHolder, dataModel: MainActivityViewModel, shopList: shopDataPreviewClass){
+        val context = holder.itemView.context as FragmentActivity
+        val shopItemFragment = ShopItemFragment()
+        dataModel.putShopData(shopList.shopID)
+        context.supportFragmentManager.beginTransaction().replace(R.id.shopFragmentContainer, shopItemFragment).addToBackStack(null).commit()
     }
 }
