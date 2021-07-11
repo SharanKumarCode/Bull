@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="8dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="false"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ImageView
+                android:id="@+id/BullMagicImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_bull"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/BullMagicImageContentLayout"
+                />
+
+            <RelativeLayout
+                android:id="@+id/BullMagicImageContentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@color/mainActivityBg"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="5dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/BullMagicImageView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/BullMagicUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Sharan Kumar"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+                <TextView
+                    android:id="@+id/BullMagicShopName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/BullMagicUserName"
+
+                    android:text="@string/textViewSaloonNameWithAt"
+                    android:textColor="@color/white"
+                    android:textSize="8sp"/>
+
+                <TextView
+                    android:id="@+id/NicesTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+
+                    android:layout_toStartOf="@+id/BullMagicNiceImageView"
+                    android:paddingTop="5dp"
+
+                    android:text="20"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/BullMagicNiceImageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="5dp"
+
+                    android:src="@drawable/ic_nice_filled_icon"
+
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    />
+
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

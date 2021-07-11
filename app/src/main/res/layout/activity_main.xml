@@ -4,76 +4,151 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1F1F1F"
+    android:background="@color/mainActivityBg"
     tools:context=".MainActivity">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewSearch"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="#1F1F1F"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="50dp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="false"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.00999999">
+        app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBarToolBar"
+            style="@style/Widget.MaterialComponents.Toolbar.PrimarySurface"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            app:menu="@menu/app_bar_menu"
+            app:navigationIcon="@drawable/ic_baseline_menu_24">
 
-            <ImageView
-                android:id="@+id/search_ImageView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="start"
-                android:layout_marginStart="10dp"
-                android:paddingTop="10dp"
-                android:clickable="true"
-                android:contentDescription="@string/search_button"
-                android:focusable="true"
-                android:src="@drawable/ic_search_inverted" />
-
-            <EditText
-                android:id="@+id/searchText_TextView"
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="10dp"
-                android:autofillHints="Search for shops, hairstyles..."
-                android:hint="@string/editTextHint"
+                android:text="@string/app_name"
+                android:layout_marginEnd="20dp"
+                android:textSize="20sp"
+                android:gravity="center_horizontal">
 
-                android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="#CCCCCC" />
+            </com.google.android.material.textview.MaterialTextView>
+        </com.google.android.material.appbar.MaterialToolbar>
 
-        </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/searchBarLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/mainActButtonBgColorActive"
+        android:orientation="horizontal"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topAppBar"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/search_ImageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="10dp"
+            android:clickable="true"
+            android:contentDescription="@string/buttonSearch"
+            android:focusable="true"
+
+            android:src="@drawable/ic_search_inverted" />
+
+        <EditText
+            android:id="@+id/searchText_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="10dp"
+            android:autofillHints="Search for shops, hairstyles..."
+
+            android:background="@android:color/transparent"
+            android:hint="@string/hintSearchEdit"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textColorHint="#AAAAAA" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonContainerMainActLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBarLinearLayout"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.tabs.TabLayout
+            style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
+            android:id="@+id/tabInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="2"
+            app:tabTextColor="#CCCCCC"
+            app:tabIndicatorColor="@color/teal_700"
+            app:tabSelectedTextColor="@color/white"
+
+            app:layout_constraintBottom_toTopOf="@+id/shopFragmentContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchBarLinearLayout">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buttonStyleList" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buttonSaloonList" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonBullMagic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:backgroundTint="@color/teal_700"
+            android:text="@string/buttonBullMagic" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/shopFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:layout_marginTop="2dp"
+        android:background="@color/mainActivityBg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewSearch"
-        android:layout_marginTop="10dp">
+        app:layout_constraintTop_toBottomOf="@+id/buttonContainerMainActLinearLayout"
+        app:layout_constraintVertical_bias="0.0">
 
     </FrameLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,18 +1,52 @@
 <resources>
     <string name="app_name">Bull</string>
-    <string name="search_button">search button</string>
-    <string name="editTextHint">Search for shops, hairstyles...</string>
-    <string name="ratingContentDescription">rating</string>
-    <string name="genderContentDescription">gender</string>
-    <string name="openStatusContentDescription">open Status</string>
-    <string name="splashScreenLogoContentDescr">splashScreenLogo</string>
-    <string name="shopNameTextView">Shop Name</string>
-    <string name="areaNameTextPlaceHolder">Gandhipuram</string>
-    <string name="openTextPlaceholder">Open</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <!--    Text/Placeholder/Hints/Helper Texts-->
+    <string name="hintSearchEdit">Search for shops</string>
+    <string name="hintEnterMobileNumber">Enter Mobile Number</string>
+    <string name="hintEnterName">Enter Name</string>
+    <string name="placeHolderAreaName">Gandhipuram</string>
+    <string name="placeHolderOpenStatus">Open</string>
+    <string name="textViewSaloonNameWithAt">\@Mega Saloon"</string>
+    <string name="textViewSaloonName">Shop Name</string>
+    <string name="textResendOtp">Resending OTP in %1$d secs</string>
+    <string name="textAlreadyHaveAccount">Already have an account?</string>
+    <string name="textDoNotHaveAccount">Do not have an account?</string>
+    <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="appointmentContentDescription">appointment button</string>
-    <string name="callButtonContentDescription">callButton</string>
-    <string name="mapButtonContentDescription">mapButton</string>
-    <string name="ratingFragmentContentDesc">rating</string>
+
+    <!--    Button/ImageViewButton Texts-->
+    <string name="buttonSearch">search button</string>
+    <string name="buttonTakePhoto">Take Photo</string>
+    <string name="buttonStyleList">Style List</string>
+    <string name="buttonBullMagic">Bull Magic</string>
+    <string name="buttonSaloonList">Saloon List</string>
+    <string name="buttonUploadImageFirebase">Upload</string>
+    <string name="buttonCancelImage">Retake</string>
+    <string name="buttonSignUp">Sign-Up</string>
+    <string name="buttonSignIn">Sign-In</string>
+    <string name="buttonSignInAndSignUp">Sign-Up / Sign-In</string>
+    <string name="buttonCreateAccount">Create Account</string>
+    <string name="buttonResendOtp">Resend OTP</string>
+    <string name="buttonGenerateOtp">Generate OTP</string>
+
+    <!--    Content Description Texts-->
+    <string name="contentDescriptionRating">rating</string>
+    <string name="contentDescriptionGender">gender</string>
+    <string name="contentDescriptionOpenStatus">open Status</string>
+    <string name="contentDescriptionSplashScreenLogo">splashScreenLogo</string>
+    <string name="contentDescriptionAppointment">appointment button</string>
+    <string name="contentDescriptionCallButton">callButton</string>
+    <string name="contentDescriptionMapButton">mapButton</string>
+    <string name="buttonVerifyOtp">Verify OTP</string>
+    <string name="title_activity_maps">Map</string>
+
+<!--    Menu items title-->
+    <string name="menuItemTitleAbout">About</string>
+    <string name="menuItemTitleSignOut">Sign out</string>
+
+
+
 </resources>

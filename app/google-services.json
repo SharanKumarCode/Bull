@@ -7,41 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:912863210845:android:ff1a91ec6d2c40901cccb4",
+        "mobilesdk_app_id": "1:912863210845:android:e5ebaa5684e9356b1cccb4",
         "android_client_info": {
           "package_name": "com.bullSaloon.bull"
         }
       },
       "oauth_client": [
         {
-          "client_id": "912863210845-a8p6uig8ioidu2523h50m22g17keqg1b.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDNsNIFjs1XEDqvKiqOyaUN-RPjzDE5mKI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "912863210845-a8p6uig8ioidu2523h50m22g17keqg1b.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:912863210845:android:0135abf4e61751aa1cccb4",
-        "android_client_info": {
-          "package_name": "com.example.bull"
-        }
-      },
-      "oauth_client": [
+          "client_id": "912863210845-gf72o4c6sr2gvt80j1m5mcpiu33330fq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bullSaloon.bull",
+            "certificate_hash": "dc6fb9fd9a98ef034343d15efbe3821b75f55cb1"
+          }
+        },
         {
           "client_id": "912863210845-a8p6uig8ioidu2523h50m22g17keqg1b.apps.googleusercontent.com",
           "client_type": 3
