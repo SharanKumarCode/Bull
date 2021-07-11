@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Bull" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Bull" parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#262626</item>
         <item name="colorPrimaryVariant">#0D0D0D</item>
@@ -13,4 +13,5 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
 </resources>

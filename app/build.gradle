@@ -2,19 +2,35 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
+    id 'kotlin-android-extensions'
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('E:\\Bull\\keys\\bullappkeystore.jks')
+            storePassword 'android'
+            keyAlias 'key0'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file('E:\\Bull\\keys\\bullappkeystore.jks')
+            storePassword 'android'
+            keyAlias 'key0'
+            keyPassword 'android'
+        }
+    }
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.example.bull"
+        applicationId "com.bullSaloon.bull"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
@@ -23,6 +39,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -30,21 +51,53 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src\\main\\res', 'src\\main\\res\\layouts\\BullMagic', 'src\\main\\res\\layouts\\BullMagic\\layout', 'src\\main\\res\\layouts\\Shops', 'src\\main\\res\\layouts\\StyleLists', 'src\\main\\res\\layouts\\Shops\\layout', 'src\\main\\res\\StyleLists\\layout', 'src\\main\\res\\layouts\\StyleLists\\layout'
+            }
+        }
+    }
 }
 
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation platform('com.google.firebase:firebase-bom:28.1.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+
+    //Firebase
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+
+    //Firebase authentication
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+
+    //Firebase storage
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
+
+    //Firebase database
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    // CameraX core library using the camera2 implementation
+    def camerax_version = "1.0.0"
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation("androidx.camera:camera-lifecycle:${camerax_version}")
+    // If you want to additionally use the CameraX View class
+    implementation("androidx.camera:camera-view:1.0.0-alpha26")
+    // If you want to additionally use the CameraX Extensions library
+    implementation("androidx.camera:camera-extensions:1.0.0-alpha26")
 }
