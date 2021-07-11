@@ -4,23 +4,21 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="5dp"
+    android:paddingStart="5dp"
     android:paddingTop="20dp"
     android:paddingBottom="0dp"
     >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="wrap_content"
         app:cardElevation="4dp"
         app:cardCornerRadius="20dp"
         android:layout_margin="8dp"
 
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="@color/black"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="false"
-        android:clickable="true"
-        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground">
 
         <RelativeLayout
@@ -29,8 +27,8 @@
 
             <LinearLayout
                 android:id="@+id/shopImageLayoutBg"
-                android:layout_width="230dp"
-                android:layout_height="210dp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
                 android:orientation="horizontal"
                 android:background="@drawable/deelux_saloon">
 
@@ -38,86 +36,106 @@
 
             <LinearLayout
                 android:id="@+id/data_linearLayout_item"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_toRightOf="@+id/shopImageLayoutBg"
-                android:layout_marginLeft="5dp">
+                android:layout_below="@+id/shopImageLayoutBg"
+                >
                 <TextView
                     android:id="@+id/shopNameTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:text="Shop Name"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
-                    <ImageView
-                        android:contentDescription="@string/ratingContentDescription"
-                        android:id="@+id/rating_ImageView_1"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="5dp"
-                        android:src="@drawable/ic_rating"
-                        android:visibility="invisible"/>
-                    <ImageView
-                        android:contentDescription="@string/ratingContentDescription"
-                        android:id="@+id/rating_ImageView_2"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_rating"
-                        android:visibility="invisible"/>
-                    <ImageView
-                        android:contentDescription="@string/ratingContentDescription"
-                        android:id="@+id/rating_ImageView_3"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_rating"
-                        android:visibility="invisible"/>
-                    <ImageView
-                        android:contentDescription="@string/ratingContentDescription"
-                        android:id="@+id/rating_ImageView_4"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_rating"
-                        android:visibility="invisible"/>
-                    <ImageView
-                        android:contentDescription="@string/ratingContentDescription"
-                        android:id="@+id/rating_ImageView_5"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_rating"
-                        android:visibility="invisible"/>
-                </LinearLayout>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:orientation="horizontal">
-           <ImageView
-               android:contentDescription="@string/genderContentDescription"
-               android:id="@+id/gender_ImageView"
-               android:layout_width="30dp"
-               android:layout_height="30dp"
-               android:layout_marginLeft="5dp"
-               android:layout_marginTop="30dp"
-               android:src="@drawable/ic_male" />
-           <ImageView
-               android:id="@+id/openStatus_ImageView"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:layout_gravity="right"
-               android:contentDescription="@string/openStatusContentDescription"
-               android:src="@drawable/ic_open" />
+                    android:text="@string/shopNameTextView"
+                    android:textSize="18sp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#DDDDDD"
+                    />
 
-       </LinearLayout>
+                <RelativeLayout
+                    android:id="@+id/relativelayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="12dp"
+                    >
+                    <TextView
+                        android:id="@+id/areaName_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/areaNameTextPlaceHolder"
+                        android:layout_marginStart="5dp"
+                        android:textColor="#BBBBBB"
+                        android:textSize="14sp"
+                        />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_below="@+id/areaName_TextView">
+                        <ImageView
+                            android:contentDescription="@string/ratingContentDescription"
+                            android:id="@+id/rating_ImageView_1"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_rating_inverted"
+                            android:visibility="invisible"/>
+                        <ImageView
+                            android:contentDescription="@string/ratingContentDescription"
+                            android:id="@+id/rating_ImageView_2"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_toEndOf="@+id/rating_ImageView_1"
+                            android:src="@drawable/ic_rating_inverted"
+                            android:visibility="invisible"/>
+                        <ImageView
+                            android:contentDescription="@string/ratingContentDescription"
+                            android:id="@+id/rating_ImageView_3"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_toEndOf="@+id/rating_ImageView_2"
+                            android:src="@drawable/ic_rating_inverted"
+                            android:visibility="invisible"/>
+                        <ImageView
+                            android:contentDescription="@string/ratingContentDescription"
+                            android:id="@+id/rating_ImageView_4"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_toEndOf="@+id/rating_ImageView_3"
+                            android:src="@drawable/ic_rating_inverted"
+                            android:visibility="invisible"/>
+                        <ImageView
+                            android:contentDescription="@string/ratingContentDescription"
+                            android:id="@+id/rating_ImageView_5"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_toEndOf="@+id/rating_ImageView_4"
+                            android:src="@drawable/ic_rating_inverted"
+                            android:visibility="invisible"/>
+                    </RelativeLayout>
 
+                    <ImageView
+                        android:contentDescription="@string/genderContentDescription"
+                        android:id="@+id/gender_ImageView"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/ic_male" />
+                    <TextView
+                        android:id="@+id/openStatus_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/gender_ImageView"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/openTextPlaceholder"
+                        android:textColor="#BBBBBB"
+                        android:textSize="14sp"
+                        />
+                </RelativeLayout>
 
             </LinearLayout>
         </RelativeLayout>

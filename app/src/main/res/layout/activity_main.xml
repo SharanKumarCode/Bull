@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#1F1F1F"
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardViewSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:focusable="true"
 
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="#1F1F1F"
+        app:cardCornerRadius="5dp"
         app:cardElevation="50dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="false"
@@ -31,46 +32,48 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/search_ImageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="start"
                 android:layout_marginStart="10dp"
+                android:paddingTop="10dp"
                 android:clickable="true"
                 android:contentDescription="@string/search_button"
                 android:focusable="true"
-                android:src="@drawable/ic_search" />
+                android:src="@drawable/ic_search_inverted" />
 
             <EditText
                 android:id="@+id/searchText_TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="10dp"
                 android:autofillHints="Search for shops, hairstyles..."
                 android:hint="@string/editTextHint"
+
                 android:inputType="text"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black" />
+                android:textColor="@color/white"
+                android:textColorHint="#CCCCCC" />
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
+        android:id="@+id/shopFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.02"
-        android:paddingBottom="?attr/actionBarSize"/>
+        app:layout_constraintTop_toBottomOf="@+id/cardViewSearch"
+        android:layout_marginTop="10dp">
+
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
