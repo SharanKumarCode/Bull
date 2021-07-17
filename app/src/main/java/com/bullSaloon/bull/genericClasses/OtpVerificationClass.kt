@@ -7,23 +7,21 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.databinding.FragmentCreateAccountBinding
 import com.bullSaloon.bull.databinding.FragmentSignInBinding
-import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 
 class OtpVerificationClass() {
     private var auth: FirebaseAuth = Firebase.auth
+    private val EXTRA_INTENT: String = "userBasicData"
+    private val TAG: String = "TAG"
 
     private lateinit var mobileNumber: String
     private lateinit var storedVerificationId:String
@@ -70,7 +68,7 @@ class OtpVerificationClass() {
 
     private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
         override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-            Log.i("TAGOTP", "Verification is completed")
+            Log.i(TAG, "Verification is completed")
         }
 
         override fun onVerificationFailed(e: FirebaseException) {
@@ -78,12 +76,12 @@ class OtpVerificationClass() {
                 Toast.makeText(mobileNumberTextField.context, "OTP is incorrect", Toast.LENGTH_SHORT).show()
             }
             Toast.makeText(mobileNumberTextField.context, "Something went wrong..", Toast.LENGTH_SHORT).show()
-            Log.i("TAGOTP", "error: ${e.message}")
+            Log.i(TAG, "error: ${e.message}")
         }
 
         override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
             super.onCodeSent(verificationId, token)
-            Log.i("TAGOTP", "error: Code is sent to $mobileNumber and $verificationId")
+            Log.i(TAG, "error: Code is sent to $mobileNumber and $verificationId")
             storedVerificationId = verificationId
             resendToken = token
 
@@ -128,16 +126,16 @@ class OtpVerificationClass() {
             .addOnCompleteListener {
                 when {
                     it.isSuccessful -> {
-                        Log.i("TAGOTP", "Successfully signed in")
+                        Log.i(TAG, "Successfully signed in")
                         Toast.makeText(context, "Successfully signed in", Toast.LENGTH_SHORT).show()
+
+                        // if username is blank start main activity. If username exists, update username in fireStore and start activity
                         if (userName != ""){
                             updateUserName()
                         }
 
-                        startActivity(context,Intent(
-                            context,
-                            MainActivity::class.java
-                        ),null)
+                        //starting main activity
+                        startMainActivity()
                     }
                     it.exception is FirebaseAuthInvalidCredentialsException -> {
                         Toast.makeText(context, "Invalid OTP", Toast.LENGTH_SHORT).show()
@@ -153,11 +151,12 @@ class OtpVerificationClass() {
     }
 
     private fun updateUserName(){
+        Log.i(TAG,"updating user to fireStore")
         val db = Firebase.firestore
 
         val userId = auth.currentUser?.uid.toString()
 
-        val user = hashMapOf<String,String>(
+        val user = hashMapOf(
             "user_name" to userName,
             "user_id" to userId,
             "mobile_number" to mobileNumber
@@ -168,23 +167,53 @@ class OtpVerificationClass() {
             .get()
             .addOnSuccessListener { result ->
                 if (result.exists()){
-                    Log.i("TAG","user already exists")
+                    Log.i(TAG,"user already exists")
                 } else {
                     db.collection("Users")
                         .document(userId)
                         .set(user)
-                        .addOnCompleteListener {
-                            Log.i("TAG","user is added")
+                        .addOnSuccessListener {
+                            Log.i(TAG,"user is added")
+                            startMainActivity()
                         }
                         .addOnFailureListener {
-                            Log.i("TAG","user update failed, error: ${it.message}")
+                            Log.i(TAG,"user update failed, error: ${it.message}")
 //                            auth.currentUser?.delete()
                         }
                 }
             }
             .addOnFailureListener {
-                Log.i("TAG","task failed, error: ${it.message}")
+                Log.i(TAG,"task failed, error: ${it.message}")
 //                auth.currentUser?.delete()
             }
+    }
+
+    private fun startMainActivity(){
+        val context = otpBox1.context
+        if (auth.currentUser == null){
+            Log.i(TAG,"error: current user is null")
+            Toast.makeText(context, "Error occurred. Please check your internet connection", Toast.LENGTH_SHORT).show()
+        } else {
+            val intent = Intent(context, MainActivity::class.java)
+            val db = Firebase.firestore
+            db.collection("Users")
+                .document(auth.currentUser?.uid!!)
+                .get()
+                .addOnSuccessListener {
+                    if (it?.exists()!!) {
+                        val userBasicData = UserBasicDataParcelable(
+                            it.getString("user_id")!!,
+                            it.getString("user_name")!!,
+                            it.getString("mobile_number")!!
+                        )
+                        intent.putExtra(EXTRA_INTENT, userBasicData)
+                        context.startActivity(intent)
+                    }
+                }
+                .addOnFailureListener {
+                    Log.i(TAG,"error: ${it.message}")
+                    Toast.makeText(context, "Error occurred. Please check your internet connection", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 }

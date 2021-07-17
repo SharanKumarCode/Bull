@@ -138,7 +138,7 @@ class CreateAccountFragment : Fragment() {
                             ) { p0, _ -> p0?.dismiss() }
                             .show()
                     } else {
-                        Log.i("TAG", "Existing User")
+                        Log.i("TAG", "New User")
                         generateOtp()
                     }
                 }

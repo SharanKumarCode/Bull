@@ -1,20 +1,28 @@
 package com.bullSaloon.bull.viewModel
 
+import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bullSaloon.bull.genericClasses.UserDataClass
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.FirebaseAuthKtxRegistrar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import java.io.Serializable
 
 class UserDataViewModel: ViewModel() {
 
-    private var userData = MutableLiveData<UserDataClass>()
-    private var userBasicData = MutableLiveData<Map<String,String>>()
+    private var userBasicData = MutableLiveData<UserDataClass>()
+    var userbasic = MutableLiveData<MutableMap<String,String>>()
 
-    fun assignUserData(data: UserDataClass){
-        userData.value = data
-        userBasicData.value = mapOf("user_name" to data.user_name, "user_id" to data.user_id, "mobileNumber" to  data.mobileNumber)
+    fun assignBasicUserData(data: UserDataClass){
+        userBasicData.value = data
     }
 
-    fun getUserBasicData(): MutableLiveData<Map<String,String>>{
+    fun getUserBasicData(): MutableLiveData<UserDataClass>{
         return userBasicData
     }
 

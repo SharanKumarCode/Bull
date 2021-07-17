@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="180dp"
+    android:fitsSystemWindows="true"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bull_nav_header"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/userPhotoNavigationHeaderTextView"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:src="@drawable/photo_5"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:id="@+id/userNameNavigationHeaderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/userPhotoNavigationHeaderTextView"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/userPhotoNavigationHeaderTextView"
+        android:fontFamily="sans-serif-black"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/userMobileNavigationHeaderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_below="@+id/userNameNavigationHeaderTextView"
+        android:layout_toEndOf="@+id/userPhotoNavigationHeaderTextView"
+        />
+
+
+</RelativeLayout>

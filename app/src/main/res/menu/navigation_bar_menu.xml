@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group1">
+        <item android:id="@+id/userProfile"
+            android:title="@string/menuItemTitleUserProfile"
+            />
+        <item android:id="@+id/menuItemBullMagic"
+            android:title="@string/menuItemBullMagic"
+            />
+        <item android:id="@+id/menuItemSavedStyles"
+            android:title="@string/menuItemSavedStyles"
+            />
+    </group>
+    <group android:id="@+id/group2">
+        <item android:id="@+id/menuItemSettings"
+            android:title="@string/menuItemSettings"
+            />
+        <item android:id="@+id/menuItemAbout"
+            android:title="@string/menuItemTitleAbout"
+            />
+        <item android:id="@+id/menuItemSignOut"
+            android:title="@string/menuItemTitleSignOut"
+            />
+    </group>
+    <group android:id="@+id/group3">
+        <item android:id="@+id/menuItemSaloonOwner"
+            android:title="@string/menuItemSaloonOwner"
+            />
+    </group>
+</menu>

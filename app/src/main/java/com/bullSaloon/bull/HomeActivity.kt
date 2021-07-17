@@ -15,8 +15,8 @@ class HomeActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val signInFragment = SignUpAndSignInFragment()
+        val SignUpAndSignInFragment = SignUpAndSignInFragment()
 
-        supportFragmentManager.beginTransaction().replace(binding.SignInFragmentContainer.id, signInFragment).commit()
+        supportFragmentManager.beginTransaction().replace(binding.SignInFragmentContainer.id, SignUpAndSignInFragment).commit()
     }
 }

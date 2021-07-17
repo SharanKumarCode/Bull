@@ -1,6 +1,6 @@
 package com.bullSaloon.bull.genericClasses
 
-data class shopDataPreviewClass(val shopID: Number?,
+data class ShopDataPreviewClass(val shopID: Number?,
                                 val shopName:String?,
                                 val areaName:String?,
                                 val rating:Long?,
