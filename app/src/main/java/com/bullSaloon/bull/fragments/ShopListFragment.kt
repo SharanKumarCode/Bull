@@ -21,7 +21,7 @@ import com.bullSaloon.bull.R
 import com.bullSaloon.bull.recyclerViewAdapters.ShopRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentShopListBinding
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
-import com.bullSaloon.bull.genericClasses.shopDataPreviewClass
+import com.bullSaloon.bull.genericClasses.ShopDataPreviewClass
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -123,7 +123,7 @@ class ShopListFragment : Fragment() {
         Log.i("TAGLifecycle","Firestore data is being fetched")
 
         val db = Firebase.firestore
-        val shopLists = mutableListOf<shopDataPreviewClass>()
+        val shopLists = mutableListOf<ShopDataPreviewClass>()
         dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
         db.collection("shops_data")
@@ -141,7 +141,7 @@ class ShopListFragment : Fragment() {
                     val contact: String? = document.getString("Contact")
                     val shopAddress: String? = document.getString("Address")
 
-                    shopLists.add(shopDataPreviewClass(shopID, shopName,areaName, rating,imageSource,gender,openStatus, contact, shopAddress))
+                    shopLists.add(ShopDataPreviewClass(shopID, shopName,areaName, rating,imageSource,gender,openStatus, contact, shopAddress))
 
                     animate.stop()
                     animate.clearAnimationCallbacks()

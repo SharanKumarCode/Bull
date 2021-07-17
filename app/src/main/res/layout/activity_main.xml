@@ -1,154 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
     android:background="@color/mainActivityBg"
+    android:fitsSystemWindows="false"
+    tools:openDrawer="start"
     tools:context=".MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/topAppBar"
+    <RelativeLayout
+        android:id="@+id/mainScreenLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="match_parent"
+        android:background="@color/mainActivityBg"
+        android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBarToolBar"
-            style="@style/Widget.MaterialComponents.Toolbar.PrimarySurface"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:menu="@menu/app_bar_menu"
-            app:navigationIcon="@drawable/ic_baseline_menu_24">
+            android:layout_alignParentTop="true"
+            style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
+            android:fitsSystemWindows="true">
 
-            <com.google.android.material.textview.MaterialTextView
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_baseline_menu_24"
+                android:background="@color/black"
+                android:gravity="center_horizontal"
+                android:elevation="15dp" >
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textAlignment="center"
+                    android:background="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    />
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <LinearLayout
+                android:id="@+id/searchBarLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:layout_marginEnd="20dp"
-                android:textSize="20sp"
-                android:gravity="center_horizontal">
 
-            </com.google.android.material.textview.MaterialTextView>
-        </com.google.android.material.appbar.MaterialToolbar>
+                android:background="@color/mainActButtonBgColorActive"
+                android:orientation="horizontal"
+                android:paddingTop="15dp"
+                android:paddingBottom="10dp">
 
+                <ImageView
+                    android:id="@+id/search_ImageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="10dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/buttonSearch"
+                    android:focusable="true"
 
-    </com.google.android.material.appbar.AppBarLayout>
+                    android:src="@drawable/ic_search_inverted" />
 
-    <LinearLayout
-        android:id="@+id/searchBarLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+                <EditText
+                    android:id="@+id/searchText_TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="10dp"
+                    android:autofillHints="Search for shops, hairstyles..."
 
-        android:background="@color/mainActButtonBgColorActive"
-        android:orientation="horizontal"
-        android:paddingTop="15dp"
-        android:paddingBottom="10dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/hintSearchEdit"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textColorHint="#AAAAAA" />
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topAppBar"
-        app:layout_constraintVertical_bias="0.0">
+            </LinearLayout>
 
-        <ImageView
-            android:id="@+id/search_ImageView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="start"
-            android:layout_marginStart="10dp"
-            android:clickable="true"
-            android:contentDescription="@string/buttonSearch"
-            android:focusable="true"
-
-            android:src="@drawable/ic_search_inverted" />
-
-        <EditText
-            android:id="@+id/searchText_TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="10dp"
-            android:autofillHints="Search for shops, hairstyles..."
-
-            android:background="@android:color/transparent"
-            android:hint="@string/hintSearchEdit"
-            android:inputType="text"
-            android:textColor="@color/black"
-            android:textColorHint="#AAAAAA" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttonContainerMainActLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBarLinearLayout"
-        app:layout_constraintVertical_bias="0.0">
-
-        <com.google.android.material.tabs.TabLayout
-            style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
-            android:id="@+id/tabInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="2"
-            app:tabTextColor="#CCCCCC"
-            app:tabIndicatorColor="@color/teal_700"
-            app:tabSelectedTextColor="@color/white"
-
-            app:layout_constraintBottom_toTopOf="@+id/shopFragmentContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchBarLinearLayout">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/buttonContainerMainActLinearLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/buttonStyleList" />
+                android:orientation="horizontal"
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+                android:layout_below="@+id/searchBarLinearLayout">
+
+                <com.google.android.material.tabs.TabLayout
+                    style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
+                    android:id="@+id/tabInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="2"
+                    app:tabTextColor="#CCCCCC"
+                    app:tabIndicatorColor="@color/teal_700"
+                    app:tabSelectedTextColor="@color/white"
+
+                    app:layout_constraintBottom_toTopOf="@+id/shopFragmentContainer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/searchBarLinearLayout">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/buttonStyleList" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/buttonSaloonList" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonBullMagic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+
+                    android:backgroundTint="@color/teal_700"
+                    android:text="@string/buttonBullMagic" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/shopFragmentContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/buttonSaloonList" />
 
-        </com.google.android.material.tabs.TabLayout>
+                android:layout_marginTop="2dp"
+                android:background="@color/mainActivityBg"
+                android:layout_below="@+id/buttonContainerMainActLinearLayout">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonBullMagic"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            </FrameLayout>
 
-            android:backgroundTint="@color/teal_700"
-            android:text="@string/buttonBullMagic" />
+        </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/shopFragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/navigation_bar_menu" />
 
-        android:layout_marginTop="2dp"
-        android:background="@color/mainActivityBg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonContainerMainActLinearLayout"
-        app:layout_constraintVertical_bias="0.0">
-
-    </FrameLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

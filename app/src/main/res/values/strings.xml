@@ -12,6 +12,9 @@
     <string name="textResendOtp">Resending OTP in %1$d secs</string>
     <string name="textAlreadyHaveAccount">Already have an account?</string>
     <string name="textDoNotHaveAccount">Do not have an account?</string>
+    <string name="textUserName">Sharan Kumar</string>
+    <string name="textUploading">Uploading...</string>
+    <string name="textProgressIndicator">%1$s</string>
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
 
 
@@ -31,6 +34,7 @@
     <string name="buttonCreateAccount">Create Account</string>
     <string name="buttonResendOtp">Resend OTP</string>
     <string name="buttonGenerateOtp">Generate OTP</string>
+    <string name="buttonVerifyOtp">Verify OTP</string>
 
     <!--    Content Description Texts-->
     <string name="contentDescriptionRating">rating</string>
@@ -40,13 +44,23 @@
     <string name="contentDescriptionAppointment">appointment button</string>
     <string name="contentDescriptionCallButton">callButton</string>
     <string name="contentDescriptionMapButton">mapButton</string>
-    <string name="buttonVerifyOtp">Verify OTP</string>
+    <string name="contentDescriptionBullImageList">downloaded user image</string>
+    <string name="contentDescriptionNiceStatus">Nice Status</string>
+
     <string name="title_activity_maps">Map</string>
 
 <!--    Menu items title-->
     <string name="menuItemTitleAbout">About</string>
     <string name="menuItemTitleSignOut">Sign out</string>
+    <string name="menuItemTitleUserProfile">Your Profile</string>
+    <string name="menuItemSavedStyles">Saved Styles</string>
+    <string name="menuItemBullMagic">Bull-Magic</string>
+    <string name="menuItemSettings">Settings</string>
+    <string name="menuItemSaloonOwner">Saloon Owner</string>
 
+    
+    <string name="openNavDrawer">open Nav Drawer</string>
+    <string name="closeNavDrawer">close Nav Drawer</string>
 
 
 </resources>

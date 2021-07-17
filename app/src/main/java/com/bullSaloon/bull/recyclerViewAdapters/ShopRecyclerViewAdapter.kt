@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.ShopItemViewHolderBinding
 import com.bullSaloon.bull.fragments.ShopItemFragment
-import com.bullSaloon.bull.genericClasses.shopDataPreviewClass
+import com.bullSaloon.bull.genericClasses.ShopDataPreviewClass
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
 import java.lang.Error
 
-class ShopRecyclerViewAdapter(lists: MutableList<shopDataPreviewClass>, dataViewModel: MainActivityViewModel): RecyclerView.Adapter<ShopRecyclerViewAdapter.ShopRecyclerViewHolder>() {
+class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataViewModel: MainActivityViewModel): RecyclerView.Adapter<ShopRecyclerViewAdapter.ShopRecyclerViewHolder>() {
 
     private val shopList = lists
     private val dataModel = dataViewModel
@@ -78,7 +78,7 @@ class ShopRecyclerViewAdapter(lists: MutableList<shopDataPreviewClass>, dataView
         return shopList.size
     }
 
-    private fun startShopItemFragment(holder: ShopRecyclerViewHolder, dataModel: MainActivityViewModel, shopList: shopDataPreviewClass){
+    private fun startShopItemFragment(holder: ShopRecyclerViewHolder, dataModel: MainActivityViewModel, shopList: ShopDataPreviewClass){
         val context = holder.itemView.context as FragmentActivity
         val shopItemFragment = ShopItemFragment()
         dataModel.putShopData(shopList.shopID)

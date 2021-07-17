@@ -7,12 +7,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.WindowManager
-import androidx.lifecycle.ViewModelProvider
+import android.widget.Toast
 import com.bullSaloon.bull.databinding.ActivitySplashScreenBinding
-import com.bullSaloon.bull.genericClasses.UserDataClass
-import com.bullSaloon.bull.viewModel.UserDataViewModel
+import com.bullSaloon.bull.genericClasses.UserBasicDataParcelable
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -20,6 +18,8 @@ import com.google.firebase.ktx.Firebase
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
+    private val EXTRA_INTENT: String = "userBasicData"
+    private val TAG: String = "TAG"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,22 +36,8 @@ class SplashScreenActivity : AppCompatActivity() {
         //assigning Basic user data (user_id, user_name, mobile_number) to UserData View Model to be used in all app
 
         val auth = Firebase.auth
-        val db = Firebase.firestore
 
-        db.collection("Users")
-            .document(auth.currentUser?.uid!!)
-            .get()
-            .addOnSuccessListener {
-                if (it.exists()){
-                    val userId = it.getString("user_data")
-                    val userName = it.getString("user_name")
-                    val mobileNumber = it.getString("mobile_number")
-                    val userBasicData = UserDataClass(userId!!,userName!!,mobileNumber!!)
-                    val userDataModel = ViewModelProvider(this).get(UserDataViewModel::class.java)
-
-                    userDataModel.assignUserData(userBasicData)
-                }
-            }
+        Log.i(TAG,"user id: ${auth.currentUser?.uid}")
 
         Handler().postDelayed({
             if (auth.currentUser == null){
@@ -59,10 +45,29 @@ class SplashScreenActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } else {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
+                val intent = Intent(this, BullMagicActivity::class.java)
+//                val intent = Intent(this, MainActivity::class.java)
+                val db = Firebase.firestore
+                db.collection("Users")
+                    .document(auth.currentUser?.uid!!)
+                    .get()
+                    .addOnSuccessListener {
+                        if (it?.exists()!!) {
+                            val userBasicData = UserBasicDataParcelable(
+                                it.getString("user_id")!!,
+                                it.getString("user_name")!!,
+                                it.getString("mobile_number")!!
+                            )
+                            intent.putExtra(EXTRA_INTENT, userBasicData)
+                            startActivity(intent)
+                            finish()
+                            }
+                        }
+                    .addOnFailureListener {
+                        Log.i(TAG,"error: ${it.message}")
+                        Toast.makeText(this, "Error occurred. Please check your internet connection", Toast.LENGTH_SHORT).show()
+                        }
+                    }
         }, 2000)
     }
 
