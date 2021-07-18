@@ -1,13 +1,15 @@
 package com.bullSaloon.bull.recyclerViewAdapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
-import com.bullSaloon.bull.databinding.BullMagicItemViewHolderBinding
+import com.bullSaloon.bull.databinding.ViewHolderBullMagicItemBinding
 import com.bullSaloon.bull.genericClasses.BullMagicListData
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bumptech.glide.request.RequestOptions
@@ -16,6 +18,9 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): RecyclerView.Adapter<BullMagicListRecyclerViewAdapter.BullMagicListRecyclerViewHolder>() {
 
@@ -28,18 +33,36 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): R
         parent: ViewGroup,
         viewType: Int
     ): BullMagicListRecyclerViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.bull_magic_item_view_holder,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_bull_magic_item,parent,false)
         return BullMagicListRecyclerViewHolder(view)
     }
 
+    @SuppressLint("NewApi")
     override fun onBindViewHolder(holder: BullMagicListRecyclerViewHolder, position: Int) {
         val holderBinding = holder.binding
         val context: Context = holder.itemView.context
 
-        setImageFromFirebase(context, holderBinding, bullMagicLists[position].imageRef)
-
+        //set user name
         holderBinding.BullMagicUserName.text = bullMagicLists[position].userName
-        holderBinding.BullMagicShopName.text = if (bullMagicLists[position].shopName != "") "@" + bullMagicLists[position].shopName else ""
+
+        //set saloon name
+        holderBinding.BullMagicShopName.text = if (bullMagicLists[position].saloonName != "") "@" + bullMagicLists[position].saloonName else ""
+
+        //set caption name
+        holderBinding.BullMagicImageCaptionText.text = bullMagicLists[position].caption
+
+        //set date
+        Log.i("TAG","date : ${bullMagicLists[position].timeStamp} ")
+        val date = bullMagicLists[position].timeStamp.substring(0,10)
+        val dateFormatted = LocalDate.parse(date, DateTimeFormatter.ISO_DATE)
+        val month = dateFormatted.month.toString()
+            .lowercase()
+            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+
+        holderBinding.BullMagicImageDate.text = holderBinding.root.resources.getString(R.string.textBullMagicImageDate,dateFormatted.dayOfMonth,month,dateFormatted.year)
+
+        //set Image
+        setImageFromFirebase(context, holderBinding, bullMagicLists[position].imageRef)
 
         holderBinding.BullMagicNiceImageView.setOnClickListener {
             updateNiceStatus(bullMagicLists[position].userId, bullMagicLists[position].photoId)
@@ -69,7 +92,7 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): R
         return bullMagicLists.size
     }
 
-    private fun setImageFromFirebase(context: Context, binding: BullMagicItemViewHolderBinding, imageUrl: String){
+    private fun setImageFromFirebase(context: Context, binding: ViewHolderBullMagicItemBinding, imageUrl: String){
 
         val imageRef = storage.getReferenceFromUrl(imageUrl)
         val width = Resources.getSystem().displayMetrics.widthPixels
@@ -117,7 +140,7 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): R
 
     inner class BullMagicListRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        val binding: BullMagicItemViewHolderBinding = BullMagicItemViewHolderBinding.bind(itemView)
+        val binding: ViewHolderBullMagicItemBinding = ViewHolderBullMagicItemBinding.bind(itemView)
 
     }
 

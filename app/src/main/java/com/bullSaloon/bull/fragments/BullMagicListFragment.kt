@@ -1,20 +1,17 @@
 package com.bullSaloon.bull.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bullSaloon.bull.R
 import com.bullSaloon.bull.recyclerViewAdapters.BullMagicListRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentBullMagicListBinding
 import com.bullSaloon.bull.genericClasses.BullMagicListData
-import com.bullSaloon.bull.genericClasses.UserDataClass
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
 
@@ -61,8 +58,8 @@ class BullMagicListFragment : Fragment() {
                                 photos.forEach{(keys, values) ->
                                     val nicesUserId = if (values["nices_userid"] != null) values["nices_userid"] as List<String> else null
                                     val niceStatus = nicesUserId?.contains(auth.currentUser?.uid)
-                                    val shopName = if (values["shop_name"] != null) values["shop_name"].toString() else ""
-                                    val caption = if (values["caption"] != null) values["shop_name"].toString() else ""
+                                    val saloonName = if (values["saloon_name"] != null) values["saloon_name"].toString() else ""
+                                    val caption = if (values["caption"] != null) values["caption"].toString() else ""
                                     val data = BullMagicListData(
                                         document.getString("user_id")!!,
                                         document.getString("user_name")!!,
@@ -71,7 +68,7 @@ class BullMagicListFragment : Fragment() {
                                         values["timestamp"].toString(),
                                         niceStatus ?: false,
                                         nicesUserId?.size ?: 0,
-                                        shopName,
+                                        saloonName,
                                         caption
                                     )
                                     bullMagicList.add(data)

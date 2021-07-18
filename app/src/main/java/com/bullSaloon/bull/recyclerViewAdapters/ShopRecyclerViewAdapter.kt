@@ -10,7 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
-import com.bullSaloon.bull.databinding.ShopItemViewHolderBinding
+import com.bullSaloon.bull.databinding.ViewHolderShopItemBinding
 import com.bullSaloon.bull.fragments.ShopItemFragment
 import com.bullSaloon.bull.genericClasses.ShopDataPreviewClass
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
@@ -22,7 +22,7 @@ class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataView
     private val dataModel = dataViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopRecyclerViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.shop_item_view_holder,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_shop_item,parent,false)
         return ShopRecyclerViewHolder(view)
     }
 
@@ -93,7 +93,7 @@ class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataView
 
     inner class ShopRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        val binding: ShopItemViewHolderBinding = ShopItemViewHolderBinding.bind(itemView)
+        val binding: ViewHolderShopItemBinding = ViewHolderShopItemBinding.bind(itemView)
         val ratingsImageViewList = mutableListOf<ImageView>()
 
         init {

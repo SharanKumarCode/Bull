@@ -14,6 +14,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -67,6 +69,8 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     private lateinit var loadingIconAnim: AnimatedVectorDrawable
+    private var saloonName = ""
+    private var captionText = ""
 
     private val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
 
@@ -101,6 +105,46 @@ class CameraActivity : AppCompatActivity() {
 
         startCamera(cameraLens)
 
+        binding.saloonNameTextField.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (binding.saloonNameTextField.text?.length!! < 5){
+                    binding.saloonNameTextInputLayout.error = "minimum 5 characters required"
+                }else if (binding.saloonNameTextField.text?.length!! > 20){
+                    binding.saloonNameTextInputLayout.error = "restrict saloon name to 20 characters"
+                } else {
+                    binding.saloonNameTextInputLayout.error = null
+                }
+            }
+        })
+
+        binding.captionTextField.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (binding.captionTextField.text?.length!! < 1){
+                    binding.captionTextInputLayout.error = "minimum 1 character required"
+                }else if (binding.captionTextField.text?.length!! > 50){
+                    binding.captionTextInputLayout.error = "restrict caption name to 50 characters"
+                } else {
+                    binding.captionTextInputLayout.error = null
+                }
+            }
+        })
+
         binding.takePhotoButton.setOnClickListener{
             binding.takePhotoButton.visibility = View.INVISIBLE
             binding.changeCameraButton.visibility = View.INVISIBLE
@@ -123,6 +167,34 @@ class CameraActivity : AppCompatActivity() {
         binding.UploadImageFirebaseButton.setOnClickListener{
 
             //show progress
+            binding.popUpImageDataLayout.visibility = View.VISIBLE
+            saloonName = ""
+            captionText = ""
+        }
+
+        binding.OkButton.setOnClickListener {
+
+            val saloonLength = binding.saloonNameTextField.text?.length!!
+            val captionLength = binding.captionTextField.text?.length!!
+
+            Log.i(TAG,"saloon :$saloonLength , caption :$captionLength")
+
+            if (saloonLength in 6..19){
+                if (captionLength in 2..49){
+                    saloonName = binding.saloonNameTextField.text.toString()
+                    captionText = binding.captionTextField.text.toString()
+                    binding.popUpImageDataLayout.visibility = View.GONE
+                    binding.progressIndicatorCardView.visibility = View.VISIBLE
+                    uploadImage()
+                }
+            } else {
+                Log.i(TAG, "error : ${binding.saloonNameTextInputLayout.error.toString()} 2: ${binding.captionTextInputLayout.error}")
+            }
+        }
+
+        binding.SkipButton.setOnClickListener {
+
+            binding.popUpImageDataLayout.visibility = View.GONE
             binding.progressIndicatorCardView.visibility = View.VISIBLE
             uploadImage()
         }
@@ -252,13 +324,10 @@ class CameraActivity : AppCompatActivity() {
                                                                 previewView.height.toFloat()).createPoint(x,y)
 
         val action = FocusMeteringAction.Builder(meteringPoint).build()
-        Log.i(TAG,"metering point: ${meteringPoint.toString()}")
         camera.cameraControl.startFocusAndMetering(action)
-
     }
 
     private fun uploadImage(){
-
 
         val dateFormat = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())
         val imagePathFirestore = "User_Images/${userData["id"]}/${userData["user_name"]}_$dateFormat.jpg"
@@ -313,7 +382,7 @@ class CameraActivity : AppCompatActivity() {
                 .addOnSuccessListener { it ->
                     if (it.exists()){
                         if (it.id == auth.currentUser?.uid.toString()){
-                            val mapData = hashMapOf<String, Any>("timestamp" to dateFormat, "image_ref" to "$fireStoreUrl$imagePath")
+                            val mapData = hashMapOf<String, Any>("timestamp" to dateFormat, "image_ref" to "$fireStoreUrl$imagePath", "caption" to captionText, "saloon_name" to saloonName)
 
                             if (it.get("photos") == null){
                                 val photoData = hashMapOf<String, Map<String,Any>>("photo_1" to mapData)
@@ -331,7 +400,6 @@ class CameraActivity : AppCompatActivity() {
                                     }
                                 } else {
                                     val photosMap = it.get("photos") as HashMap<String, Map<String,Any>>
-                                    val photoData = hashMapOf<String, Map<String,Any>>("photo_${photosMap.size + 1}" to mapData)
                                     db.collection("Users")
                                         .document(it.id)
                                         .update("photos.photo_${photosMap.size+1}", mapData)
@@ -341,11 +409,10 @@ class CameraActivity : AppCompatActivity() {
                                             Log.i(TAG, "Data updated")
                                         }
                                         .addOnFailureListener {
-
                                             stopLoadingIcon()
                                             Log.i(TAG, "Data update Failed : ${it.message}")
                                         }
-                            }
+                                    }
                         }
                     }
                 }
@@ -358,7 +425,6 @@ class CameraActivity : AppCompatActivity() {
             Log.i(TAG, "error: e")
         }
     }
-
 
     private fun deleteImageFile(){
         photoFileTemp.delete()
@@ -378,7 +444,6 @@ class CameraActivity : AppCompatActivity() {
         AnimatedVectorDrawableCompat.registerAnimationCallback(loadingIconAnim, object: Animatable2Compat.AnimationCallback(){
             override fun onAnimationEnd(drawable: Drawable?) {
                 super.onAnimationEnd(drawable)
-
                 loadingIconAnim.start()
             }
         })

@@ -122,6 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun launchBullMagicActivity(){
+
         val intent = Intent(this, BullMagicActivity::class.java)
         intent.putExtra(EXTRA_INTENT, getIntent)
         startActivity(intent)
@@ -142,7 +143,6 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.shopFragmentContainer, styleListFragment)
             .addToBackStack(null)
             .commit()
-
     }
 
 

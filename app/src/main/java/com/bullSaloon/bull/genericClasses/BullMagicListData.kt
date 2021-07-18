@@ -8,6 +8,6 @@ data class BullMagicListData(
     val timeStamp: String,
     val niceStatus: Boolean = false,
     val niceCount: Number = 0,
-    val shopName: String = "",
+    val saloonName: String = "",
     val caption: String = "",
 )

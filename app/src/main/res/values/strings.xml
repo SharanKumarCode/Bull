@@ -15,7 +15,9 @@
     <string name="textUserName">Sharan Kumar</string>
     <string name="textUploading">Uploading...</string>
     <string name="textProgressIndicator">%1$s</string>
+    <string name="textBullMagicImageDate">%1$d %2$s %3$d</string>
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
+
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -61,6 +63,11 @@
     
     <string name="openNavDrawer">open Nav Drawer</string>
     <string name="closeNavDrawer">close Nav Drawer</string>
+    <string name="textImageCaption">New Style. New Look. New Me</string>
+    <string name="hintEnterSaloonName">Enter Saloon Name (Optional)</string>
+    <string name="hintCaption">Caption (Optional)</string>
+    <string name="buttonSkip">Skip</string>
+    <string name="buttonOK">OK</string>
 
 
 </resources>
