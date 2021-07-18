@@ -3,6 +3,7 @@ package com.bullSaloon.bull
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -52,6 +53,9 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCameraBinding
     private val EXTRA_INTENT: String = "userBasicData"
+    private val EXTRA_INTENT_ACTIVITY_FLAG: String = "activity_flag"
+    private val EXTRA_INTENT_FRAGMENT_FLAG: String = "fragment_flag"
+    private var ACTIVITY_FLAG: String = "none"
     private lateinit var getIntent: UserBasicDataParcelable
 
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
@@ -85,6 +89,7 @@ class CameraActivity : AppCompatActivity() {
 
         getIntent = intent.getParcelableExtra(EXTRA_INTENT)!!
         val data = UserDataClass(getIntent.user_id, getIntent.user_name, getIntent.mobileNumber)
+        ACTIVITY_FLAG = intent.getStringExtra(EXTRA_INTENT_ACTIVITY_FLAG)!!
 
         storage = Firebase.storage
         storageRef = storage.reference
@@ -166,18 +171,25 @@ class CameraActivity : AppCompatActivity() {
 
         binding.UploadImageFirebaseButton.setOnClickListener{
 
-            //show progress
-            binding.popUpImageDataLayout.visibility = View.VISIBLE
             saloonName = ""
             captionText = ""
+
+            if (ACTIVITY_FLAG == "profilePicture"){
+
+                //show progress
+                binding.progressIndicatorCardView.visibility = View.VISIBLE
+                uploadImage()
+            } else {
+
+                //show popup to enter image data
+                binding.popUpImageDataLayout.visibility = View.VISIBLE
+            }
         }
 
         binding.OkButton.setOnClickListener {
 
             val saloonLength = binding.saloonNameTextField.text?.length!!
             val captionLength = binding.captionTextField.text?.length!!
-
-            Log.i(TAG,"saloon :$saloonLength , caption :$captionLength")
 
             if (saloonLength in 6..19){
                 if (captionLength in 2..49){
@@ -187,8 +199,6 @@ class CameraActivity : AppCompatActivity() {
                     binding.progressIndicatorCardView.visibility = View.VISIBLE
                     uploadImage()
                 }
-            } else {
-                Log.i(TAG, "error : ${binding.saloonNameTextInputLayout.error.toString()} 2: ${binding.captionTextInputLayout.error}")
             }
         }
 
@@ -330,7 +340,14 @@ class CameraActivity : AppCompatActivity() {
     private fun uploadImage(){
 
         val dateFormat = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())
-        val imagePathFirestore = "User_Images/${userData["id"]}/${userData["user_name"]}_$dateFormat.jpg"
+        var imagePathFirestore: String
+
+        if (ACTIVITY_FLAG == "profilePicture"){
+            imagePathFirestore = "User_Images/${userData["id"]}/${userData["user_name"]}_profilePicture.jpg"
+        } else {
+            imagePathFirestore = "User_Images/${userData["id"]}/${userData["user_name"]}_$dateFormat.jpg"
+        }
+
         val imageRef = storageRef.child(imagePathFirestore)
         val uploadTask = imageRef.putFile(Uri.fromFile(photoFileTemp))
 
@@ -348,8 +365,17 @@ class CameraActivity : AppCompatActivity() {
 
             Log.d(TAG, "Image is uploaded")
 
-            updateFirestoreUserData(imagePathFirestore, dateFormat)
+            if (ACTIVITY_FLAG == "profilePicture"){
+                deleteImageFile()
+                val intent = Intent(this, BullMagicActivity::class.java)
+                intent.putExtra(EXTRA_INTENT, getIntent)
+                intent.putExtra(EXTRA_INTENT_FRAGMENT_FLAG, "yourProfileFragment")
+                startActivity(intent)
+            } else {
+                updateFirestoreUserData(imagePathFirestore, dateFormat)
+            }
         }
+
         uploadTask.addOnFailureListener{
 
             binding.capturedImageViewLayout.visibility = View.GONE

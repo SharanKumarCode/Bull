@@ -17,7 +17,7 @@
         android:id="@+id/userPhotoNavigationHeaderTextView"
         android:layout_width="50dp"
         android:layout_height="60dp"
-        android:src="@drawable/photo_5"
+        android:src="@drawable/ic_baseline_person_24"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
 
         android:layout_marginStart="10dp"

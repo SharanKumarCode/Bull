@@ -19,7 +19,6 @@
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
 
 
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--    Button/ImageViewButton Texts-->
@@ -51,7 +50,7 @@
 
     <string name="title_activity_maps">Map</string>
 
-<!--    Menu items title-->
+    <!--    Menu items title-->
     <string name="menuItemTitleAbout">About</string>
     <string name="menuItemTitleSignOut">Sign out</string>
     <string name="menuItemTitleUserProfile">Your Profile</string>
@@ -60,7 +59,7 @@
     <string name="menuItemSettings">Settings</string>
     <string name="menuItemSaloonOwner">Saloon Owner</string>
 
-    
+
     <string name="openNavDrawer">open Nav Drawer</string>
     <string name="closeNavDrawer">close Nav Drawer</string>
     <string name="textImageCaption">New Style. New Look. New Me</string>
@@ -68,6 +67,14 @@
     <string name="hintCaption">Caption (Optional)</string>
     <string name="buttonSkip">Skip</string>
     <string name="buttonOK">OK</string>
+    <string name="textTabNices">Nices</string>
+    <string name="textTabReviews">Reviews</string>
+    <string name="textTabComments">Comments</string>
+    <string name="textTabPhotos">Photos</string>
+    <string name="contentDescription">Bull Logo</string>
+    <string name="popUpMenuItemTakePicture">Take Picture</string>
+    <string name="popUpMenuItemGallery">Upload from Images</string>
+    <string name="popUpMenuItemRemovePhoto">Remove Photo</string>
 
 
 </resources>

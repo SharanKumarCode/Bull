@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <group
         android:id="@+id/group1">
-        <item android:id="@+id/userProfile"
+        <item android:id="@+id/menuItemUserProfile"
             android:title="@string/menuItemTitleUserProfile"
             />
         <item android:id="@+id/menuItemBullMagic"
