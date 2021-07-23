@@ -1,123 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.YourProfileFragment">
+    tools:context=".fragments.yourProfile.YourProfileFragment">
 
     <RelativeLayout
-        android:id="@+id/yourProfileHeader"
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/userPhotoYourProfileTextView"
-            android:layout_width="70dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
+        <RelativeLayout
+            android:id="@+id/yourProfileHeader"
+            android:layout_width="match_parent"
+            android:layout_height="160dp">
 
-            android:src="@drawable/ic_baseline_person_24"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/userPhotoYourProfileTextView"
+                android:layout_width="70dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
 
-        <TextView
-            android:id="@+id/userNameYourProfileTextView"
-            android:layout_width="wrap_content"
+                android:src="@drawable/ic_baseline_person_24"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+            <TextView
+                android:id="@+id/userNameYourProfileTextView"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="Sharan Kumar"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_alignTop="@+id/userPhotoYourProfileTextView"
+                android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"/>
+
+            <TextView
+                android:id="@+id/mobileNumberYourProfileTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+919941677517"
+                android:textSize="14sp"
+                android:layout_below="@+id/userNameYourProfileTextView"
+                android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
+                android:layout_alignStart="@+id/userNameYourProfileTextView"
+                android:layout_marginTop="10dp"
+                />
+
+            <ImageView
+                android:contentDescription="@string/contentDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_bull_nav_header_white"
+                android:layout_marginTop="10dp"/>
+
+            <ImageView
+                android:contentDescription="@string/contentDescriptionEditProfilePic"
+                android:id="@+id/userImageEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_edit_24"
+
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/userPhotoYourProfileTextView"
+                android:layout_alignStart="@+id/userPhotoYourProfileTextView"
+                android:layout_alignEnd="@+id/userPhotoYourProfileTextView"/>
+
+        </RelativeLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabInputYourProfile"
+            style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sharan Kumar"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:layout_alignTop="@+id/userPhotoYourProfileTextView"
-            android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"/>
+            android:layout_marginTop="20dp"
+            app:tabTextAppearance="@style/MineCustomTabText"
 
-        <TextView
-            android:id="@+id/mobileNumberYourProfileTextView"
-            android:layout_width="wrap_content"
+            android:layout_below="@+id/yourProfileHeader"
+            app:tabBackground="@color/mainActivityBg"
+
+            app:tabIndicatorColor="@color/teal_700"
+            app:tabIconTint="@color/teal_700"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="#CCCCCC">
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/ViewPagerYourProfile"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="+919941677517"
-            android:textSize="14sp"
-            android:layout_below="@+id/userNameYourProfileTextView"
-            android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
-            android:layout_alignStart="@+id/userNameYourProfileTextView"
-            android:layout_marginTop="10dp"
-            />
-
-        <ImageView
-            android:contentDescription="@string/contentDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_bull_nav_header_white"
-            android:layout_marginTop="10dp"/>
-
-        <ImageView
-            android:id="@+id/userImageEditButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_edit_24"
-
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/userPhotoYourProfileTextView"
-            android:layout_alignStart="@+id/userPhotoYourProfileTextView"
-            android:layout_alignEnd="@+id/userPhotoYourProfileTextView"/>
+            android:layout_below="@+id/tabInputYourProfile"/>
 
     </RelativeLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabInputYourProfile"
-        style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:tabTextAppearance="@style/MineCustomTabText"
+</androidx.core.widget.NestedScrollView>
 
-        android:layout_below="@+id/yourProfileHeader"
-        app:tabBackground="@color/mainActivityBg"
 
-        app:tabIndicatorColor="@color/teal_700"
-        app:tabIconTint="@color/teal_700"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="#CCCCCC">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/textTabPhotos"
-            android:icon="@drawable/ic_baseline_photo_library_24"/>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/textTabComments"
-            android:icon="@drawable/ic_baseline_comment_24"/>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/textTabNices"
-            android:icon="@drawable/ic_nice_blank_icon"/>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/textTabReviews"
-            android:icon="@drawable/ic_baseline_rate_review_24"/>
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <FrameLayout
-        android:id="@+id/yourProfileFragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="2dp"
-        android:background="@color/mainActivityBg"
-        android:layout_below="@+id/tabInputYourProfile">
-
-    </FrameLayout>
-
-</RelativeLayout>

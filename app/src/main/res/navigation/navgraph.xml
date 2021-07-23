@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navgraph"
+    app:startDestination="@id/saloonFragment">
+    <fragment
+        android:id="@+id/styleListFragment"
+        android:name="com.bullSaloon.bull.fragments.styles.StyleListFragment"
+        android:label="StyleListFragment" />
+    <fragment
+        android:id="@+id/bullMagicListFragment"
+        android:name="com.bullSaloon.bull.fragments.bullMagic.BullMagicListFragment"
+        android:label="fragment_bull_magic_list"
+        tools:layout="@layout/fragment_bull_magic_list" />
+    <fragment
+        android:id="@+id/yourProfileFragment"
+        android:name="com.bullSaloon.bull.fragments.yourProfile.YourProfileFragment"
+        android:label="fragment_your_profile"
+        tools:layout="@layout/fragment_your_profile" >
+        <action
+            android:id="@+id/action_yourProfileFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment">
+            <argument
+                android:name="camera_purpose"
+                app:argType="string"
+                android:defaultValue="profilePicture" />
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.bullSaloon.bull.fragments.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+        <argument
+            android:name="camera_purpose"
+            app:argType="string"
+            android:defaultValue="normalCam" />
+        <action
+            android:id="@+id/action_cameraFragment_to_bullMagicListFragment"
+            app:destination="@id/bullMagicListFragment" />
+        <action
+            android:id="@+id/action_cameraFragment_to_yourProfileFragment"
+            app:destination="@id/yourProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/saloonFragment"
+        android:name="com.bullSaloon.bull.fragments.saloon.SaloonFragment"
+        android:label="fragment_saloon"
+        tools:layout="@layout/fragment_saloon" >
+        <action
+            android:id="@+id/action_saloonFragment_to_saloon_navigation"
+            app:destination="@id/saloon_navigation" />
+    </fragment>
+    <navigation android:id="@+id/saloon_navigation"
+        app:startDestination="@id/shopListFragment">
+        <fragment
+            android:id="@+id/shopListFragment"
+            android:name="com.bullSaloon.bull.fragments.saloon.ShopListFragment"
+            android:label="fragment_shop_list"
+            tools:layout="@layout/fragment_shop_list">
+            <action
+                android:id="@+id/action_shopListFragment_to_shopItemFragment"
+                app:destination="@id/shopItemFragment"/>
+        </fragment>
+        <fragment
+            android:id="@+id/shopItemFragment"
+            android:name="com.bullSaloon.bull.fragments.saloon.ShopItemFragment"
+            android:label="fragment_shop_item"
+            tools:layout="@layout/fragment_shop_item" >
+            <action
+                android:id="@+id/action_shopItemFragment_to_shopListFragment"
+                app:destination="@id/shopListFragment" />
+        </fragment>
+    </navigation>
+</navigation>

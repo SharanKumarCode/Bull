@@ -150,6 +150,11 @@ class SignInFragment : Fragment() {
         timer?.cancel()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun generateOtp(){
         binding.generateOtpButton.visibility = View.GONE
         binding.otpBox.visibility = View.VISIBLE

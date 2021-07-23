@@ -1,5 +1,6 @@
 package com.bullSaloon.bull.genericClasses
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,20 +20,22 @@ class OtpTextWatcherGeneric(view: View, otpEditTextBoxes: MutableList<EditText>)
     private lateinit var unFocusedDrawable: Drawable
     private lateinit var verifyButton: Button
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     constructor(view: View, otpEditTextBoxes: MutableList<EditText>, binding: FragmentCreateAccountBinding):this(view, otpEditTextBoxes){
         this._view = view
         this._otpEditTextBoxes = otpEditTextBoxes
         this.verifyButton = binding.verifyOtpButton
-        this.focusedDrawable = binding?.root.resources.getDrawable(R.drawable.bg_otp_box_focused)
-        this.unFocusedDrawable = binding?.root.resources.getDrawable(R.drawable.bg_otp_box)
+        this.focusedDrawable = binding.root.resources.getDrawable(R.drawable.bg_otp_box_focused)
+        this.unFocusedDrawable = binding.root.resources.getDrawable(R.drawable.bg_otp_box)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     constructor(view: View, otpEditTextBoxes: MutableList<EditText>, binding: FragmentSignInBinding):this(view, otpEditTextBoxes){
         this._view = view
         this._otpEditTextBoxes = otpEditTextBoxes
         this.verifyButton = binding.verifyOtpButton
-        this.focusedDrawable = binding?.root.resources.getDrawable(R.drawable.bg_otp_box_focused)
-        this.unFocusedDrawable = binding?.root.resources.getDrawable(R.drawable.bg_otp_box)
+        this.focusedDrawable = binding.root.resources.getDrawable(R.drawable.bg_otp_box_focused)
+        this.unFocusedDrawable = binding.root.resources.getDrawable(R.drawable.bg_otp_box)
     }
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Cut" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerFamily">cut</item>
-        <item name="cornerSize">12dp</item>
-    </style>
-
-    <style name="Rounded" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
-    </style>
 
     <style name="HintText" parent="TextAppearance.Design.Hint">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="correctMobileOutline" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxStrokeColor">@color/openStatusColor</item>
     </style>
 
     <style name="HelperText" parent="TextAppearance.Design.HelperText">

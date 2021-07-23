@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navgraph_your_profile"
+    app:startDestination="@id/yourProfilePhotosFragment2">
+
+    <fragment
+        android:id="@+id/yourProfilePhotosFragment2"
+        android:name="com.bullSaloon.bull.fragments.yourProfile.YourProfilePhotosFragment"
+        android:label="fragment_your_profile_photos"
+        tools:layout="@layout/fragment_your_profile_photos" >
+        <action
+            android:id="@+id/action_yourProfilePhotosFragment2_to_yourProfilePhotoItemFragment2"
+            app:destination="@id/yourProfilePhotoItemFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/yourProfilePhotoItemFragment2"
+        android:name="com.bullSaloon.bull.fragments.yourProfile.YourProfilePhotoItemFragment"
+        android:label="fragment_your_profile_photo_item"
+        tools:layout="@layout/fragment_your_profile_photo_item" >
+        <action
+            android:id="@+id/action_yourProfilePhotoItemFragment2_to_yourProfilePhotosFragment2"
+            app:destination="@id/yourProfilePhotosFragment2" />
+    </fragment>
+</navigation>

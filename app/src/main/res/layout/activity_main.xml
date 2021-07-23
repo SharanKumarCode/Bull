@@ -1,168 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawerLayout"
     android:background="@color/mainActivityBg"
-    android:fitsSystemWindows="false"
-    tools:openDrawer="start"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/mainScreenLayout"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/black"
+            android:elevation="15dp"
+            android:gravity="center_horizontal"
+            app:menu="@menu/navigation_bar_menu">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/black"
+                android:text="@string/app_name"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainActivityBg"
-        android:fitsSystemWindows="true">
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navgraph" />
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBar"
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="10dp"
+        app:fabCradleVerticalOffset="10dp">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
-            android:fitsSystemWindows="true">
+            android:layout_marginEnd="16dp"
+            android:elevation="0dp"
+            app:elevation="0dp"
+            app:itemTextAppearanceInactive="@style/TextAppearance.AppCompat.Small"
+            app:itemIconTint="@color/teal_200"
+            app:itemTextColor="@color/teal_200"
+            android:background="@android:color/transparent"
+            app:menu="@menu/bottom_navigation_menu" />
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="@drawable/ic_baseline_menu_24"
-                android:background="@color/black"
-                android:gravity="center_horizontal"
-                android:elevation="15dp" >
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_name"
-                    android:textAlignment="center"
-                    android:background="@color/black"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    />
-
-            </com.google.android.material.appbar.MaterialToolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <RelativeLayout
-            android:layout_below="@+id/appBar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-            <LinearLayout
-                android:id="@+id/searchBarLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:background="@color/mainActButtonBgColorActive"
-                android:orientation="horizontal"
-                android:paddingTop="15dp"
-                android:paddingBottom="10dp">
-
-                <ImageView
-                    android:id="@+id/search_ImageView"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="10dp"
-                    android:clickable="true"
-                    android:contentDescription="@string/buttonSearch"
-                    android:focusable="true"
-
-                    android:src="@drawable/ic_search_inverted" />
-
-                <EditText
-                    android:id="@+id/searchText_TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginStart="10dp"
-                    android:autofillHints="Search for shops, hairstyles..."
-
-                    android:background="@android:color/transparent"
-                    android:hint="@string/hintSearchEdit"
-                    android:inputType="text"
-                    android:textColor="@color/black"
-                    android:textColorHint="#AAAAAA" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/buttonContainerMainActLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-
-                android:layout_below="@+id/searchBarLinearLayout">
-
-                <com.google.android.material.tabs.TabLayout
-                    style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
-                    android:id="@+id/tabInput"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="2"
-                    app:tabTextColor="#CCCCCC"
-                    app:tabIndicatorColor="@color/teal_700"
-                    app:tabSelectedTextColor="@color/white"
-
-                    app:layout_constraintBottom_toTopOf="@+id/shopFragmentContainer"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/searchBarLinearLayout">
-
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/buttonStyleList" />
-
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/buttonSaloonList" />
-
-                </com.google.android.material.tabs.TabLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/buttonBullMagic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-
-                    android:backgroundTint="@color/teal_700"
-                    android:text="@string/buttonBullMagic" />
-
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/shopFragmentContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="2dp"
-                android:background="@color/mainActivityBg"
-                android:layout_below="@+id/buttonContainerMainActLinearLayout">
-
-            </FrameLayout>
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationView"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:contentDescription="@string/contentDescriptionCameraFab"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/navigation_bar_menu" />
+        android:layout_height="wrap_content"
+        app:fabCustomSize="60dp"
+        android:src="@drawable/ic_camera_no_bg"
+        app:layout_anchor="@id/bottomAppBar"
 
-</androidx.drawerlayout.widget.DrawerLayout>
+        app:maxImageSize="50dp"
+        android:backgroundTint="@color/teal_200"
+        app:rippleColor="@color/design_default_color_primary_dark"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+

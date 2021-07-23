@@ -26,8 +26,6 @@
         <activity
             android:name=".HomeActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".BullMagicActivity" />
-        <activity android:name=".CameraActivity" />
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

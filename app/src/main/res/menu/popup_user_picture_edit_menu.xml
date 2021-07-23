@@ -6,10 +6,6 @@
         android:icon="@drawable/ic_baseline_camera_24"
         android:title="@string/popUpMenuItemTakePicture"
         />
-    <item android:id="@+id/popUpMenuItemGallery"
-        android:icon="@drawable/ic_baseline_photo_library_24"
-        android:title="@string/popUpMenuItemGallery"
-        />
     <item android:id="@+id/popUpMenuItemRemovePhoto"
         android:icon="@drawable/ic_baseline_delete_24"
         android:title="@string/popUpMenuItemRemovePhoto"

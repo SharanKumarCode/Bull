@@ -1,25 +1,47 @@
 package com.bullSaloon.bull
 
 import android.annotation.SuppressLint
+import android.app.Fragment
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.opengl.Visibility
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
+import android.util.TypedValue
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.MediaController
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
+import androidx.core.view.marginBottom
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bullSaloon.bull.fragments.ShopListFragment
-import com.bullSaloon.bull.fragments.StyleListFragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.bullSaloon.bull.databinding.ActivityMainBinding
+import com.bullSaloon.bull.fragments.MainFragment
+import com.bullSaloon.bull.fragments.bullMagic.BullMagicListFragment
+import com.bullSaloon.bull.fragments.yourProfile.YourProfileFragment
 import com.bullSaloon.bull.genericClasses.GlideApp
-import com.bullSaloon.bull.genericClasses.UserBasicDataParcelable
-import com.bullSaloon.bull.genericClasses.UserDataClass
+import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.viewModel.UserDataViewModel
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.material.tabs.TabLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -29,15 +51,16 @@ import com.google.firebase.storage.ktx.storage
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val EXTRA_INTENT: String = "userBasicData"
-    private val EXTRA_INTENT_FRAGMENT_FLAG: String = "fragment_flag"
     private val TAG: String = "TAG"
-    private lateinit var getIntent: UserBasicDataParcelable
 
     private lateinit var storage: FirebaseStorage
+    private lateinit var userName: String
+    private lateinit var userID: String
+
+    private lateinit var controller: NavController
 
 
-    @SuppressLint("WrongConstant")
+    @SuppressLint("WrongConstant", "RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -46,152 +69,81 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        launchShopListFragment()
-
-        getIntent = intent.getParcelableExtra(EXTRA_INTENT)!!
-        val data = UserDataClass(getIntent.user_id, getIntent.user_name, getIntent.mobileNumber)
-
         storage = Firebase.storage
 
-        binding.buttonBullMagic.setOnClickListener{
-            launchBullMagicActivity()
-        }
-
-        binding.topAppBar.setNavigationOnClickListener {
-            binding.drawerLayout.openDrawer(GravityCompat.START)
-        }
-
+//        get basic user data
+        val data = SingletonUserData.userData
         val userDataModel = ViewModelProvider(this).get(UserDataViewModel::class.java)
-        val header = binding.navigationView.getHeaderView(0)
 
         userDataModel.assignBasicUserData(data)
-        userDataModel.getUserBasicData().observe(this, Observer {
 
-            if (it != null){
-                setProfilePhoto(it.user_name , it.user_id)
-                header.findViewById<TextView>(R.id.userNameNavigationHeaderTextView).text = it.user_name
-                header.findViewById<TextView>(R.id.userMobileNavigationHeaderTextView).text = it.mobileNumber
-            }
-        })
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment)
+        val navController = navHostFragment?.findNavController()
 
-        binding.navigationView.setNavigationItemSelectedListener {
-            when(it.itemId){
-
-                R.id.menuItemUserProfile ->{
-                    val intent = Intent(this, BullMagicActivity::class.java)
-                    intent.putExtra(EXTRA_INTENT, getIntent)
-                    intent.putExtra(EXTRA_INTENT_FRAGMENT_FLAG, "yourProfileFragment")
-                    startActivity(intent)
-                    true
-                }
-
-                R.id.menuItemAbout -> {
-                    val builder = AlertDialog.Builder(this)
-                    val appOwner = "Sharan Kumar"
-                    val appVersion = "1.0"
-                    val title = "About"
-                    builder.setMessage("Created by $appOwner \n\nApp version: $appVersion")
-                        .setTitle(title)
-                        .setPositiveButton("OK"
-                        ) { p0, _ -> p0?.dismiss() }
-                        .show()
-                    true
-                }
-
-                R.id.menuItemSignOut ->{
-                    Firebase.auth.signOut()
-                    startActivity(Intent(this,SplashScreenActivity::class.java))
-                    true
-                }
-
-                R.id.menuItemBullMagic ->{
-                    launchBullMagicActivity()
-                    true
-                }
-
-                else -> false
-            }
-
+        if (navController != null) {
+            binding.bottomNavigationView.setupWithNavController(navController)
         }
 
-        binding.tabInput.getTabAt(1)?.select()
+        binding.fab.setOnClickListener {
+            navController?.navigate(R.id.cameraFragment)
+        }
 
-        binding.tabInput.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (tab?.position == 0){
-                    launchStyleListFragment()
-                } else {
-                    launchShopListFragment()
+        navController?.addOnDestinationChangedListener { controller, destination, arguments ->
+            if (destination.id == R.id.cameraFragment){
+                binding.bottomAppBar.performHide()
+                binding.fab.hide()
+                binding.topAppBar.visibility = View.GONE
+
+                val param = binding.fragment.layoutParams as ViewGroup.MarginLayoutParams
+                param.setMargins(0,0,0,0)
+                binding.fragment.layoutParams = param
+
+            } else {
+                binding.bottomAppBar.performShow()
+                binding.fab.show()
+                binding.topAppBar.visibility = View.VISIBLE
+
+                val param = binding.fragment.layoutParams as ViewGroup.MarginLayoutParams
+                val tv = TypedValue()
+                if (theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+                    val actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+                    param.setMargins(0,actionBarHeight,0,actionBarHeight)
+                    binding.fragment.layoutParams = param
                 }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
 
             }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-        })
+        }
     }
 
-    private fun launchBullMagicActivity(){
-
-        val intent = Intent(this, BullMagicActivity::class.java)
-        intent.putExtra(EXTRA_INTENT, getIntent)
-        startActivity(intent)
+    override fun onResume() {
+        super.onResume()
     }
 
-    private fun launchShopListFragment(){
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
-        val shopListFragment = ShopListFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.shopFragmentContainer, shopListFragment).commit()
+        val navItemImage = binding.bottomNavigationView.menu.findItem(R.id.yourProfileFragment)
+        binding.bottomNavigationView.itemIconTintList = null
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            navItemImage.iconTintList = null
+            navItemImage.iconTintMode = null
+        }
+
+        GlideApp.with(this)
+            .asBitmap()
+            .load(SingletonUserData.userData.profilePicBitmap)
+            .circleCrop()
+            .placeholder(R.drawable.ic_baseline_person_black_40)
+            .into(object : CustomTarget<Bitmap>(60, 60){
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    navItemImage.icon = BitmapDrawable(resources, resource)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    navItemImage.icon = placeholder
+                }
+            })
+
+        return super.onPrepareOptionsMenu(menu)
     }
-
-    private fun launchStyleListFragment(){
-
-        val styleListFragment = StyleListFragment()
-        supportFragmentManager.beginTransaction()
-            .setReorderingAllowed(true)
-            .replace(R.id.shopFragmentContainer, styleListFragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    private fun setProfilePhoto(userName: String, userId: String){
-
-        val firebaseCloudUrl = "gs://bull-saloon.appspot.com/"
-
-        val userData = userName.replace("\\s".toRegex(), "_")
-        val imageUrl = "User_Images/${userId}/${userData}_profilePicture.jpg"
-        val imageDownloadUrl = "$firebaseCloudUrl$imageUrl"
-        val headerImage = binding.navigationView.getHeaderView(0).findViewById<ImageView>(R.id.userPhotoNavigationHeaderTextView)
-
-        storage.reference.child(imageUrl).downloadUrl
-            .addOnSuccessListener {
-
-                GlideApp.with(this)
-                    .load(storage.reference.child(imageUrl))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .placeholder(R.drawable.ic_baseline_person_24)
-                    .into(headerImage)
-
-            }
-            .addOnFailureListener {
-
-                GlideApp.with(this)
-                    .load(R.drawable.ic_baseline_person_24)
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_baseline_person_24)
-                    .into(headerImage)
-
-                Log.i("TAG","storage check: Image does not exists - url - ${imageDownloadUrl}")
-
-            }
-    }
-
-
 }

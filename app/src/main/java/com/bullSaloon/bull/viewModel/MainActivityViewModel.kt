@@ -2,7 +2,7 @@ package com.bullSaloon.bull.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bullSaloon.bull.genericClasses.ShopDataPreviewClass
+import com.bullSaloon.bull.genericClasses.dataClasses.ShopDataPreviewClass
 
 class MainActivityViewModel: ViewModel() {
 

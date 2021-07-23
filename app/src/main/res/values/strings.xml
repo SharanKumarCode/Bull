@@ -7,12 +7,10 @@
     <string name="hintEnterName">Enter Name</string>
     <string name="placeHolderAreaName">Gandhipuram</string>
     <string name="placeHolderOpenStatus">Open</string>
-    <string name="textViewSaloonNameWithAt">\@Mega Saloon"</string>
     <string name="textViewSaloonName">Shop Name</string>
     <string name="textResendOtp">Resending OTP in %1$d secs</string>
     <string name="textAlreadyHaveAccount">Already have an account?</string>
     <string name="textDoNotHaveAccount">Do not have an account?</string>
-    <string name="textUserName">Sharan Kumar</string>
     <string name="textUploading">Uploading...</string>
     <string name="textProgressIndicator">%1$s</string>
     <string name="textBullMagicImageDate">%1$d %2$s %3$d</string>
@@ -29,9 +27,7 @@
     <string name="buttonSaloonList">Saloon List</string>
     <string name="buttonUploadImageFirebase">Upload</string>
     <string name="buttonCancelImage">Retake</string>
-    <string name="buttonSignUp">Sign-Up</string>
     <string name="buttonSignIn">Sign-In</string>
-    <string name="buttonSignInAndSignUp">Sign-Up / Sign-In</string>
     <string name="buttonCreateAccount">Create Account</string>
     <string name="buttonResendOtp">Resend OTP</string>
     <string name="buttonGenerateOtp">Generate OTP</string>
@@ -40,15 +36,12 @@
     <!--    Content Description Texts-->
     <string name="contentDescriptionRating">rating</string>
     <string name="contentDescriptionGender">gender</string>
-    <string name="contentDescriptionOpenStatus">open Status</string>
     <string name="contentDescriptionSplashScreenLogo">splashScreenLogo</string>
     <string name="contentDescriptionAppointment">appointment button</string>
     <string name="contentDescriptionCallButton">callButton</string>
     <string name="contentDescriptionMapButton">mapButton</string>
     <string name="contentDescriptionBullImageList">downloaded user image</string>
     <string name="contentDescriptionNiceStatus">Nice Status</string>
-
-    <string name="title_activity_maps">Map</string>
 
     <!--    Menu items title-->
     <string name="menuItemTitleAbout">About</string>
@@ -60,8 +53,6 @@
     <string name="menuItemSaloonOwner">Saloon Owner</string>
 
 
-    <string name="openNavDrawer">open Nav Drawer</string>
-    <string name="closeNavDrawer">close Nav Drawer</string>
     <string name="textImageCaption">New Style. New Look. New Me</string>
     <string name="hintEnterSaloonName">Enter Saloon Name (Optional)</string>
     <string name="hintCaption">Caption (Optional)</string>
@@ -75,6 +66,15 @@
     <string name="popUpMenuItemTakePicture">Take Picture</string>
     <string name="popUpMenuItemGallery">Upload from Images</string>
     <string name="popUpMenuItemRemovePhoto">Remove Photo</string>
+    <string name="contentDescriptionEditProfilePic">Edit Profile Picture</string>
+    <string name="menuItemHome">Home</string>
+    <string name="contentDescriptionFlipCamera">Flip Camera</string>
+    <string name="contentDescriptionUploadFromGallery">Upload from gallery button</string>
+    <string name="contentDescriptionLoadingIcon">Loading icon</string>
+    <string name="contentDescriptionBackButton">Back button</string>
+    <string name="textMenuItemStyles">Styles</string>
+    <string name="menuItemProfile">Profile</string>
+    <string name="contentDescriptionCameraFab">Camera FAB</string>
 
 
 </resources>

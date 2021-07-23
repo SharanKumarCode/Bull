@@ -3,24 +3,33 @@ package com.bullSaloon.bull.genericClasses
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ThumbnailUtils
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+import androidx.exifinterface.media.ExifInterface
 import com.bullSaloon.bull.MainActivity
+import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.FragmentCreateAccountBinding
 import com.bullSaloon.bull.databinding.FragmentSignInBinding
+import com.bullSaloon.bull.genericClasses.dataClasses.UserDataClass
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 class OtpVerificationClass() {
     private var auth: FirebaseAuth = Firebase.auth
-    private val EXTRA_INTENT: String = "userBasicData"
     private val TAG: String = "TAG"
 
     private lateinit var mobileNumber: String
@@ -194,20 +203,51 @@ class OtpVerificationClass() {
             Log.i(TAG,"error: current user is null")
             Toast.makeText(context, "Error occurred. Please check your internet connection", Toast.LENGTH_SHORT).show()
         } else {
-            val intent = Intent(context, MainActivity::class.java)
+
             val db = Firebase.firestore
+            val storage = Firebase.storage
+
             db.collection("Users")
                 .document(auth.currentUser?.uid!!)
                 .get()
                 .addOnSuccessListener {
                     if (it?.exists()!!) {
-                        val userBasicData = UserBasicDataParcelable(
-                            it.getString("user_id")!!,
-                            it.getString("user_name")!!,
-                            it.getString("mobile_number")!!
+
+                        val userName = it.getString("user_name")!!
+                        val userID = it.getString("user_id")!!
+                        val mobileNumber = it.getString("mobile_number")!!
+
+                        val userNameUnderscore = it.getString("user_name")!!.replace("\\s".toRegex(), "_")
+                        val imageUrl = "User_Images/${userID}/${userNameUnderscore}_profilePicture.jpg"
+
+                        val profilePicFileTemp = File(
+                            getOutputDirectory(),
+                            "profile_picture" + ".jpg"
                         )
-                        intent.putExtra(EXTRA_INTENT, userBasicData)
-                        context.startActivity(intent)
+
+                        storage.reference.child(imageUrl).getFile(profilePicFileTemp).addOnSuccessListener {
+
+                            val ei = ExifInterface(profilePicFileTemp).rotationDegrees
+
+                            val bitmap = BitmapFactory.decodeFile(profilePicFileTemp.absolutePath)
+                            val bitmapThumbnail = ThumbnailUtils.extractThumbnail(bitmap, 200, 200)
+                            val matrix = Matrix()
+                            matrix.postRotate(ei.toFloat())
+                            val rotatedImgBitmap = Bitmap.createBitmap(bitmapThumbnail, 0, 0, bitmapThumbnail.width, bitmapThumbnail.height, matrix, true)
+
+                            SingletonUserData.userData =
+                                UserDataClass(userID, userName, mobileNumber, rotatedImgBitmap)
+
+                            profilePicFileTemp.delete()
+
+                            val intent = Intent(context, MainActivity::class.java)
+                            startActivity(context, intent, null)
+                        }
+                            .addOnFailureListener{
+                                Log.i("TAG","profile pic error : ${it.message}")
+                                SingletonUserData.userData =
+                                    UserDataClass(userID, userName, mobileNumber, null)
+                            }
                     }
                 }
                 .addOnFailureListener {
@@ -215,5 +255,12 @@ class OtpVerificationClass() {
                     Toast.makeText(context, "Error occurred. Please check your internet connection", Toast.LENGTH_SHORT).show()
                 }
         }
+    }
+
+    private fun getOutputDirectory(): File {
+        val mediaDir = context.externalMediaDirs.firstOrNull().let {
+            File(it, context.resources.getString(R.string.app_name)).apply { mkdirs() } }
+        return if (mediaDir != null && mediaDir.exists())
+            mediaDir else context.filesDir
     }
 }
