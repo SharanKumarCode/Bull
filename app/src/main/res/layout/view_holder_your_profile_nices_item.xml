@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="20dp"
+
+    android:layout_marginEnd="30dp"
+    android:layout_gravity="center_horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/targetNiceImage"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+
+        android:background="@drawable/bg_popup_rounded"
+        app:srcCompat="@drawable/ic_bull_nav_icon_white"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/targetNiceUserImage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/ic_baseline_person_black_40"
+
+        android:layout_toEndOf="@+id/targetNiceImage"
+        android:layout_alignTop="@+id/targetNiceImage"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/targetUserNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sharan Kumar"
+
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:layout_toEndOf="@+id/targetNiceUserImage"
+        android:layout_alignTop="@+id/targetNiceUserImage"
+        android:layout_alignBottom="@+id/targetNiceUserImage"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:id="@+id/niceTimeStampTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textBullMagicImageDate"
+        android:textAlignment="viewStart"
+
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_toEndOf="@+id/targetNiceImage"
+        android:layout_below="@+id/targetNiceUserImage"
+        android:layout_alignStart="@+id/targetNiceUserImage"
+        android:layout_alignEnd="@+id/targetUserNameTextView"
+        android:layout_alignBottom="@+id/targetNiceImage"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"/>
+
+</RelativeLayout>

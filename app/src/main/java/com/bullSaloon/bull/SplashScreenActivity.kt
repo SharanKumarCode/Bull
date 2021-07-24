@@ -1,27 +1,17 @@
 package com.bullSaloon.bull
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.media.ThumbnailUtils
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.WindowManager
-import android.widget.Toast
-import androidx.exifinterface.media.ExifInterface
 import com.bullSaloon.bull.databinding.ActivitySplashScreenBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
-import com.bullSaloon.bull.genericClasses.dataClasses.UserDataClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import java.io.File
 
 @Suppress("DEPRECATION")
 class SplashScreenActivity : AppCompatActivity() {

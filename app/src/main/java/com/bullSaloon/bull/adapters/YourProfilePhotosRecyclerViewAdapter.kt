@@ -9,15 +9,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.ViewHolderYourProfilePhotosItemBinding
-import com.bullSaloon.bull.fragments.yourProfile.YourProfilePhotoItemFragment
 import com.bullSaloon.bull.fragments.yourProfile.YourProfilePhotosFragment
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.MyPhotosData
-import com.bullSaloon.bull.viewModel.YourProfilePhotoViewModel
+import com.bullSaloon.bull.viewModel.YourProfileViewModel
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-class YourProfilePhotosRecyclerViewAdapter(lists: MutableList<MyPhotosData>, dataViewModel: YourProfilePhotoViewModel, childFragmentManager: YourProfilePhotosFragment): RecyclerView.Adapter<YourProfilePhotosRecyclerViewAdapter.YourProfilePhotosRecyclerViewHolder>(){
+class YourProfilePhotosRecyclerViewAdapter(lists: MutableList<MyPhotosData>, dataViewModel: YourProfileViewModel, childFragmentManager: YourProfilePhotosFragment): RecyclerView.Adapter<YourProfilePhotosRecyclerViewAdapter.YourProfilePhotosRecyclerViewHolder>(){
 
     val myPhotosList = lists
     val storage = Firebase.storage

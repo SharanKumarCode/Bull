@@ -44,7 +44,7 @@ class SignInFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSignInBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -68,10 +68,10 @@ class SignInFragment : Fragment() {
                         binding.mobileNumberTextInputLayout.error = "Not a Valid Mobile Number"
                     }
                     binding.mobileNumberTextField.text?.length!! == 10 -> {
-                        val _phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
+                        val phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
                         val db = Firebase.firestore
                         val collectionRef = db.collection("Users")
-                        val task = collectionRef.whereEqualTo("mobile_number", _phoneNumberCheck).get()
+                        val task = collectionRef.whereEqualTo("mobile_number", phoneNumberCheck).get()
 
                         task.addOnSuccessListener {
                             if (it.isEmpty){
@@ -99,17 +99,17 @@ class SignInFragment : Fragment() {
         })
 
         binding.generateOtpButton.setOnClickListener {
-            val _phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
+            val phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
             val db = Firebase.firestore
             val collectionRef = db.collection("Users")
-            val task = collectionRef.whereEqualTo("mobile_number", _phoneNumberCheck).get()
+            val task = collectionRef.whereEqualTo("mobile_number", phoneNumberCheck).get()
             task
                 .addOnSuccessListener {
                     if (it.isEmpty) {
                         Log.i("TAG", "User does not exists")
                         val builder = AlertDialog.Builder(binding.root.context)
                         val message =
-                            "User account does not exist with Mobile Number: $_phoneNumberCheck "
+                            "User account does not exist with Mobile Number: $phoneNumberCheck "
                         val title = "Error"
                         builder.setMessage(message)
                             .setTitle(title)

@@ -13,7 +13,7 @@ import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.FragmentYourProfilePhotosBinding
 import com.bullSaloon.bull.genericClasses.dataClasses.MyPhotosData
 import com.bullSaloon.bull.adapters.YourProfilePhotosRecyclerViewAdapter
-import com.bullSaloon.bull.viewModel.YourProfilePhotoViewModel
+import com.bullSaloon.bull.viewModel.YourProfileViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -22,7 +22,7 @@ class YourProfilePhotosFragment : Fragment() {
 
     private var _binding: FragmentYourProfilePhotosBinding? = null
     private val binding get() = _binding!!
-    private lateinit var dataViewModel: YourProfilePhotoViewModel
+    private lateinit var dataViewModel: YourProfileViewModel
 
     private val TAG = "TAG"
 
@@ -53,7 +53,7 @@ class YourProfilePhotosFragment : Fragment() {
 
         val db = Firebase.firestore
         val auth = Firebase.auth
-        dataViewModel = ViewModelProvider(requireActivity()).get(YourProfilePhotoViewModel::class.java)
+        dataViewModel = ViewModelProvider(requireActivity()).get(YourProfileViewModel::class.java)
 
         db.collection("Users")
             .document(auth.currentUser?.uid!!)
@@ -78,6 +78,10 @@ class YourProfilePhotosFragment : Fragment() {
                             )
                             myPhotosList.add(data)
                         }
+                    }
+
+                    myPhotosList.sortBy {
+                        it.timestamp
                     }
                     myPhotosList.reverse()
                     binding.yourProfilePhotosRecycler.adapter = YourProfilePhotosRecyclerViewAdapter(myPhotosList, dataViewModel, this)

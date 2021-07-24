@@ -44,7 +44,7 @@ class CreateAccountFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCreateAccountBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -68,10 +68,10 @@ class CreateAccountFragment : Fragment() {
                         binding.mobileNumberTextInputLayout.error = "Not a Valid Mobile Number"
                     }
                     binding.mobileNumberTextField.text?.length!! == 10 -> {
-                        val _phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
+                        val phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
                         val db = Firebase.firestore
                         val collectionRef = db.collection("Users")
-                        val task = collectionRef.whereEqualTo("mobile_number", _phoneNumberCheck).get()
+                        val task = collectionRef.whereEqualTo("mobile_number", phoneNumberCheck).get()
 
                         task.addOnSuccessListener {
                             if (!it.isEmpty){
@@ -108,28 +108,32 @@ class CreateAccountFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (binding.UserNameTextField.text?.length!! < 5){
-                    binding.UserNameTextInputLayout.error = "minimum 5 characters required"
-                }else if (binding.UserNameTextField.text?.length!! > 20){
-                    binding.UserNameTextInputLayout.error = "restrict name to 20 characters"
-                } else {
-                    binding.UserNameTextInputLayout.error = null
+                when {
+                    binding.UserNameTextField.text?.length!! < 5 -> {
+                        binding.UserNameTextInputLayout.error = "minimum 5 characters required"
+                    }
+                    binding.UserNameTextField.text?.length!! > 20 -> {
+                        binding.UserNameTextInputLayout.error = "restrict name to 20 characters"
+                    }
+                    else -> {
+                        binding.UserNameTextInputLayout.error = null
+                    }
                 }
             }
         })
 
         binding.generateOtpButton.setOnClickListener {
-            val _phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
+            val phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
             val db = Firebase.firestore
             val collectionRef = db.collection("Users")
-            val task = collectionRef.whereEqualTo("mobile_number", _phoneNumberCheck).get()
+            val task = collectionRef.whereEqualTo("mobile_number", phoneNumberCheck).get()
             task
                 .addOnSuccessListener {
                     if (!it.isEmpty) {
                         Log.i("TAG", "User does not exists")
                         val builder = AlertDialog.Builder(binding.root.context)
                         val message =
-                            "User account already exist with Mobile Number: $_phoneNumberCheck \n\n Use Sign-In Option"
+                            "User account already exist with Mobile Number: $phoneNumberCheck \n\n Use Sign-In Option"
                         val title = "Error"
                         builder.setMessage(message)
                             .setTitle(title)

@@ -26,7 +26,7 @@ class BullMagicListFragment : Fragment() {
 
         val inflaterTrans = TransitionInflater.from(requireContext())
         enterTransition = inflaterTrans.inflateTransition(R.transition.slide_right_to_left)
-        exitTransition = inflaterTrans.inflateTransition(R.transition.slide_left_to_right)
+        exitTransition = inflaterTrans.inflateTransition(R.transition.fade)
     }
 
     override fun onCreateView(
@@ -43,18 +43,6 @@ class BullMagicListFragment : Fragment() {
         getFirebaseData()
 
         binding.recyclerViewBullMagicList.layoutManager = LinearLayoutManager(activity)
-
-//        binding.floatingActionCameraButton.setOnClickListener {
-//
-//            Log.i("TAG","Camera button clicked")
-//            val cameraFragment = CameraFragment()
-//            val args = Bundle()
-//            args.putString("camera_purpose", "normalCam")
-//            cameraFragment.arguments = args
-//
-//            this.parentFragmentManager.beginTransaction().replace(R.id.mainActivityFragmentContainer, cameraFragment).commit()
-//        }
-
     }
 
     override fun onDestroyView() {

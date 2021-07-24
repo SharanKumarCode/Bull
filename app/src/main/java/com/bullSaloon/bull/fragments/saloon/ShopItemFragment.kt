@@ -8,7 +8,6 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -35,7 +34,7 @@ class ShopItemFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentShopItemBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -44,7 +43,7 @@ class ShopItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var contact: String? = "+917550349075"
-        var shopName: String? = "Vaigai Saloon"
+        val shopName = "Vaigai Saloon"
         var shopAddress: String? = "$shopName 918, Sathy Rd, Opp G P Hospital, Raju Naidu Layout, Gandhipuram, Tamil Nadu 641012"
 
         ViewCompat.setTransitionName(binding.shopFragmentImage, "targetShopImage")

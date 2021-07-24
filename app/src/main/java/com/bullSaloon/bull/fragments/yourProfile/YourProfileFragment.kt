@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.adapters.YourProfileViewPagerAdapter
 import com.bullSaloon.bull.databinding.FragmentYourProfileBinding
@@ -43,7 +44,7 @@ class YourProfileFragment : Fragment() {
 
         val inflaterTrans = TransitionInflater.from(requireContext())
         enterTransition = inflaterTrans.inflateTransition(R.transition.slide_right_to_left)
-        exitTransition = inflaterTrans.inflateTransition(R.transition.slide_left_to_right)
+        exitTransition = inflaterTrans.inflateTransition(R.transition.fade)
     }
 
     override fun onCreateView(
@@ -69,9 +70,6 @@ class YourProfileFragment : Fragment() {
         }
 
         setProfilePhoto()
-
-        //launch default fragment - photos gallery
-        //launchYourProfilePhotosFragment()
 
         val viewPagerAdapter = YourProfileViewPagerAdapter(this)
         binding.ViewPagerYourProfile.adapter = viewPagerAdapter
@@ -107,6 +105,13 @@ class YourProfileFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
 
+        })
+
+        binding.ViewPagerYourProfile.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                viewPagerAdapter.notifyDataSetChanged()
+            }
         })
 
 

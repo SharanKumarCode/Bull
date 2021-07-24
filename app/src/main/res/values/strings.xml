@@ -75,6 +75,7 @@
     <string name="textMenuItemStyles">Styles</string>
     <string name="menuItemProfile">Profile</string>
     <string name="contentDescriptionCameraFab">Camera FAB</string>
+    <string name="placeHolderNoNices">No Nices yet..</string>
 
 
 </resources>

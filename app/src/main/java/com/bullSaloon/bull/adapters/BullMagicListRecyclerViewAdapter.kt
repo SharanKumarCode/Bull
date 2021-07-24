@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -65,7 +66,7 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): R
         setImageFromFirebase(context, holderBinding, bullMagicLists[position].imageRef)
 
         holderBinding.BullMagicNiceImageView.setOnClickListener {
-            updateNiceStatus(bullMagicLists[position].userId, bullMagicLists[position].photoId)
+            updateNiceStatus(bullMagicLists[position].userId, bullMagicLists[position].photoId, bullMagicLists[position].userName, bullMagicLists[position].imageRef)
         }
 
         //check nice status and number of nices
@@ -106,7 +107,7 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): R
             .into(binding.BullMagicImageView)
     }
 
-    private fun updateNiceStatus(userId: String, photoID: String){
+    private fun updateNiceStatus(userId: String, photoID: String, userName: String, imageRef: String){
 
         db.collection("Users")
             .document(userId)
@@ -119,22 +120,72 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): R
                             .document(userId)
                             .update("photos.$photoID.nices_userid", FieldValue.arrayUnion(auth.currentUser?.uid))
                             .addOnSuccessListener {
+                                updateNiceStatusToSelf(userId, photoID, userName, imageRef)
+                            }
+                            .addOnFailureListener {e->
+                                Log.i("TAG","failed to add nice status to firestore : ${e.message}")
                             }
                     } else if (it.contains("photos.$photoID.nices_userid") && !array.contains(auth.currentUser?.uid)){
                         db.collection("Users")
                             .document(userId)
                             .update("photos.$photoID.nices_userid", FieldValue.arrayUnion(auth.currentUser?.uid))
                             .addOnSuccessListener {
+                                updateNiceStatusToSelf(userId, photoID, userName, imageRef)
+                            }
+                            .addOnFailureListener {e->
+                                Log.i("TAG","failed to add nice status to firestore : ${e.message}")
                             }
                     } else {
                         db.collection("Users")
                             .document(userId)
                             .update("photos.$photoID.nices_userid", FieldValue.arrayRemove(auth.currentUser?.uid))
                             .addOnSuccessListener {
+                                db.collection("Users")
+                                    .document(auth.currentUser?.uid!!)
+                                    .get()
+                                    .addOnSuccessListener { document->
+                                        if (document.exists()){
+                                            val nicesMapData = document.get("nices") as Map<String,Map<String,String>>
+                                            nicesMapData.forEach { (key, _) ->
+                                                run {
+                                                    if (nicesMapData[key]?.get("photo_id") == photoID) {
+                                                        db.collection("Users")
+                                                            .document(auth.currentUser?.uid!!)
+                                                            .update("nices.$key", FieldValue.delete())
+                                                            .addOnSuccessListener {
+                                                                Log.i("TAG","deleted nice data from self firestore data")
+                                                            }
+                                                            .addOnFailureListener {e->
+                                                                Log.i("TAG","failed to delete nice status from self firestore data : ${e.message}")
+                                                            }
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                    }
+                            }
+                            .addOnFailureListener {e->
+                                Log.i("TAG","failed to add nice status to firestore : ${e.message}")
                             }
                     }
 
                 }
+            }
+    }
+
+    private fun updateNiceStatusToSelf(userId: String, photoID: String, userName: String, imageRef: String){
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis())
+        val niceMap = mapOf("user_id" to userId, "photo_id" to photoID, "timestamp" to dateFormat.toString(), "user_name" to userName, "image_ref" to imageRef)
+        val niceUUID = UUID.randomUUID().toString()
+        db.collection("Users")
+            .document(auth.currentUser?.uid!!)
+            .update("nices.$niceUUID", niceMap)
+            .addOnSuccessListener {
+                Log.i("TAG","nice data added to firestore")
+            }
+            .addOnFailureListener {e->
+                Log.i("TAG","failed to add nice data to firestore : ${e.message}")
             }
     }
 

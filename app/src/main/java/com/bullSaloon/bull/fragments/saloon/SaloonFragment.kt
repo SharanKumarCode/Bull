@@ -22,14 +22,14 @@ class SaloonFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         val inflaterTrans = TransitionInflater.from(requireContext())
+        enterTransition = inflaterTrans.inflateTransition(R.transition.slide_right_to_left)
         exitTransition = inflaterTrans.inflateTransition(R.transition.fade)
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSaloonBinding.inflate(inflater, container, false)
         return binding.root
     }

@@ -43,14 +43,7 @@ import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.FragmentCameraBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.Option
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -92,8 +85,6 @@ class CameraFragment : Fragment() {
     private var saloonName = ""
     private var captionText = ""
 
-    private val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -116,8 +107,6 @@ class CameraFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activity?.actionBar?.hide()
-
-        Log.i(TAG, "backstack onViewCreated :${activity?.supportFragmentManager?.findFragmentById(R.id.fragment)?.findNavController()?.backStack?.last?.destination}")
 
         val data = SingletonUserData.userData
         ACTIVITY_FLAG = arguments?.getString("camera_purpose")!!
@@ -259,7 +248,7 @@ class CameraFragment : Fragment() {
             when(motionEvent.action){
                 MotionEvent.ACTION_DOWN -> return@setOnTouchListener true
                 MotionEvent.ACTION_UP -> {
-                    Log.i(CameraFragment.TAG,"tap to focus is called")
+                    Log.i(TAG,"tap to focus is called")
                     tapToFocus()
                     return@setOnTouchListener true
                 }
@@ -523,9 +512,10 @@ class CameraFragment : Fragment() {
                     if (it.exists()){
                         if (it.id == auth.currentUser?.uid.toString()){
                             val mapData = hashMapOf<String, Any>("timestamp" to dateFormat, "image_ref" to "$fireStoreUrl$imagePath", "caption" to captionText, "saloon_name" to saloonName)
+                            val photoUUID = UUID.randomUUID().toString()
 
                             if (it.get("photos") == null){
-                                val photoData = hashMapOf<String, Map<String,Any>>("photo_1" to mapData)
+                                val photoData = hashMapOf<String, Map<String,Any>>(photoUUID to mapData)
                                 db.collection("Users")
                                     .document(it.id)
                                     .update("photos", photoData)
@@ -539,10 +529,9 @@ class CameraFragment : Fragment() {
                                         Log.i(TAG, "Data update Failed : ${it.message}")
                                     }
                             } else {
-                                val photosMap = it.get("photos") as HashMap<String, Map<String,Any>>
                                 db.collection("Users")
                                     .document(it.id)
-                                    .update("photos.photo_${photosMap.size+1}", mapData)
+                                    .update("photos.${photoUUID}", mapData)
                                     .addOnSuccessListener {
                                         stopLoadingIcon()
                                         deleteImageFile()
@@ -633,6 +622,7 @@ class CameraFragment : Fragment() {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val LENS_FRONT = CameraSelector.LENS_FACING_FRONT
         private const val LENS_BACK = CameraSelector.LENS_FACING_BACK
+        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private object VIEW_VISIBILITY {
             const val INITIAL_INVISIBLE = "initial_invisible"
             const val UPLOAD_COMPLETE_VISIBILITY = "upload_complete_visibility"

@@ -44,7 +44,7 @@ class ShopListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentShopListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -54,27 +54,25 @@ class ShopListFragment : Fragment() {
 
 //        postponeEnterTransition()
 
-        if (view != null){
-            binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        binding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
-            //starting loading icon
-            binding.loadingIconListFragmentImageView.visibility = View.VISIBLE
-            animate = binding.loadingIconListFragmentImageView.drawable as AnimatedVectorDrawable
+        //starting loading icon
+        binding.loadingIconListFragmentImageView.visibility = View.VISIBLE
+        animate = binding.loadingIconListFragmentImageView.drawable as AnimatedVectorDrawable
 
-            AnimatedVectorDrawableCompat.registerAnimationCallback(animate, object: Animatable2Compat.AnimationCallback(){
-                override fun onAnimationEnd(drawable: Drawable?) {
-                    super.onAnimationEnd(drawable)
+        AnimatedVectorDrawableCompat.registerAnimationCallback(animate, object: Animatable2Compat.AnimationCallback(){
+            override fun onAnimationEnd(drawable: Drawable?) {
+                super.onAnimationEnd(drawable)
 
-                    animate.start()
-                }
-            })
+                animate.start()
+            }
+        })
 
-            animate.start()
+        animate.start()
 
-            //Get shop list data from firestore
-            Log.i("TAGLifecycle","data being fetched: onViewCreated")
-            generateDataFirestore()
-        }
+        //Get shop list data from firestore
+        Log.i("TAGLifecycle","data being fetched: onViewCreated")
+        generateDataFirestore()
     }
 
     override fun onPause() {
@@ -94,11 +92,11 @@ class ShopListFragment : Fragment() {
 
         if(view != null){
             Log.i("TAGLifecycle","Shop List Recycler View is resumed")
-            dataViewModel.getShopDataList().observe(viewLifecycleOwner, Observer { result ->
+            dataViewModel.getShopDataList().observe(viewLifecycleOwner, { result ->
                 binding.recyclerView.adapter = ShopRecyclerViewAdapter(result, dataViewModel,this)
                 binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerBundle?.getParcelable("recyclerState"))
 
-                (view?.parent as ViewGroup)?.doOnPreDraw {
+                (view?.parent as ViewGroup).doOnPreDraw {
                     startPostponedEnterTransition()
                 }
             })
@@ -139,10 +137,10 @@ class ShopListFragment : Fragment() {
 
                 dataViewModel.assignShopData(shopLists)
                 if(view != null){
-                    dataViewModel.getShopDataList().observe(viewLifecycleOwner, Observer { result ->
+                    dataViewModel.getShopDataList().observe(viewLifecycleOwner, { result ->
                         binding.recyclerView.adapter = ShopRecyclerViewAdapter(result, dataViewModel, this)
 
-                        (view?.parent as ViewGroup)?.doOnPreDraw {
+                        (view?.parent as ViewGroup).doOnPreDraw {
                             startPostponedEnterTransition()
                         }
                     })

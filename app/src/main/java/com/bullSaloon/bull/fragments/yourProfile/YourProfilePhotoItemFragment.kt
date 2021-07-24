@@ -16,17 +16,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.FragmentYourProfilePhotoItemBinding
-import com.bullSaloon.bull.databinding.ViewHolderBullMagicItemBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
-import com.bullSaloon.bull.viewModel.YourProfilePhotoViewModel
-import com.bumptech.glide.request.RequestOptions
+import com.bullSaloon.bull.viewModel.YourProfileViewModel
 import com.bumptech.glide.request.target.Target
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -50,7 +47,7 @@ class YourProfilePhotoItemFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentYourProfilePhotoItemBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -60,7 +57,7 @@ class YourProfilePhotoItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         storage = Firebase.storage
-        val dataViewModel = ViewModelProvider(requireActivity()).get(YourProfilePhotoViewModel::class.java)
+        val dataViewModel = ViewModelProvider(requireActivity()).get(YourProfileViewModel::class.java)
         dataViewModel.getUserPhotoData().observe(viewLifecycleOwner, { data ->
 
 //            set Saloon Name
@@ -100,7 +97,6 @@ class YourProfilePhotoItemFragment : Fragment() {
 
         val imageRef = storage.getReferenceFromUrl(imageUrl)
         val width = Resources.getSystem().displayMetrics.widthPixels
-        val height = (Resources.getSystem().displayMetrics.heightPixels * 0.40).toInt()
 
         GlideApp.with(context)
             .load(imageRef)
@@ -143,8 +139,8 @@ class YourProfilePhotoItemFragment : Fragment() {
                                 Log.i("TAG","pic deleted from firestore")
                                 this.parentFragmentManager.popBackStack()
                             }
-                            .addOnFailureListener {
-                                Log.i("TAG","error on pic deletion from firestore: ${it.message}")
+                            .addOnFailureListener {e->
+                                Log.i("TAG","error on pic deletion from firestore: ${e.message}")
                             }
                     }
                 }
