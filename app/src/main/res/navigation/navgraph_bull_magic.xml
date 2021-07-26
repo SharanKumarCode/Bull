@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navgraph_bull_magic"
+    app:startDestination="@id/bullMagicListFragment">
+
+    <fragment
+        android:id="@+id/bullMagicListFragment"
+        android:name="com.bullSaloon.bull.fragments.bullMagic.BullMagicListFragment"
+        android:label="fragment_bull_magic_list"
+        tools:layout="@layout/fragment_bull_magic_list"
+        app:startDestination="@id/action_bullMagicListFragment_to_bullMagicItemFragment">
+        <action
+            android:id="@+id/action_bullMagicListFragment_to_bullMagicItemFragment"
+            app:destination="@id/bullMagicItemFragment" />
+        <action
+            android:id="@+id/action_bullMagicListFragment_to_bullMagicTargetUserFragment"
+            app:destination="@id/bullMagicTargetUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bullMagicItemFragment"
+        android:name="com.bullSaloon.bull.fragments.bullMagic.BullMagicItemFragment"
+        android:label="BullMagicItemFragment" >
+        <action
+            android:id="@+id/action_bullMagicItemFragment_to_bullMagicListFragment"
+            app:destination="@id/bullMagicListFragment" />
+        <action
+            android:id="@+id/action_bullMagicItemFragment_to_bullMagicTargetUserFragment"
+            app:destination="@id/bullMagicTargetUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bullMagicTargetUserFragment"
+        android:name="com.bullSaloon.bull.fragments.bullMagic.BullMagicTargetUserFragment"
+        android:label="fragment_bull_magic_target_user"
+        tools:layout="@layout/fragment_bull_magic_target_user" >
+        <action
+            android:id="@+id/action_bullMagicTargetUserFragment_to_bullMagicItemFragment"
+            app:destination="@id/bullMagicItemFragment" />
+        <action
+            android:id="@+id/action_bullMagicTargetUserFragment_to_bullMagicListFragment"
+            app:destination="@id/bullMagicListFragment" />
+    </fragment>
+</navigation>

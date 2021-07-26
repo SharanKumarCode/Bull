@@ -63,10 +63,10 @@ class ShopItemFragment : Fragment() {
 //                Set Image, shop name, shop address and contact number
                 val imageResource = context?.resources?.getIdentifier(data.imageSource, "drawable",context?.packageName)
                 binding.shopFragmentImage.setBackgroundResource(imageResource!!)
-                binding.shopNameFragmentTextView.text = data.shopName
-                binding.addressFragmentTextView.text = data.shopAddress
-                contact = data.mobile
-                shopAddress = "${data.shopName} ${data.shopAddress}"
+                binding.shopNameFragmentTextView.text = data.saloonName
+                binding.addressFragmentTextView.text = data.saloonAddress
+                contact = data.contact
+                shopAddress = "${data.saloonName} ${data.saloonAddress}"
 
 //                Set Open Status
                 if (data.openStatus == true){

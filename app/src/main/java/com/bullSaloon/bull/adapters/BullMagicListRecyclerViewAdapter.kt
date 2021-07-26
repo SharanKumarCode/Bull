@@ -3,13 +3,16 @@ package com.bullSaloon.bull.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.ViewHolderBullMagicItemBinding
+import com.bullSaloon.bull.fragments.bullMagic.BullMagicListFragment
 import com.bullSaloon.bull.genericClasses.dataClasses.BullMagicListData
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bumptech.glide.request.RequestOptions
@@ -23,12 +26,13 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): RecyclerView.Adapter<BullMagicListRecyclerViewAdapter.BullMagicListRecyclerViewHolder>() {
+class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _fragment: BullMagicListFragment): RecyclerView.Adapter<BullMagicListRecyclerViewAdapter.BullMagicListRecyclerViewHolder>() {
 
     private val bullMagicLists = lists
     private val db = Firebase.firestore
     private val auth = Firebase.auth
     private val storage = Firebase.storage
+    private val fragment = _fragment
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -53,7 +57,6 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): R
         holderBinding.BullMagicImageCaptionText.text = bullMagicLists[position].caption
 
         //set date
-        Log.i("TAG","date : ${bullMagicLists[position].timeStamp} ")
         val date = bullMagicLists[position].timeStamp.substring(0,10)
         val dateFormatted = LocalDate.parse(date, DateTimeFormatter.ISO_DATE)
         val month = dateFormatted.month.toString()
@@ -65,8 +68,24 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): R
         //set Image
         setImageFromFirebase(context, holderBinding, bullMagicLists[position].imageRef)
 
+//        update nice status
         holderBinding.BullMagicNiceImageView.setOnClickListener {
             updateNiceStatus(bullMagicLists[position].userId, bullMagicLists[position].photoId, bullMagicLists[position].userName, bullMagicLists[position].imageRef)
+        }
+
+//        start BullMagicItem Fragment from image
+        holderBinding.BullMagicImageView.setOnClickListener {
+            startBullMagicItemFragment(fragment, bullMagicLists[position].userId, bullMagicLists[position].photoId, bullMagicLists[position].imageRef)
+        }
+
+//        start BullMagicItem Fragment from comment
+        holderBinding.BullMagicCommentsImageView.setOnClickListener {
+            startBullMagicItemFragment(fragment, bullMagicLists[position].userId, bullMagicLists[position].photoId, bullMagicLists[position].imageRef, true)
+        }
+
+//        start BullMagicTargetUser Fragment
+        holderBinding.BullMagicUserName.setOnClickListener {
+            startBullMagicTargetUserFragment(fragment, bullMagicLists[position].userId)
         }
 
         //check nice status and number of nices
@@ -193,6 +212,35 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>): R
 
         val binding: ViewHolderBullMagicItemBinding = ViewHolderBullMagicItemBinding.bind(itemView)
 
+    }
+
+    private fun startBullMagicItemFragment(fragment: BullMagicListFragment, userID: String, photoID: String, imageRef: String, clickedComments: Boolean = false){
+
+        val yourBullMagicFragmentHost = fragment.parentFragmentManager.findFragmentById(R.id.bullMagicfragmentContainer)
+        val navController = yourBullMagicFragmentHost?.findNavController()
+
+        val args = Bundle()
+
+        val mapData: HashMap<String, String> = if (clickedComments){
+            hashMapOf("user_id" to  userID, "photo_id" to photoID, "imageRef" to imageRef, "clickedComments" to "true")
+        } else {
+            hashMapOf("user_id" to  userID, "photo_id" to photoID, "imageRef" to imageRef, "clickedComments" to "false")
+        }
+
+        args.putSerializable("userImageData", mapData)
+
+        navController?.navigate(R.id.action_bullMagicListFragment_to_bullMagicItemFragment, args)
+    }
+
+    private fun startBullMagicTargetUserFragment(fragment: BullMagicListFragment, userID: String){
+
+        val yourBullMagicFragmentHost = fragment.parentFragmentManager.findFragmentById(R.id.bullMagicfragmentContainer)
+        val navController = yourBullMagicFragmentHost?.findNavController()
+
+        val args = Bundle()
+        args.putString("user_id", userID)
+
+        navController?.navigate(R.id.action_bullMagicListFragment_to_bullMagicTargetUserFragment, args)
     }
 
 }

@@ -34,15 +34,11 @@ class SaloonFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val saloonNavHostFragment = this.childFragmentManager.findFragmentById(R.id.saloonFragmentContainer)
         val navController = saloonNavHostFragment?.findNavController()
-
-        Log.i("CameraX", "backstack onViewCreated Saloon - child Fragment :${navController?.backStack?.last?.destination}")
-        Log.i("CameraX", "backstack onViewCreated Saloon - activity support Fragment :${activity?.supportFragmentManager?.findFragmentById(R.id.fragment)?.findNavController()?.backStack?.last?.destination}")
 
         if (navController?.currentDestination?.id == R.id.saloonFragment){
             navController.navigate(R.id.action_saloonFragment_to_saloon_navigation)

@@ -1,5 +1,6 @@
 package com.bullSaloon.bull.fragments.bullMagic
 
+
 import android.os.Bundle
 import android.transition.TransitionInflater
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import com.bullSaloon.bull.R
 import com.bullSaloon.bull.adapters.BullMagicListRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentBullMagicListBinding
 import com.bullSaloon.bull.genericClasses.dataClasses.BullMagicListData
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -83,7 +85,7 @@ class BullMagicListFragment : Fragment() {
                                 }
                             }
                         }
-                        binding.recyclerViewBullMagicList.adapter = BullMagicListRecyclerViewAdapter(bullMagicList)
+                    binding.recyclerViewBullMagicList.adapter = BullMagicListRecyclerViewAdapter(bullMagicList, this)
                         }
                 }
 

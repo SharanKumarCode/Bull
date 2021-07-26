@@ -1,6 +1,7 @@
 package com.bullSaloon.bull.fragments.yourProfile
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.adapters.YourProfileNicesRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentYourProfileNiceBinding
+import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.MyNicesData
 import com.bullSaloon.bull.viewModel.YourProfileViewModel
 import com.google.firebase.auth.ktx.auth
@@ -21,6 +24,7 @@ class YourProfileNiceFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var dataViewModel: YourProfileViewModel
     private var nicesList = mutableListOf<MyNicesData>()
+    private var stateBundle = Bundle()
 
     private val TAG = "YourProfileNiceFragment"
 
@@ -39,6 +43,33 @@ class YourProfileNiceFragment : Fragment() {
 
         binding.yourProfileNiceRecyclerView.layoutManager = LinearLayoutManager(activity)
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val sam = binding.yourProfileNiceRecyclerView.layoutManager?.onSaveInstanceState()
+        stateBundle.putParcelable("scroll_state", sam)
+
+        SingletonUserData.updateScrollState(stateBundle)
+
+        Log.i("TAGRec", "Recycler view scroll state parcel on Pause Nice Fragment : $sam")
+        Log.i("TAGRec", "Recycler view scroll state bundle on Pause Nice Fragment : $stateBundle")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (SingletonUserData.getScrollState()?.isEmpty != true){
+            val sam = SingletonUserData.getScrollState()?.get("scroll_state") as Parcelable?
+            Log.i("TAGRec", "Recycler view scroll state parcel on Resume Nice Fragment : $sam")
+            Log.i("TAGRec", "Recycler view scroll state bundle on Resume Nice Fragment : $stateBundle")
+
+            binding.yourProfileNiceRecyclerView.layoutManager?.onRestoreInstanceState(sam)
+        }
+
+        Log.i("TAGRec", "Recycler view scroll state parcel on Resume")
     }
 
     private fun getNiceDataFromFireStore(){
@@ -77,7 +108,8 @@ class YourProfileNiceFragment : Fragment() {
 
                         if (view != null){
                             dataViewModel.getNicesDataList().observe(viewLifecycleOwner,{
-                                binding.yourProfileNiceRecyclerView.adapter = YourProfileNicesRecyclerViewAdapter(it)
+                                binding.yourProfileNiceRecyclerView.adapter = YourProfileNicesRecyclerViewAdapter(it, this)
+                                YourProfileNicesRecyclerViewAdapter(it, this).stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
                             })
                         }
                     }

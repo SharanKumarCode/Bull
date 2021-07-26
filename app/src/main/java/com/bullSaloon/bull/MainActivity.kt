@@ -1,16 +1,19 @@
 package com.bullSaloon.bull
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -45,6 +48,8 @@ class MainActivity : AppCompatActivity() {
 
 //        get basic user data
         val data = SingletonUserData.userData
+
+        SingletonUserData.getProfilePic(this)
         val userDataModel = ViewModelProvider(this).get(UserDataViewModel::class.java)
 
         userDataModel.assignBasicUserData(data)
@@ -104,21 +109,37 @@ class MainActivity : AppCompatActivity() {
             navItemImage.iconTintMode = null
         }
 
-        GlideApp.with(this)
-            .asBitmap()
-            .load(SingletonUserData.userData.profilePicBitmap)
-            .circleCrop()
-            .placeholder(R.drawable.ic_baseline_person_black_40)
-            .into(object : CustomTarget<Bitmap>(60, 60){
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    navItemImage.icon = BitmapDrawable(resources, resource)
-                }
+        val dataViewModel = ViewModelProvider(this).get(UserDataViewModel::class.java)
+        dataViewModel.getProfilePic().observe(LifecycleOwner { lifecycle },{
+            var data = it
 
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    navItemImage.icon = placeholder
-                }
-            })
+            if (it == null){
+                data = BitmapFactory.decodeResource(this.resources, R.drawable.ic_baseline_person_black_40)
+            }
+
+            Log.i("TAGProfile", "user profile updated main activity : ${data}")
+
+            GlideApp.with(this)
+                .asBitmap()
+                .load(data)
+                .circleCrop()
+                .placeholder(R.drawable.ic_baseline_person_black_40)
+                .fallback(R.drawable.ic_baseline_person_black_40)
+                .into(object : CustomTarget<Bitmap>(60, 60){
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        navItemImage.icon = BitmapDrawable(resources, resource)
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        navItemImage.icon = placeholder
+                    }
+                })
+        })
 
         return super.onPrepareOptionsMenu(menu)
+    }
+
+    fun updateProfilePicOutsideMain(){
+        SingletonUserData.getProfilePic(this)
     }
 }

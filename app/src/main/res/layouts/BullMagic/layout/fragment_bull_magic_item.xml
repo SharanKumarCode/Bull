@@ -1,13 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView
+    android:id="@+id/bullMagicItemRootView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.BullMagicItem">
+    tools:context=".fragments.bullMagic.BullMagicItemFragment">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:layout_gravity="center_horizontal">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/bullMagicPhotoItemSaloonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textViewSaloonName"
+            android:textSize="14sp"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:id="@+id/bullMagicPhotoItemDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textBullMagicImageDate"
+            android:textSize="14sp"
+            android:textAlignment="center"
+
+            android:layout_marginEnd="10dp"
+            android:layout_alignEnd="@+id/bullMagicPhotoItemImageView"
+            android:layout_alignTop="@+id/bullMagicPhotoItemSaloonName"
+            android:layout_alignBottom="@+id/bullMagicPhotoItemSaloonName"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bullMagicPhotoItemImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:srcCompat="@drawable/ic_bull"
+            android:layout_marginTop="20dp"
+
+            android:layout_below="@id/bullMagicPhotoItemDate"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bullMagicItemUserProfilePic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            app:srcCompat="@drawable/ic_baseline_person_black_40"
+            android:layout_below="@+id/bullMagicPhotoItemImageView"
+            />
+
+        <TextView
+            android:id="@+id/bullMagicItemUserName"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="@string/placeHolderUserName"
+
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+
+            android:layout_alignTop="@+id/bullMagicItemUserProfilePic"
+            android:layout_alignBottom="@+id/bullMagicItemUserProfilePic"
+            android:layout_below="@+id/bullMagicPhotoItemImageView"
+            android:layout_toEndOf="@+id/bullMagicItemUserProfilePic"
+            android:layout_alignEnd="@+id/bullMagicPhotoItemImageView"
+            />
+
+
+        <TextView
+            android:id="@+id/bullMagicPhotoItemCaption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textImageCaption"
+            android:textSize="14sp"
+            android:textAlignment="center"
+
+            android:layout_margin="10dp"
+
+            android:layout_below="@+id/bullMagicItemUserName"
+            android:layout_alignStart="@+id/bullMagicPhotoItemImageView"
+            android:layout_alignEnd="@+id/bullMagicPhotoItemImageView"
+            />
+
+        <RelativeLayout
+            android:id="@+id/bullMagicNicesAndCommentsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/bullMagicPhotoItemCaption">
+
+            <TextView
+                android:id="@+id/bullMagicCommentsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+
+                android:layout_alignParentStart="true"
+
+                android:paddingTop="11dp"
+                android:layout_marginStart="20dp"
+
+                android:text="3"
+                android:textSize="18sp"
+                android:textColor="@color/white"/>
+
+            <ImageView
+                android:contentDescription="@string/contentDescriptionNiceStatus"
+                android:id="@+id/bullMagicCommentsImageView"
+                android:layout_width="30dp"
+                android:layout_height="37dp"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+
+                android:src="@drawable/ic_baseline_comment_24"
+
+                android:layout_toEndOf="@+id/bullMagicCommentsTextView"
+
+                android:layout_alignTop="@+id/bullMagicNiceImageView"
+                android:layout_alignBottom="@+id/bullMagicNiceImageView"
+                />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="40dp"
+                android:background="@color/white"
+
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/bullMagicCommentsImageView"/>
+
+            <TextView
+                android:id="@+id/bullMagicNicesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+
+                android:layout_toEndOf="@+id/bullMagicCommentsImageView"
+                android:layout_alignTop="@+id/bullMagicNiceImageView"
+                android:paddingTop="8dp"
+                android:layout_marginStart="22dp"
+
+                android:text="20"
+                android:textSize="18sp"
+                android:textColor="@color/white"/>
+
+            <ImageView
+                android:contentDescription="@string/contentDescriptionNiceStatus"
+                android:id="@+id/bullMagicNiceImageView"
+                android:layout_width="30dp"
+                android:layout_height="37dp"
+                android:padding="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+
+                android:src="@drawable/ic_nice_blank_icon"
+
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/bullMagicNicesTextView"
+                />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bullMagicShareImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bullMagicPhotoItemCaption"
+            android:layout_alignTop="@+id/bullMagicNicesAndCommentsContainer"
+            android:layout_alignBottom="@+id/bullMagicNicesAndCommentsContainer"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+
+            app:srcCompat="@drawable/ic_baseline_share_40"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/bullMagicItemEnterCommentLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_alignStart="@+id/bullMagicNicesAndCommentsContainer"
+            android:layout_alignEnd="@+id/bullMagicShareImageView"
+            android:layout_below="@+id/bullMagicNicesAndCommentsContainer">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bullMagicEditCommentTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:counterMaxLength="100"
+                app:counterEnabled="true"
+                app:hintEnabled="false"
+
+                android:layout_weight="2"
+
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:hint="@string/hintComment"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bullMagicEnterComment"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.5"
+                app:srcCompat="@drawable/ic_outline_send_40" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bullMagicItemCommentRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/bullMagicItemEnterCommentLayout"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:id="@+id/bullMagicItemCommentStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textNoComments"
+            android:textSize="18sp"
+
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/bullMagicItemCommentRecyclerView"
+            android:textAlignment="center"
+            />
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

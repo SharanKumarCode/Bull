@@ -5,20 +5,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.ViewHolderShopItemBinding
-import com.bullSaloon.bull.fragments.saloon.ShopListFragment
+import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.ShopDataPreviewClass
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.lang.Error
 
-class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataViewModel: MainActivityViewModel, _fragment: ShopListFragment): RecyclerView.Adapter<ShopRecyclerViewAdapter.ShopRecyclerViewHolder>() {
+class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataViewModel: MainActivityViewModel, _fragment: Fragment): RecyclerView.Adapter<ShopRecyclerViewAdapter.ShopRecyclerViewHolder>() {
 
-    private val shopList = lists
+    private val saloonList = lists
     private val dataModel = dataViewModel
     private val fragment = _fragment
 
@@ -31,28 +32,12 @@ class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataView
         val holderBinding = holder.binding
 
         val context:Context = holder.itemView.context
-        val imageResource = context.resources.getIdentifier(shopList[position].imageSource, "drawable",context.packageName)
-        holderBinding.shopImageLayoutBg.setBackgroundResource(imageResource)
+        setSaloonDisplayPic(holderBinding, saloonList[position].imageSource!!)
 
-        ViewCompat.setTransitionName(holderBinding.shopImageLayoutBg, shopList[position].shopID?.toString())
+        holderBinding.saloonNameTextView.text = saloonList[position].saloonName
+        holderBinding.areaNameTextView.text = saloonList[position].areaName
 
-        holderBinding.shopNameTextView.text = shopList[position].shopName
-        holderBinding.areaNameTextView.text = shopList[position].areaName
-
-
-        when (shopList[position].gender) {
-            "Male" -> {
-                holderBinding.genderImageView.setImageResource(R.drawable.ic_male)
-            }
-            "Female" -> {
-                holderBinding.genderImageView.setImageResource(R.drawable.ic_female)
-            }
-            else -> {
-                holderBinding.genderImageView.setImageResource(R.drawable.ic_unisex)
-            }
-        }
-
-        if (shopList[position].openStatus == true){
+        if (saloonList[position].openStatus == true){
             holderBinding.openStatusTextView.text = "open"
             holderBinding.openStatusTextView.setTextColor(context.getColor(R.color.openStatusColor))
         } else {
@@ -60,52 +45,64 @@ class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataView
             holderBinding.openStatusTextView.setTextColor(context.getColor(R.color.closeStatusColor))
         }
 
-        for (i in 0 until shopList[position].rating!!){
-            holder.ratingsImageViewList[i.toInt()].visibility = View.VISIBLE
+        when(saloonList[position].rating?.toInt()){
+            1 -> setRatingPic(holderBinding, R.drawable.ic_rating_one_stars)
+            2 -> setRatingPic(holderBinding, R.drawable.ic_rating_two_stars)
+            3 -> setRatingPic(holderBinding, R.drawable.ic_rating_three_stars)
+            4 -> setRatingPic(holderBinding, R.drawable.ic_rating_four_stars)
+            5 -> setRatingPic(holderBinding, R.drawable.ic_rating_five_stars)
         }
+
+        holderBinding.saloonHaircutPriceText.text = String.format(holderBinding.root.context.resources.getString(R.string.textHaircutPrice), saloonList[position].haircutPrice)
 
         holder.itemView.setOnClickListener {
 
             try {
-                startShopItemFragment(fragment, dataModel, shopList[position])
+                startShopItemFragment(fragment, dataModel, saloonList[position])
             }catch (e: Error){
                 Log.i("fragmentError", "error occurred: $e")
             }
         }
-
     }
 
     override fun getItemCount(): Int {
-        return shopList.size
+        return saloonList.size
     }
 
-    private fun startShopItemFragment(holder: ShopListFragment, dataModel: MainActivityViewModel, shopList: ShopDataPreviewClass){
-//        val context = holder.itemView.context as FragmentActivity
-        dataModel.putShopData(shopList.shopID)
+    private fun startShopItemFragment(holder: Fragment, dataModel: MainActivityViewModel, saloonList: ShopDataPreviewClass){
 
-
-//        context.supportFragmentManager.beginTransaction()
-//            .setReorderingAllowed(true)
-//            .replace(R.id.mainFragmentContainer, shopItemFragment)
-//            .addToBackStack(null)
-//            .commit()
+        dataModel.putShopData(saloonList.saloonID)
 
         val saloonNavHostFragment = holder.parentFragment?.childFragmentManager?.findFragmentById(R.id.saloonFragmentContainer)
         val navController = saloonNavHostFragment?.findNavController()
         navController?.navigate(R.id.action_shopListFragment_to_shopItemFragment)
     }
 
+    private fun setSaloonDisplayPic(binding: ViewHolderShopItemBinding, profilePicRef: String){
+
+        val imageRef = Firebase.storage.reference.child(profilePicRef)
+
+        GlideApp.with(binding.root.context)
+            .asBitmap()
+            .load(imageRef)
+            .centerCrop()
+            .placeholder(R.drawable.ic_baseline_person_black_40)
+            .into(binding.saloonDisplayImageView)
+    }
+
+    private fun setRatingPic(binding: ViewHolderShopItemBinding, drawableResource: Int){
+
+        GlideApp.with(binding.root.context)
+            .asBitmap()
+            .load(drawableResource)
+            .placeholder(R.drawable.ic_rating_one_stars)
+            .into(binding.saloonRatingImage)
+
+    }
+
     inner class ShopRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         val binding: ViewHolderShopItemBinding = ViewHolderShopItemBinding.bind(itemView)
-        val ratingsImageViewList = mutableListOf<ImageView>()
 
-        init {
-            ratingsImageViewList.add(binding.ratingImageView1)
-            ratingsImageViewList.add(binding.ratingImageView2)
-            ratingsImageViewList.add(binding.ratingImageView3)
-            ratingsImageViewList.add(binding.ratingImageView4)
-            ratingsImageViewList.add(binding.ratingImageView5)
-        }
     }
 }

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.bullMagic.BullMagicTargetUserFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/bullMagicUserHeader"
+            android:layout_width="match_parent"
+            android:layout_height="170dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/bullMagicTargetUserProfilePic"
+                android:layout_width="70dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+
+                android:src="@drawable/ic_baseline_person_24"
+
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+            <TextView
+                android:id="@+id/bullMagicTargetUserNameTextView"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="Sharan Kumar"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_alignTop="@+id/bullMagicTargetUserProfilePic"
+                android:layout_toEndOf="@+id/bullMagicTargetUserProfilePic"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bullMagicTargetUserFollowButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:backgroundTint="@color/teal_700"
+                android:text="@string/buttonFollow"
+                android:textSize="12sp"
+                android:layout_below="@+id/bullMagicTargetUserNameTextView"
+                android:layout_toEndOf="@+id/bullMagicTargetUserProfilePic"
+                android:layout_alignStart="@+id/bullMagicTargetUserNameTextView"
+                android:layout_marginTop="10dp"
+                />
+
+            <ImageView
+                android:contentDescription="@string/contentDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_bull_nav_header_white"
+                android:layout_marginTop="10dp"/>
+
+            <RelativeLayout
+                android:id="@+id/bullMagicTargetUserFollowersLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+
+                android:layout_alignStart="@+id/bullMagicTargetUserProfilePic"
+                android:layout_below="@+id/bullMagicTargetUserProfilePic">
+
+                <TextView
+                    android:id="@+id/bullMagicTargetUserFollowersText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+
+                    android:layout_marginStart="5dp"
+                    android:text="@string/placeHolderNumber"
+                    android:gravity="center"
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/teal_200"
+
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_toEndOf="@+id/bullMagicTargetUserFollowersText"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/textFollowers"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="10dp"
+
+                    android:layout_marginStart="23dp"
+                    android:layout_toEndOf="@+id/bullMagicTargetUserFollowersText"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/bullMagicTargetUserFollowingLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/bullMagicTargetUserFollowersLayout"
+                android:layout_alignTop="@+id/bullMagicTargetUserFollowersLayout"
+                android:layout_below="@+id/bullMagicTargetUserProfilePic">
+
+                <TextView
+                    android:id="@+id/bullMagicTargetUserFollowingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+
+                    android:layout_marginStart="5dp"
+                    android:text="@string/placeHolderNumber"
+                    android:gravity="center"
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/teal_200"
+
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_toEndOf="@+id/bullMagicTargetUserFollowingText"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/textFollowing"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="10dp"
+
+                    android:layout_marginStart="23dp"
+                    android:layout_toEndOf="@+id/bullMagicTargetUserFollowingText"/>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bullMagicTargetUserRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/bullMagicUserHeader"/>
+
+        <TextView
+            android:id="@+id/bullMagicTargetUserPhotosStatusText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textNoImages"
+            android:textSize="18sp"
+            android:textAlignment="center"
+
+            android:layout_alignTop="@+id/bullMagicTargetUserRecyclerView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

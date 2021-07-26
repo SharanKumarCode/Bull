@@ -19,6 +19,7 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.adapters.ShopRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentShopListBinding
+import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
 import com.bullSaloon.bull.genericClasses.dataClasses.ShopDataPreviewClass
 import com.google.firebase.firestore.ktx.firestore
@@ -70,8 +71,6 @@ class ShopListFragment : Fragment() {
 
         animate.start()
 
-        //Get shop list data from firestore
-        Log.i("TAGLifecycle","data being fetched: onViewCreated")
         generateDataFirestore()
     }
 
@@ -81,17 +80,12 @@ class ShopListFragment : Fragment() {
         val recyclerState = binding.recyclerView.layoutManager?.onSaveInstanceState()
 
         recyclerBundle?.putParcelable("recyclerState", recyclerState)
-
-        Log.i("TAGLifecycle","Shop List Recycler View is Paused : ${recyclerState?.describeContents()}")
     }
 
     override fun onResume() {
         super.onResume()
 
-        Log.i("TAGLifecycle","Shop List Recycler View is checked")
-
         if(view != null){
-            Log.i("TAGLifecycle","Shop List Recycler View is resumed")
             dataViewModel.getShopDataList().observe(viewLifecycleOwner, { result ->
                 binding.recyclerView.adapter = ShopRecyclerViewAdapter(result, dataViewModel,this)
                 binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerBundle?.getParcelable("recyclerState"))
@@ -106,28 +100,28 @@ class ShopListFragment : Fragment() {
 
     private fun generateDataFirestore(){
 
-        Log.i("TAGLifecycle","Firestore data is being fetched")
-
         val db = Firebase.firestore
         val shopLists = mutableListOf<ShopDataPreviewClass>()
         dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
-        db.collection("shops_data")
+        db.collection("Saloons")
             .get()
             .addOnCompleteListener{
                 for (document in it.result!!){
 
-                    val shopID: Number? = document.getLong("shop_id")
-                    val shopName: String? = document.getString("Shop_Name")
+                    val saloonID: String? = document.getString("saloon_id")
+                    val saloonName: String? = document.getString("saloon_name")
                     val areaName: String? = document.getString("area")
-                    val rating: Long? = document.getLong("Rating")
-                    val imageSource:String? = document.getString("Image")
-                    val gender: String? = document.getString("Gender")
-                    val openStatus: Boolean? = document.getBoolean("Open")
-                    val contact: String? = document.getString("Contact")
-                    val shopAddress: String? = document.getString("Address")
+                    val rating: Long? = document.getLong("rating")
+                    val openStatus: Boolean? = document.getBoolean("open_status")
+                    val contact: String? = document.getString("contact")
+                    val saloonAddress: String? = document.getString("address")
+                    val haircutPrice: Number? = document.getLong("cutting_shaving_price")
 
-                    shopLists.add(ShopDataPreviewClass(shopID, shopName,areaName, rating,imageSource,gender,openStatus, contact, shopAddress))
+                    val saloonNameUnderScore = saloonName?.replace("\\s".toRegex(),"_")
+                    val imageUrl = "Saloon_Images/$saloonID/${saloonNameUnderScore}_displayPicture.jpg"
+
+                    shopLists.add(ShopDataPreviewClass(saloonID, saloonName,areaName, rating,imageUrl ,openStatus, contact, saloonAddress, haircutPrice))
 
                     animate.stop()
                     animate.clearAnimationCallbacks()

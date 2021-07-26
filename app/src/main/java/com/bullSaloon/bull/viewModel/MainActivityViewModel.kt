@@ -6,27 +6,29 @@ import com.bullSaloon.bull.genericClasses.dataClasses.ShopDataPreviewClass
 
 class MainActivityViewModel: ViewModel() {
 
-    private var shopDataList = MutableLiveData<MutableList<ShopDataPreviewClass>>()
-    private var shopData = MutableLiveData<ShopDataPreviewClass>()
+    private var saloonDataList = MutableLiveData<MutableList<ShopDataPreviewClass>>()
+    private var saloonData = MutableLiveData<ShopDataPreviewClass>()
 
     fun assignShopData(shop: MutableList<ShopDataPreviewClass>){
-        shopDataList.value = shop
+        saloonDataList.value = shop
     }
 
     fun getShopDataList(): MutableLiveData<MutableList<ShopDataPreviewClass>>{
-        return shopDataList
+        return saloonDataList
     }
 
-    fun putShopData(id: Number?){
-        for (d in shopDataList.value!!){
-            if (d.shopID == id){
-                shopData.value = d
+    fun putShopData(id: String?){
+        for (d in saloonDataList.value!!){
+            if (d.saloonID == id){
+                saloonData.value = d
             }
         }
     }
 
     fun getShopData():MutableLiveData<ShopDataPreviewClass>{
-        return shopData
+        return saloonData
     }
+
+
 
 }

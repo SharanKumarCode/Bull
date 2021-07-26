@@ -39,6 +39,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.FragmentCameraBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
@@ -122,7 +123,7 @@ class CameraFragment : Fragment() {
 //        Request camera permissions
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
-                activity?.parent!!, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+                requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
 
@@ -261,7 +262,7 @@ class CameraFragment : Fragment() {
             deleteImageFile()
             val navHostFragment = this.parentFragmentManager.findFragmentById(R.id.fragment)
 
-            navHostFragment?.findNavController()?.navigate(R.id.bullMagicListFragment)
+            navHostFragment?.findNavController()?.navigate(R.id.action_cameraFragment_to_bullMagicFragment)
         }
 
         binding.uploadFromGalleryButton.setOnClickListener {
@@ -472,11 +473,12 @@ class CameraFragment : Fragment() {
             if (ACTIVITY_FLAG == "profilePicture"){
                 deleteImageFile()
 
+                (activity as MainActivity).updateProfilePicOutsideMain()
+
                 val navHostFragment = this.parentFragment?.childFragmentManager?.findFragmentById(R.id.fragment)
                 val navController = navHostFragment?.findNavController()
                 navController?.navigate(R.id.action_cameraFragment_to_yourProfileFragment)
 
-                SingletonUserData.updateUserData(requireContext())
             } else {
                 updateFirestoreUserData(imagePathFirestore, dateFormat)
             }

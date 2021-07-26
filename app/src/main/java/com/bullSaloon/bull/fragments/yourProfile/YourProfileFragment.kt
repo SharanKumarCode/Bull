@@ -1,6 +1,8 @@
 package com.bullSaloon.bull.fragments.yourProfile
 
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.graphics.BitmapFactory
 import android.graphics.drawable.InsetDrawable
 import android.os.Build
 import android.os.Bundle
@@ -11,21 +13,30 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.adapters.DialogFollowersRecyclerViewAdapter
 import com.bullSaloon.bull.adapters.YourProfileViewPagerAdapter
 import com.bullSaloon.bull.databinding.FragmentYourProfileBinding
-import com.bullSaloon.bull.fragments.CameraFragment
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.UserDataClass
+import com.bullSaloon.bull.viewModel.UserDataViewModel
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
@@ -38,6 +49,8 @@ class YourProfileFragment : Fragment() {
     private lateinit var data: UserDataClass
 
     private lateinit var storage: FirebaseStorage
+    private val db = Firebase.firestore
+    private val auth = Firebase.auth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +82,17 @@ class YourProfileFragment : Fragment() {
             showPopUp(it)
         }
 
+        binding.YourProfileFollowersLayout.setOnClickListener {
+            setUpDialogBoxFollow("Followers")
+        }
+
+        binding.YourProfileFollowingLayout.setOnClickListener {
+            setUpDialogBoxFollow("Following")
+        }
+
         setProfilePhoto()
+
+        setFollowCount()
 
         val viewPagerAdapter = YourProfileViewPagerAdapter(this)
         binding.ViewPagerYourProfile.adapter = viewPagerAdapter
@@ -113,9 +136,6 @@ class YourProfileFragment : Fragment() {
                 viewPagerAdapter.notifyDataSetChanged()
             }
         })
-
-
-
     }
 
     override fun onResume() {
@@ -171,26 +191,28 @@ class YourProfileFragment : Fragment() {
 
     private fun setProfilePhoto(){
 
-        if (SingletonUserData.userData.profilePicBitmap != null){
+        val dataVieModel = ViewModelProvider(requireActivity()).get(UserDataViewModel::class.java)
+
+        dataVieModel.getProfilePic().observe(viewLifecycleOwner,{
+
+            var data = it
+
+            if (it == null){
+                data = BitmapFactory.decodeResource(this.resources, R.drawable.ic_baseline_person_24)
+            }
+
+            Log.i("TAGProfile", "user profile updated fragment : ${data}")
 
             GlideApp.with(this)
-                .load(SingletonUserData.userData.profilePicBitmap)
+                .load(data)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .placeholder(R.drawable.ic_baseline_person_24)
+                .fallback(R.drawable.ic_baseline_person_24)
                 .into(binding.userPhotoYourProfileTextView)
 
-            Log.i("TAGProfile","User profile updated: ${SingletonUserData.userData.profilePicBitmap.toString()}")
-
-        } else {
-
-            GlideApp.with(this)
-                .load(R.drawable.ic_baseline_person_24)
-                .centerCrop()
-                .placeholder(R.drawable.ic_baseline_person_24)
-                .into(binding.userPhotoYourProfileTextView)
-        }
+        })
     }
 
     private fun removePhoto(){
@@ -203,12 +225,77 @@ class YourProfileFragment : Fragment() {
         imageRef.delete()
             .addOnSuccessListener {
                 Log.i("TAG","profile pic is deleted")
-                Toast.makeText(context,"Profile Picture is deleted",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Profile Picture is deleted. Restart App to Update Profile Pic",Toast.LENGTH_SHORT).show()
+                (activity as MainActivity).updateProfilePicOutsideMain()
                 setProfilePhoto()
             }
             .addOnFailureListener {
                 Log.i("TAG","Error : ${it.message}")
                 Toast.makeText(context,"Error occurred. Please try again after sometime or check your internet connection",Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun setFollowCount(){
+        db.collection("Users")
+            .document(auth.currentUser?.uid!!)
+            .addSnapshotListener { value, error ->
+                if (error == null){
+                    if (value?.exists()!!){
+                        val following = if (value.get("following") != null) value.get("following") as  ArrayList<String> else arrayListOf()
+                        val followingCount = following.size
+
+                        val followers = if (value.get("followers") != null) value.get("followers") as  ArrayList<String> else arrayListOf()
+                        val followerCount = followers.size
+
+                        binding.YourProfileFollowersText.text = followerCount.toString()
+                        binding.YourProfileFollowingText.text = followingCount.toString()
+                    }
+                } else {
+                    Log.i("TAG", "Error in getting follow count: $error")
+                }
+            }
+    }
+
+    private fun setUpDialogBoxFollow(_dataType: String){
+
+        var userLists: MutableList<String>
+        val db = Firebase.firestore
+        val auth = Firebase.auth
+        var dataType = ""
+
+        val dialog = Dialog(this.requireContext())
+        dialog.setContentView(R.layout.dialog_box_followers_list)
+        val closeButton = dialog.findViewById<ImageView>(R.id.dialogFollowPopCloseButton)
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.dialogFollowPopUpRecycler)
+        val title = dialog.findViewById<TextView>(R.id.dialogFollowPopUpText)
+
+        title.text = _dataType
+
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        dialog.show()
+
+        dataType = if (_dataType == "Followers"){
+            "followers"
+        } else {
+            "following"
+        }
+
+        db.collection("Users")
+            .document(auth.currentUser?.uid!!)
+            .get()
+            .addOnSuccessListener {
+                if (it.exists()){
+                    val followList = if (it.get(dataType) !=  null) it.get(dataType)  as ArrayList<String> else arrayListOf()
+                    userLists = followList
+
+                    recyclerView.adapter = DialogFollowersRecyclerViewAdapter(userLists, this)
+                }
+            }
+            .addOnFailureListener { e->
+                Log.i("TAG", "Error in retrieving follow data : ${e.message}")
             }
     }
 }

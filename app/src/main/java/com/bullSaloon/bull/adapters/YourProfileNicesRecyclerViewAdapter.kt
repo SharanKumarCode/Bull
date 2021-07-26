@@ -1,32 +1,32 @@
 package com.bullSaloon.bull.adapters
 
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.Manifest
 import android.os.Build
-import android.util.Log
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.camera.core.CameraSelector
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.ViewHolderYourProfileNicesItemBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.MyNicesData
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>):
+class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>, _fragment: Fragment):
     RecyclerView.Adapter<YourProfileNicesRecyclerViewAdapter.YourProfileNicesRecyclerViewHolder>() {
 
     private var nicesList = list
+    private val fragment = _fragment
 
     inner class YourProfileNicesRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val binding: ViewHolderYourProfileNicesItemBinding = ViewHolderYourProfileNicesItemBinding.bind(itemView)
@@ -58,10 +58,28 @@ class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>):
         holBinding.niceTimeStampTextView.text = holBinding.root.resources.getString(R.string.textBullMagicImageDate,dateFormatted.dayOfMonth,month,dateFormatted.year)
 
 //         set Target User Profile Pic
-        setTargetUserProfile(holBinding, nicesList[position].targetUserProfilePicRef)
+        setTargetUserProfilePic(holBinding, nicesList[position].targetUserProfilePicRef)
 
 //         set Target Image
         setTargetImage(holBinding, nicesList[position].targetImageRef)
+
+//        launch bullMagicItem
+        holBinding.targetNiceImage.setOnClickListener {
+            launchBullMagicItemFragment(
+                nicesList[position].targetUserID,
+                nicesList[position].targetPhotoID,
+                nicesList[position].targetImageRef,
+                FRAGMENT_FLAG.BullMagicItem)
+        }
+
+//        launch bullMagicTargetUser
+        holBinding.targetUserNameTextView.setOnClickListener {
+            launchBullMagicItemFragment(
+                nicesList[position].targetUserID,
+                nicesList[position].targetPhotoID,
+                nicesList[position].targetImageRef,
+                FRAGMENT_FLAG.BullMagicTargetUser)
+        }
 
     }
 
@@ -69,7 +87,7 @@ class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>):
         return nicesList.size
     }
 
-    private fun setTargetUserProfile(binding: ViewHolderYourProfileNicesItemBinding, profilePicRef: String){
+    private fun setTargetUserProfilePic(binding: ViewHolderYourProfileNicesItemBinding, profilePicRef: String){
 
         val imageRef = Firebase.storage.reference.child(profilePicRef)
 
@@ -88,7 +106,36 @@ class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>):
         GlideApp.with(binding.root.context)
             .asBitmap()
             .load(imageRef)
+            .apply(RequestOptions.centerCropTransform())
             .placeholder(R.drawable.ic_bull)
             .into(binding.targetNiceImage)
+    }
+
+    private fun launchBullMagicItemFragment(userID:String, photoID: String, imageRef:String, fragmentFlag: String){
+
+        val navHost = fragment.parentFragment?.activity?.supportFragmentManager?.findFragmentById(R.id.fragment)
+        val navController = navHost?.findNavController()
+
+        val args = Bundle()
+
+        val mapData = hashMapOf(
+            "user_id" to userID,
+            "photo_id" to photoID,
+            "imageRef" to imageRef,
+            "clickedComments" to "false",
+            "fragment_flag" to fragmentFlag
+        )
+
+        args.putSerializable("userImageData", mapData)
+
+        navController?.navigate(R.id.action_yourProfileFragment_to_bullMagicFragment, args)
+    }
+
+    companion object {
+
+        private object FRAGMENT_FLAG {
+            const val BullMagicItem = "BullMagicItem"
+            const val BullMagicTargetUser = "BullMagicTargetUser"
+        }
     }
 }

@@ -5,16 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true"
     tools:context=".fragments.yourProfile.YourProfileFragment">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/yourProfileHeader"
             android:layout_width="match_parent"
-            android:layout_height="160dp">
+            android:layout_height="160dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/userPhotoYourProfileTextView"
@@ -30,46 +36,130 @@
                 android:id="@+id/userNameYourProfileTextView"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:text="Sharan Kumar"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="@color/white"
                 android:layout_alignTop="@+id/userPhotoYourProfileTextView"
-                android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="30dp"/>
+                android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
+                android:text="Sharan Kumar"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/mobileNumberYourProfileTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+919941677517"
-                android:textSize="14sp"
                 android:layout_below="@+id/userNameYourProfileTextView"
-                android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
                 android:layout_alignStart="@+id/userNameYourProfileTextView"
                 android:layout_marginTop="10dp"
-                />
+                android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
+                android:text="+919941677517"
+                android:textSize="14sp" />
 
             <ImageView
-                android:contentDescription="@string/contentDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_bull_nav_header_white"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/contentDescription"
+                android:src="@drawable/ic_bull_nav_header_white" />
 
             <ImageView
-                android:contentDescription="@string/contentDescriptionEditProfilePic"
                 android:id="@+id/userImageEditButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_edit_24"
-
-                android:layout_marginTop="10dp"
                 android:layout_below="@+id/userPhotoYourProfileTextView"
                 android:layout_alignStart="@+id/userPhotoYourProfileTextView"
-                android:layout_alignEnd="@+id/userPhotoYourProfileTextView"/>
+
+                android:layout_alignEnd="@+id/userPhotoYourProfileTextView"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/contentDescriptionEditProfilePic"
+                android:src="@drawable/ic_baseline_edit_24" />
+
+            <RelativeLayout
+                android:id="@+id/YourProfileFollowersLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mobileNumberYourProfileTextView"
+
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/userImageEditButton">
+
+                <TextView
+                    android:id="@+id/YourProfileFollowersText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+
+                    android:gravity="center"
+                    android:text="@string/placeHolderNumber"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_toEndOf="@+id/YourProfileFollowersText"
+                    android:background="@color/teal_200" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@+id/YourProfileFollowersText"
+                    android:gravity="center"
+
+                    android:text="@string/textFollowers"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/YourProfileFollowingLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignTop="@+id/YourProfileFollowersLayout"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/YourProfileFollowersLayout">
+
+                <TextView
+                    android:id="@+id/YourProfileFollowingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+
+                    android:gravity="center"
+                    android:text="@string/placeHolderNumber"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_toEndOf="@+id/YourProfileFollowingText"
+                    android:background="@color/teal_200" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@+id/YourProfileFollowingText"
+                    android:gravity="center"
+                    android:text="@string/textFollowing"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -79,14 +169,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:tabTextAppearance="@style/MineCustomTabText"
 
-            android:layout_below="@+id/yourProfileHeader"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/yourProfileHeader"
+
+            app:layout_constraintVertical_bias="0.0"
             app:tabBackground="@color/mainActivityBg"
-
-            app:tabIndicatorColor="@color/teal_700"
             app:tabIconTint="@color/teal_700"
+            app:tabIndicatorColor="@color/teal_700"
             app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/MineCustomTabText"
             app:tabTextColor="#CCCCCC">
 
         </com.google.android.material.tabs.TabLayout>
@@ -95,9 +189,13 @@
             android:id="@+id/ViewPagerYourProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tabInputYourProfile"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabInputYourProfile"
+            app:layout_constraintVertical_bias="0.01999998" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
 

@@ -5,8 +5,14 @@
     <string name="hintSearchEdit">Search for shops</string>
     <string name="hintEnterMobileNumber">Enter Mobile Number</string>
     <string name="hintEnterName">Enter Name</string>
+    <string name="hintEnterSaloonName">Enter Saloon Name (Optional)</string>
+    <string name="hintCaption">Caption (Optional)</string>
+    <string name="hintComment">Enter comment..</string>
     <string name="placeHolderAreaName">Gandhipuram</string>
     <string name="placeHolderOpenStatus">Open</string>
+    <string name="placeHolderNoNices">No Nices yet..</string>
+    <string name="placeHolderUserName">Sharan Kumar</string>
+    <string name="placeHolderNumber">5</string>
     <string name="textViewSaloonName">Shop Name</string>
     <string name="textResendOtp">Resending OTP in %1$d secs</string>
     <string name="textAlreadyHaveAccount">Already have an account?</string>
@@ -14,10 +20,17 @@
     <string name="textUploading">Uploading...</string>
     <string name="textProgressIndicator">%1$s</string>
     <string name="textBullMagicImageDate">%1$d %2$s %3$d</string>
+    <string name="textTabNices">Nices</string>
+    <string name="textTabReviews">Reviews</string>
+    <string name="textTabComments">Comments</string>
+    <string name="textTabPhotos">Photos</string>
+    <string name="textImageCaption">New Style. New Look. New Me</string>
+    <string name="textMenuItemStyles">Styles</string>
+    <string name="textNoImages">No Photos yet..</string>
+    <string name="textFollowers">Followers</string>
+    <string name="textFollowing">Following</string>
+    <string name="textNoComments">No Comments yet..</string>
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
-
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--    Button/ImageViewButton Texts-->
     <string name="buttonSearch">search button</string>
@@ -32,8 +45,13 @@
     <string name="buttonResendOtp">Resend OTP</string>
     <string name="buttonGenerateOtp">Generate OTP</string>
     <string name="buttonVerifyOtp">Verify OTP</string>
+    <string name="buttonSkip">Skip</string>
+    <string name="buttonOK">OK</string>
+    <string name="buttonFollow">Follow</string>
+    <string name="buttonUnFollow">Un-Follow</string>
 
     <!--    Content Description Texts-->
+    <string name="contentDescription">Bull Logo</string>
     <string name="contentDescriptionRating">rating</string>
     <string name="contentDescriptionGender">gender</string>
     <string name="contentDescriptionSplashScreenLogo">splashScreenLogo</string>
@@ -42,6 +60,12 @@
     <string name="contentDescriptionMapButton">mapButton</string>
     <string name="contentDescriptionBullImageList">downloaded user image</string>
     <string name="contentDescriptionNiceStatus">Nice Status</string>
+    <string name="contentDescriptionEditProfilePic">Edit Profile Picture</string>
+    <string name="contentDescriptionFlipCamera">Flip Camera</string>
+    <string name="contentDescriptionUploadFromGallery">Upload from gallery button</string>
+    <string name="contentDescriptionLoadingIcon">Loading icon</string>
+    <string name="contentDescriptionBackButton">Back button</string>
+    <string name="contentDescriptionCameraFab">Camera FAB</string>
 
     <!--    Menu items title-->
     <string name="menuItemTitleAbout">About</string>
@@ -51,31 +75,17 @@
     <string name="menuItemBullMagic">Bull-Magic</string>
     <string name="menuItemSettings">Settings</string>
     <string name="menuItemSaloonOwner">Saloon Owner</string>
-
-
-    <string name="textImageCaption">New Style. New Look. New Me</string>
-    <string name="hintEnterSaloonName">Enter Saloon Name (Optional)</string>
-    <string name="hintCaption">Caption (Optional)</string>
-    <string name="buttonSkip">Skip</string>
-    <string name="buttonOK">OK</string>
-    <string name="textTabNices">Nices</string>
-    <string name="textTabReviews">Reviews</string>
-    <string name="textTabComments">Comments</string>
-    <string name="textTabPhotos">Photos</string>
-    <string name="contentDescription">Bull Logo</string>
+    <string name="menuItemHome">Home</string>
+    <string name="menuItemProfile">Profile</string>
     <string name="popUpMenuItemTakePicture">Take Picture</string>
     <string name="popUpMenuItemGallery">Upload from Images</string>
     <string name="popUpMenuItemRemovePhoto">Remove Photo</string>
-    <string name="contentDescriptionEditProfilePic">Edit Profile Picture</string>
-    <string name="menuItemHome">Home</string>
-    <string name="contentDescriptionFlipCamera">Flip Camera</string>
-    <string name="contentDescriptionUploadFromGallery">Upload from gallery button</string>
-    <string name="contentDescriptionLoadingIcon">Loading icon</string>
-    <string name="contentDescriptionBackButton">Back button</string>
-    <string name="textMenuItemStyles">Styles</string>
-    <string name="menuItemProfile">Profile</string>
-    <string name="contentDescriptionCameraFab">Camera FAB</string>
-    <string name="placeHolderNoNices">No Nices yet..</string>
 
+    <string name="hello_blank_fragment">hello_blank_fragment</string>
+    <string name="textHaircut">Haircut</string>
+    <string name="textHaircutPrice" formatted="true">\u20B9 %s</string>
+    <string name="textShaving">Shaving</string>
+    <string name="textShavingPrice" >\u20B9 100</string>
+    <string name="textSaloonDistance">3.4 kms</string>
 
 </resources>

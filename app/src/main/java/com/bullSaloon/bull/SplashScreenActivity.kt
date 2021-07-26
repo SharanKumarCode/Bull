@@ -32,7 +32,7 @@ class SplashScreenActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-        //assigning Basic user data (user_id, user_name, mobile_number) to UserData View Model to be used in all app
+//        assigning Basic user data (user_id, user_name, mobile_number) to UserData View Model to be used in all app
 
         auth = Firebase.auth
 
