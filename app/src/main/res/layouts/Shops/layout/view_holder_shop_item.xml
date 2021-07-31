@@ -99,7 +99,7 @@
                 android:id="@+id/saloonHaircutPriceText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/saloonNameTextView"
+                android:layout_below="@+id/areaNameTextView"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"
                 android:text="@string/textHaircutPrice"
@@ -112,8 +112,8 @@
                 android:layout_below="@+id/saloonShavingPriceText"
                 android:layout_alignTop="@+id/saloonShavingPriceText"
                 android:layout_alignBottom="@+id/saloonShavingPriceText"
-                android:layout_marginEnd="31dp"
                 android:layout_toStartOf="@+id/saloonShavingPriceText"
+                android:layout_marginEnd="31dp"
 
                 android:text="@string/textShaving"
                 android:textSize="16sp" />
@@ -121,23 +121,26 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
+
                 android:layout_alignTop="@+id/saloonShavingPriceText"
                 android:layout_alignBottom="@+id/saloonShavingPriceText"
-                android:layout_marginEnd="15dp"
                 android:layout_toStartOf="@+id/saloonShavingPriceText"
+                android:layout_marginEnd="15dp"
+
                 android:background="@color/teal_200" />
 
             <TextView
                 android:id="@+id/saloonShavingPriceText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/saloonHaircutPriceText"
 
+                android:layout_below="@+id/saloonHaircutPriceText"
                 android:layout_alignParentEnd="true"
                 android:layout_alignStart="@+id/saloonHaircutPriceText"
-                android:layout_marginTop="15dp"
 
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
+
                 android:text="@string/textShavingPrice"
                 android:textSize="16sp" />
 

@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -54,7 +56,15 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _f
         holderBinding.BullMagicShopName.text = if (bullMagicLists[position].saloonName != "") "@" + bullMagicLists[position].saloonName else ""
 
         //set caption name
-        holderBinding.BullMagicImageCaptionText.text = bullMagicLists[position].caption
+
+        if (bullMagicLists[position].caption == ""){
+            holderBinding.BullMagicImageCaptionText.visibility = View.GONE
+        } else {
+            holderBinding.BullMagicImageCaptionText.visibility = View.VISIBLE
+            holderBinding.BullMagicImageCaptionText.text = URLDecoder.decode(bullMagicLists[position].caption, "UTF-8")
+        }
+
+        holderBinding.bullMagicItemContainer.animation = AnimationUtils.loadAnimation(holderBinding.root.context, R.anim.animation_two)
 
         //set date
         val date = bullMagicLists[position].timeStamp.substring(0,10)

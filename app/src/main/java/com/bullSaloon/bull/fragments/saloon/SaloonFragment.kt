@@ -9,8 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.adapters.YourProfileViewPagerAdapter
 import com.bullSaloon.bull.databinding.FragmentSaloonBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class SaloonFragment : Fragment() {

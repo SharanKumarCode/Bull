@@ -30,7 +30,7 @@ object SingletonUserData {
     private lateinit var imageUrl: String
     private lateinit var userName: String
     private lateinit var mobileNumber: String
-    private lateinit var scrollState: Bundle
+    private var scrollState = Bundle()
 
     private val storage = Firebase.storage
     private val auth = Firebase.auth
@@ -144,13 +144,19 @@ object SingletonUserData {
             mediaDir else context.filesDir
     }
 
-    fun updateScrollState(state: Bundle){
-        scrollState = state
+    fun updateScrollState(key: String, state: Parcelable){
+        scrollState.putParcelable(key, state)
+        Log.i("TAG", "SIngletonUser scroll key : $key")
+        Log.i("TAG", "SIngletonUser scroll state : $state")
+        Log.i("TAG", "SIngletonUser scroll Bundle : $scrollState")
     }
 
-    fun getScrollState(): Bundle?{
-        return if (this::scrollState.isInitialized){
-            scrollState
+    fun getScrollState(key: String): Parcelable?{
+        return if (!scrollState.isEmpty && scrollState.get(key) != null){
+            Log.i("TAG", "SIngletonUser get scroll key : $key")
+            Log.i("TAG", "SIngletonUser get scroll state : ${scrollState.get(key)}")
+            Log.i("TAG", "SIngletonUser get scroll Bundle : $scrollState")
+            scrollState.get(key) as Parcelable
         } else null
     }
 

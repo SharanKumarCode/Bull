@@ -26,6 +26,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.adapters.DialogFollowersRecyclerViewAdapter
+import com.bullSaloon.bull.adapters.SaloonItemViewPagerAdapter
 import com.bullSaloon.bull.adapters.YourProfileViewPagerAdapter
 import com.bullSaloon.bull.databinding.FragmentYourProfileBinding
 import com.bullSaloon.bull.genericClasses.GlideApp

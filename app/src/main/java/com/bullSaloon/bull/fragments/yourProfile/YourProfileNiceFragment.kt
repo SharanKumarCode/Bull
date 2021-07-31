@@ -24,7 +24,6 @@ class YourProfileNiceFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var dataViewModel: YourProfileViewModel
     private var nicesList = mutableListOf<MyNicesData>()
-    private var stateBundle = Bundle()
 
     private val TAG = "YourProfileNiceFragment"
 
@@ -43,33 +42,22 @@ class YourProfileNiceFragment : Fragment() {
 
         binding.yourProfileNiceRecyclerView.layoutManager = LinearLayoutManager(activity)
 
+        //restore scroll state
+        val scrollState = SingletonUserData.getScrollState("YourProfileNiceRecycler")
+
+        if (scrollState != null){
+            Log.i("TAG", "onPause nice fragment scroll state not null")
+            binding.yourProfileNiceRecyclerView.layoutManager?.onRestoreInstanceState(scrollState)
+        }
+
     }
 
     override fun onPause() {
         super.onPause()
 
-        val sam = binding.yourProfileNiceRecyclerView.layoutManager?.onSaveInstanceState()
-        stateBundle.putParcelable("scroll_state", sam)
-
-        SingletonUserData.updateScrollState(stateBundle)
-
-        Log.i("TAGRec", "Recycler view scroll state parcel on Pause Nice Fragment : $sam")
-        Log.i("TAGRec", "Recycler view scroll state bundle on Pause Nice Fragment : $stateBundle")
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if (SingletonUserData.getScrollState()?.isEmpty != true){
-            val sam = SingletonUserData.getScrollState()?.get("scroll_state") as Parcelable?
-            Log.i("TAGRec", "Recycler view scroll state parcel on Resume Nice Fragment : $sam")
-            Log.i("TAGRec", "Recycler view scroll state bundle on Resume Nice Fragment : $stateBundle")
-
-            binding.yourProfileNiceRecyclerView.layoutManager?.onRestoreInstanceState(sam)
-        }
-
-        Log.i("TAGRec", "Recycler view scroll state parcel on Resume")
+        Log.i("TAG", "onPause nice fragment")
+        val recyclerState = binding.yourProfileNiceRecyclerView.layoutManager?.onSaveInstanceState()!!
+        SingletonUserData.updateScrollState("YourProfileNiceRecycler",recyclerState)
     }
 
     private fun getNiceDataFromFireStore(){

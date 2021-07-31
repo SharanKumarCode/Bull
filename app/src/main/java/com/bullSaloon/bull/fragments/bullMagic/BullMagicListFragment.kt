@@ -3,6 +3,7 @@ package com.bullSaloon.bull.fragments.bullMagic
 
 import android.os.Bundle
 import android.transition.TransitionInflater
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.adapters.BullMagicListRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentBullMagicListBinding
+import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.BullMagicListData
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.ktx.auth
@@ -45,6 +47,21 @@ class BullMagicListFragment : Fragment() {
         getFirebaseData()
 
         binding.recyclerViewBullMagicList.layoutManager = LinearLayoutManager(activity)
+
+        //restore scroll state
+        val scrollState = SingletonUserData.getScrollState("BullMagicListRecycler")
+
+        if (scrollState != null){
+            binding.recyclerViewBullMagicList.layoutManager?.onRestoreInstanceState(scrollState)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        Log.i("TAG", "onPause bull magic list fragment")
+        val recyclerState = binding.recyclerViewBullMagicList.layoutManager?.onSaveInstanceState()!!
+        SingletonUserData.updateScrollState("BullMagicListRecycler",recyclerState)
     }
 
     override fun onDestroyView() {

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.lang.Error
 
-class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataViewModel: MainActivityViewModel, _fragment: Fragment): RecyclerView.Adapter<ShopRecyclerViewAdapter.ShopRecyclerViewHolder>() {
+class SaloonListRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataViewModel: MainActivityViewModel, _fragment: Fragment): RecyclerView.Adapter<SaloonListRecyclerViewAdapter.ShopRecyclerViewHolder>() {
 
     private val saloonList = lists
     private val dataModel = dataViewModel
@@ -45,15 +46,18 @@ class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataView
             holderBinding.openStatusTextView.setTextColor(context.getColor(R.color.closeStatusColor))
         }
 
-        when(saloonList[position].rating?.toInt()){
+        when(saloonList[position].rating){
             1 -> setRatingPic(holderBinding, R.drawable.ic_rating_one_stars)
             2 -> setRatingPic(holderBinding, R.drawable.ic_rating_two_stars)
             3 -> setRatingPic(holderBinding, R.drawable.ic_rating_three_stars)
             4 -> setRatingPic(holderBinding, R.drawable.ic_rating_four_stars)
             5 -> setRatingPic(holderBinding, R.drawable.ic_rating_five_stars)
+            else -> setRatingPic(holderBinding, R.drawable.ic_rating_one_stars)
         }
 
         holderBinding.saloonHaircutPriceText.text = String.format(holderBinding.root.context.resources.getString(R.string.textHaircutPrice), saloonList[position].haircutPrice)
+
+        holder.binding.cardView.animation = AnimationUtils.loadAnimation(holder.binding.root.context, R.anim.animation)
 
         holder.itemView.setOnClickListener {
 
@@ -86,7 +90,7 @@ class ShopRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataView
             .asBitmap()
             .load(imageRef)
             .centerCrop()
-            .placeholder(R.drawable.ic_baseline_person_black_40)
+            .placeholder(R.drawable.ic_bull)
             .into(binding.saloonDisplayImageView)
     }
 

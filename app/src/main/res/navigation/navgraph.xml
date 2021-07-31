@@ -60,18 +60,18 @@
         app:startDestination="@id/shopListFragment">
         <fragment
             android:id="@+id/shopListFragment"
-            android:name="com.bullSaloon.bull.fragments.saloon.ShopListFragment"
+            android:name="com.bullSaloon.bull.fragments.saloon.SaloonListFragment"
             android:label="fragment_shop_list"
-            tools:layout="@layout/fragment_shop_list">
+            tools:layout="@layout/fragment_saloon_list">
             <action
                 android:id="@+id/action_shopListFragment_to_shopItemFragment"
                 app:destination="@id/shopItemFragment"/>
         </fragment>
         <fragment
             android:id="@+id/shopItemFragment"
-            android:name="com.bullSaloon.bull.fragments.saloon.ShopItemFragment"
+            android:name="com.bullSaloon.bull.fragments.saloon.SaloonItemFragment"
             android:label="fragment_shop_item"
-            tools:layout="@layout/fragment_shop_item" >
+            tools:layout="@layout/fragment_saloon_item" >
             <action
                 android:id="@+id/action_shopItemFragment_to_shopListFragment"
                 app:destination="@id/shopListFragment" />

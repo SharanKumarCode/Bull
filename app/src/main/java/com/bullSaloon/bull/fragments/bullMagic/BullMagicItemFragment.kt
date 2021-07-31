@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -149,7 +150,13 @@ class BullMagicItemFragment : Fragment() {
                     binding.bullMagicPhotoItemSaloonName.text = if (saloon != "") "@$saloon" else ""
 
                     //set caption
-                    binding.bullMagicPhotoItemCaption.text = caption
+                    if (caption == ""){
+                        binding.bullMagicPhotoItemCaption.visibility = View.GONE
+                    } else {
+                        binding.bullMagicPhotoItemCaption.visibility = View.VISIBLE
+                        binding.bullMagicPhotoItemCaption.text = URLDecoder.decode(caption, "UTF-8")
+                    }
+
 
                     setImageFromFirebase(dataImageRef)
 

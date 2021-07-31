@@ -25,6 +25,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import java.net.URLDecoder
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -64,7 +65,12 @@ class YourProfilePhotoItemFragment : Fragment() {
             binding.yourProfilePhotoItemSaloonName.text = data.saloonName
 
 //            set Caption
-            binding.yourProfilePhotoItemCaption.text = data.caption
+            if (data.caption == ""){
+                binding.yourProfilePhotoItemCaption.visibility = View.GONE
+            } else {
+                binding.yourProfilePhotoItemCaption.visibility = View.VISIBLE
+                binding.yourProfilePhotoItemCaption.text = URLDecoder.decode(data.caption, "UTF-8")
+            }
 
 //            set number of nices
             binding.NicesTextView.text = data.nices.toString()

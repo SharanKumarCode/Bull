@@ -21,11 +21,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.transition.TransitionInflater
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -57,6 +54,7 @@ import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Exception
+import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -223,11 +221,13 @@ class CameraFragment : Fragment() {
             if ((saloonLength in 6..19) || (captionLength in 2..49)){
 
                 saloonName = binding.saloonNameTextField.text.toString()
-                captionText = binding.captionTextField.text.toString()
+                val captionString = binding.captionTextField.text.toString()
+                captionText = URLEncoder.encode(captionString, "UTF-8")
+
                 binding.popUpImageDataLayout.visibility = View.GONE
 
-                val imm = getSystemService(this.requireContext(), INPUT_METHOD_SERVICE::class.java) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken, 0)
+                activity?.window?.setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                 binding.progressIndicatorCardView.visibility = View.VISIBLE
                 uploadImage()
@@ -624,7 +624,7 @@ class CameraFragment : Fragment() {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val LENS_FRONT = CameraSelector.LENS_FACING_FRONT
         private const val LENS_BACK = CameraSelector.LENS_FACING_BACK
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private object VIEW_VISIBILITY {
             const val INITIAL_INVISIBLE = "initial_invisible"
             const val UPLOAD_COMPLETE_VISIBILITY = "upload_complete_visibility"

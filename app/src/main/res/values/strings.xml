@@ -10,9 +10,11 @@
     <string name="hintComment">Enter comment..</string>
     <string name="placeHolderAreaName">Gandhipuram</string>
     <string name="placeHolderOpenStatus">Open</string>
+    <string name="placeHolderClosedStatus">Closed</string>
     <string name="placeHolderNoNices">No Nices yet..</string>
     <string name="placeHolderUserName">Sharan Kumar</string>
     <string name="placeHolderNumber">5</string>
+    <string name="placeHolderReview"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, </string>
     <string name="textViewSaloonName">Shop Name</string>
     <string name="textResendOtp">Resending OTP in %1$d secs</string>
     <string name="textAlreadyHaveAccount">Already have an account?</string>
@@ -27,9 +29,11 @@
     <string name="textImageCaption">New Style. New Look. New Me</string>
     <string name="textMenuItemStyles">Styles</string>
     <string name="textNoImages">No Photos yet..</string>
+    <string name="textNoComments">No Comments yet..</string>
+    <string name="textNoReviews">No Reviews yet.. Be the First to add a Review and Rating</string>
     <string name="textFollowers">Followers</string>
     <string name="textFollowing">Following</string>
-    <string name="textNoComments">No Comments yet..</string>
+
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
 
     <!--    Button/ImageViewButton Texts-->
@@ -85,7 +89,15 @@
     <string name="textHaircut">Haircut</string>
     <string name="textHaircutPrice" formatted="true">\u20B9 %s</string>
     <string name="textShaving">Shaving</string>
-    <string name="textShavingPrice" >\u20B9 100</string>
+    <string name="textShavingPrice">\u20B9 100</string>
     <string name="textSaloonDistance">3.4 kms</string>
+    <string name="textCall">Call</string>
+    <string name="textLocation">Location</string>
+    <string name="buttonAppointment">Apppointment</string>
+    <string name="textReviewCount">5</string>
+    <string name="buttonRate">Rate</string>
+    <string name="hintReview">Enter Review..</string>
+    <string name="buttonAddReviewAndRating">Add Rating / Add Review</string>
+    <string name="placeholderPricingLabel">Haircut</string>
 
 </resources>

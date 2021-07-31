@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="30dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_gravity="center_horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/saloonItemAnimatedRating"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_bias="0.110000014"
+        app:srcCompat="@drawable/avd_rating_two_stars" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/saloonItemDialogRatingSlider"
+        style="@style/Widget.MaterialComponents.Slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+
+        android:valueFrom="1.0"
+        android:valueTo="5.0"
+        android:stepSize="1.0"
+        android:value = "5.0"
+
+        app:trackColorActive= "@color/teal_200"
+        app:trackColorInactive= "@color/black"
+        app:tickColorInactive= "@color/black"
+        app:tickColor = "@color/teal_200"
+        app:thumbColor = "@color/teal_700"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saloonItemAnimatedRating"
+        app:layout_constraintVertical_bias="0.13" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/saloonItemDialogCloseButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+
+        android:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/saloonItemDialogRateButton"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saloonItemDialogRatingSlider"
+
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/ic_baseline_close_black_40" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/saloonItemDialogRateButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/white"
+        android:text="@string/buttonRate"
+
+        android:textColor="@color/black"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toEndOf="@+id/saloonItemDialogCloseButton"
+        app:layout_constraintTop_toBottomOf="@+id/saloonItemDialogRatingSlider" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

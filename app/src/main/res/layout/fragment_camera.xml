@@ -245,6 +245,7 @@
             app:errorEnabled="true"
             app:counterTextColor="@color/black"
             app:counterTextAppearance="@style/counterText"
+            app:hintEnabled="false"
             app:hintTextAppearance="@style/HintText">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -272,6 +273,7 @@
             app:errorEnabled="true"
             app:counterTextColor="@color/black"
             app:counterTextAppearance="@style/counterText"
+            app:hintEnabled="false"
             app:hintTextAppearance="@style/HintText">
 
             <com.google.android.material.textfield.TextInputEditText

@@ -1,9 +1,6 @@
 package com.bullSaloon.bull.adapters
 
-import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bullSaloon.bull.fragments.yourProfile.YourProfileCommentsFragment
 import com.bullSaloon.bull.fragments.yourProfile.YourProfileNiceFragment
