@@ -3,8 +3,9 @@ package com.bullSaloon.bull.fragments.saloon
 
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
-import android.os.Parcel
 import android.os.Parcelable
 import android.transition.TransitionInflater
 import android.util.Log
@@ -22,7 +23,11 @@ import com.bullSaloon.bull.adapters.SaloonListRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentSaloonListBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
-import com.bullSaloon.bull.genericClasses.dataClasses.ShopDataPreviewClass
+import com.bullSaloon.bull.genericClasses.dataClasses.SaloonDataClass
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -34,6 +39,9 @@ class SaloonListFragment : Fragment() {
     private lateinit var animate: AnimatedVectorDrawable
     private lateinit var dataViewModel: MainActivityViewModel
     private lateinit var recyclerState: Parcelable
+    private val shopLists = mutableListOf<SaloonDataClass>()
+    private var lastVisible: DocumentSnapshot? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +50,6 @@ class SaloonListFragment : Fragment() {
         enterTransition = inflaterTrans.inflateTransition(R.transition.slide_left_to_right)
         exitTransition = inflaterTrans.inflateTransition(R.transition.fade)
 
-        Log.i("TAG", "onCreate")
-
     }
 
     override fun onCreateView(
@@ -51,7 +57,6 @@ class SaloonListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        Log.i("TAG", "onCreateView")
         _binding = FragmentSaloonListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -68,7 +73,6 @@ class SaloonListFragment : Fragment() {
             binding.recyclerView.layoutManager?.onRestoreInstanceState(scrollState)
         }
 
-
         //starting loading icon
         binding.loadingIconListFragmentImageView.visibility = View.VISIBLE
         animate = binding.loadingIconListFragmentImageView.drawable as AnimatedVectorDrawable
@@ -83,30 +87,45 @@ class SaloonListFragment : Fragment() {
 
         animate.start()
 
-        Log.i("TAG", "onViewCreated")
-
         generateDataFirestore()
+
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (!binding.recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE){
+                    Log.i("TAGRecycle", "Scrolled to Bottom")
+                    generateDataFirestore()
+                }
+            }
+        })
     }
 
     override fun onPause() {
         super.onPause()
 
-        Log.i("TAG", "onPause")
         recyclerState = binding.recyclerView.layoutManager?.onSaveInstanceState()!!
         SingletonUserData.updateScrollState("SaloonListRecycler",recyclerState)
     }
 
     private fun generateDataFirestore(){
 
-        Log.i("TAG", "generateDataFirestore")
-
         val db = Firebase.firestore
-        val shopLists = mutableListOf<ShopDataPreviewClass>()
         dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
-        db.collection("Saloons")
-            .get()
-            .addOnSuccessListener{
+        val query: Task<QuerySnapshot> = if (lastVisible == null){
+            db.collection("Saloons")
+                .limit(5)
+                .get()
+        } else {
+            db.collection("Saloons")
+                .orderBy("saloon_name")
+                .startAfter(lastVisible)
+                .limit(5)
+                .get()
+        }
+
+            query.addOnSuccessListener{
                 for (document in it.documents){
 
                     val saloonID: String? = document.getString("saloon_id")
@@ -116,9 +135,11 @@ class SaloonListFragment : Fragment() {
                     val contact: String? = document.getString("contact")
                     val saloonAddress: String? = document.getString("address")
                     val haircutPrice: Number? = document.getLong("cutting_shaving_price")
+                    val locationData: GeoPoint = document.getGeoPoint("location_data")!!
+
+                    lastVisible = it.documents[it.size() - 1]
 
                     val ratings = if (document.get("rating") != null) document.get("rating") as HashMap<String, HashMap<String,String>> else hashMapOf()
-                    var averageRating = 5
                     var ratingSum = 0
                     var reviewCount = 0
 
@@ -130,7 +151,7 @@ class SaloonListFragment : Fragment() {
                         }
                     }
 
-                    averageRating = if (ratings.size == 0){
+                    val averageRating = if (ratings.size == 0){
                         1
                     } else {
                         ratingSum / ratings.size
@@ -138,8 +159,23 @@ class SaloonListFragment : Fragment() {
 
                     val saloonNameUnderScore = saloonName?.replace("\\s".toRegex(),"_")
                     val imageUrl = "Saloon_Images/$saloonID/${saloonNameUnderScore}_displayPicture.jpg"
+                    val distance = 0F
 
-                    shopLists.add(ShopDataPreviewClass(saloonID, saloonName,areaName, averageRating, imageUrl ,openStatus, contact, saloonAddress, haircutPrice, reviewCount))
+                    val saloonData = SaloonDataClass(
+                        saloonID,
+                        saloonName,
+                        areaName,
+                        averageRating,
+                        imageUrl,
+                        openStatus,
+                        contact,
+                        saloonAddress,
+                        haircutPrice,
+                        reviewCount,
+                        locationData,
+                        distance)
+
+                    shopLists.add(saloonData)
 
                     animate.stop()
                     animate.clearAnimationCallbacks()
@@ -147,15 +183,36 @@ class SaloonListFragment : Fragment() {
 
                 }
 
-                dataViewModel.assignShopData(shopLists)
-                if(view != null){
-                    dataViewModel.getShopDataList().observe(viewLifecycleOwner, { result ->
-                        binding.recyclerView.adapter = SaloonListRecyclerViewAdapter(result, dataViewModel, this)
-                        val recyAdapter = binding.recyclerView.adapter
-                        recyAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                dataViewModel.getUserLocationData().observe(viewLifecycleOwner, {data ->
+                    for (shop in shopLists){
+                        if (data != null && data.latitude != 0.0 && data.longitude != 0.0){
+                            val userData = Location(LocationManager.GPS_PROVIDER)
+                            userData.latitude = data.latitude
+                            userData.longitude = data.longitude
 
-                    })
-                }
+                            val saloonData = Location(LocationManager.GPS_PROVIDER)
+                            saloonData.latitude = shop.locationData?.latitude!!
+                            saloonData.longitude = shop.locationData.longitude
+
+                            shop.distance = userData.distanceTo(saloonData)
+                        } else {
+                            shop.distance = null
+                        }
+                    }
+
+                    shopLists.sortBy { sortData ->
+                        sortData.distance
+                    }
+
+                    dataViewModel.assignShopData(shopLists)
+                    if(view != null){
+                        dataViewModel.getShopDataList().observe(viewLifecycleOwner, { result ->
+                            binding.recyclerView.adapter = SaloonListRecyclerViewAdapter(result, dataViewModel, this)
+                            val recyclerAdapter = binding.recyclerView.adapter
+                            recyclerAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                        })
+                    }
+                })
             }
     }
 }

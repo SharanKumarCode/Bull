@@ -48,7 +48,6 @@ class SaloonPricingRecyclerViewAdapter(_lists: MutableList<HashMap<String, Numbe
 
         holder.binding.saloonPricingLayout.layoutParams = ConstraintLayout.LayoutParams(width,height)
 
-        Log.i("TAG","random color : ${sample.random()}")
         holder.binding.saloonPricingLabelText.setBackgroundColor(holder.binding.root.resources.getColor(colors.random()))
 
 

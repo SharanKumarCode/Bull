@@ -37,7 +37,7 @@ object SingletonUserData {
     private val TAG = "TAG"
 
     init {
-        Log.i("TAG", "Singleton class for basic user data created")
+        Log.i(TAG, "Singleton class for basic user data created")
         val db = Firebase.firestore
 
         db.collection("Users")
@@ -53,10 +53,8 @@ object SingletonUserData {
 
                     userData =
                         UserDataClass(userID, userName, mobileNumber, null)
-
                 }
             }
-
     }
 
     fun updateUserData(context: Context, activityFlag: String = "null"){
@@ -121,14 +119,24 @@ object SingletonUserData {
 
                 profilePicFileTemp.delete()
 
-                Log.i("TAGProfile","user profile pic downloaded : $rotatedImgBitmap")
+                Log.i(TAG,"user profile pic downloaded : $rotatedImgBitmap")
 
             }
             .addOnFailureListener {
-                Log.i("TAG", "profile pic error : ${it.message}")
+                Log.i(TAG, "profile pic error : ${it.message}")
                 userData =
                     UserDataClass(userID, userName, mobileNumber, null)
             }
+    }
+
+    fun updateScrollState(key: String, state: Parcelable){
+        scrollState.putParcelable(key, state)
+    }
+
+    fun getScrollState(key: String): Parcelable?{
+        return if (!scrollState.isEmpty && scrollState.get(key) != null){
+            scrollState.get(key) as Parcelable
+        } else null
     }
 
     private fun launchMainActivity(context: Context){
@@ -142,22 +150,6 @@ object SingletonUserData {
             File(it, context.resources.getString(R.string.app_name)).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else context.filesDir
-    }
-
-    fun updateScrollState(key: String, state: Parcelable){
-        scrollState.putParcelable(key, state)
-        Log.i("TAG", "SIngletonUser scroll key : $key")
-        Log.i("TAG", "SIngletonUser scroll state : $state")
-        Log.i("TAG", "SIngletonUser scroll Bundle : $scrollState")
-    }
-
-    fun getScrollState(key: String): Parcelable?{
-        return if (!scrollState.isEmpty && scrollState.get(key) != null){
-            Log.i("TAG", "SIngletonUser get scroll key : $key")
-            Log.i("TAG", "SIngletonUser get scroll state : ${scrollState.get(key)}")
-            Log.i("TAG", "SIngletonUser get scroll Bundle : $scrollState")
-            scrollState.get(key) as Parcelable
-        } else null
     }
 
 }

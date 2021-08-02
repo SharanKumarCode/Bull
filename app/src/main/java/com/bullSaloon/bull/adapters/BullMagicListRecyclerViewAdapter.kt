@@ -3,6 +3,7 @@ package com.bullSaloon.bull.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,7 +45,6 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _f
         return BullMagicListRecyclerViewHolder(view)
     }
 
-    @SuppressLint("NewApi")
     override fun onBindViewHolder(holder: BullMagicListRecyclerViewHolder, position: Int) {
         val holderBinding = holder.binding
         val context: Context = holder.itemView.context
@@ -68,7 +68,11 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _f
 
         //set date
         val date = bullMagicLists[position].timeStamp.substring(0,10)
-        val dateFormatted = LocalDate.parse(date, DateTimeFormatter.ISO_DATE)
+        val dateFormatted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDate.parse(date, DateTimeFormatter.ISO_DATE)
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
         val month = dateFormatted.month.toString()
             .lowercase()
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }

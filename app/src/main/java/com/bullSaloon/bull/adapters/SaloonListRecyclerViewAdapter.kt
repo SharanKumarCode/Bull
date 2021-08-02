@@ -1,24 +1,31 @@
 package com.bullSaloon.bull.adapters
 
 import android.content.Context
+import android.location.Location
+import android.location.LocationManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.location.LocationManagerCompat
+import androidx.core.math.MathUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.ViewHolderShopItemBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
-import com.bullSaloon.bull.genericClasses.dataClasses.ShopDataPreviewClass
+import com.bullSaloon.bull.genericClasses.dataClasses.SaloonDataClass
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.lang.Error
+import kotlin.math.round
+import kotlin.math.roundToLong
 
-class SaloonListRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, dataViewModel: MainActivityViewModel, _fragment: Fragment): RecyclerView.Adapter<SaloonListRecyclerViewAdapter.ShopRecyclerViewHolder>() {
+class SaloonListRecyclerViewAdapter(lists: MutableList<SaloonDataClass>, dataViewModel: MainActivityViewModel, _fragment: Fragment): RecyclerView.Adapter<SaloonListRecyclerViewAdapter.ShopRecyclerViewHolder>() {
 
     private val saloonList = lists
     private val dataModel = dataViewModel
@@ -57,6 +64,11 @@ class SaloonListRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, da
 
         holderBinding.saloonHaircutPriceText.text = String.format(holderBinding.root.context.resources.getString(R.string.textHaircutPrice), saloonList[position].haircutPrice)
 
+        if (saloonList[position].distance != null){
+            holderBinding.textSaloonDistanceLayout.visibility = View.VISIBLE
+            holderBinding.textSaloonDistance.text = holderBinding.root.resources.getString(R.string.textSaloonDistance, (saloonList[position].distance?.div(1000))?.roundToLong().toString())
+        }
+
         holder.binding.cardView.animation = AnimationUtils.loadAnimation(holder.binding.root.context, R.anim.animation)
 
         holder.itemView.setOnClickListener {
@@ -73,7 +85,7 @@ class SaloonListRecyclerViewAdapter(lists: MutableList<ShopDataPreviewClass>, da
         return saloonList.size
     }
 
-    private fun startShopItemFragment(holder: Fragment, dataModel: MainActivityViewModel, saloonList: ShopDataPreviewClass){
+    private fun startShopItemFragment(holder: Fragment, dataModel: MainActivityViewModel, saloonList: SaloonDataClass){
 
         dataModel.putShopData(saloonList.saloonID)
 

@@ -14,7 +14,6 @@ import com.bullSaloon.bull.adapters.BullMagicListRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentBullMagicListBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.BullMagicListData
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -59,7 +58,6 @@ class BullMagicListFragment : Fragment() {
     override fun onPause() {
         super.onPause()
 
-        Log.i("TAG", "onPause bull magic list fragment")
         val recyclerState = binding.recyclerViewBullMagicList.layoutManager?.onSaveInstanceState()!!
         SingletonUserData.updateScrollState("BullMagicListRecycler",recyclerState)
     }
