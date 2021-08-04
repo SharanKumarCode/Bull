@@ -110,7 +110,7 @@
                 android:paddingTop="11dp"
                 android:layout_marginStart="20dp"
 
-                android:text="3"
+                android:text="@string/placeHolderCommentsCount"
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
 
@@ -151,7 +151,7 @@
                 android:paddingTop="8dp"
                 android:layout_marginStart="22dp"
 
-                android:text="20"
+                android:text="@string/placeHolderNiceCount"
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
 

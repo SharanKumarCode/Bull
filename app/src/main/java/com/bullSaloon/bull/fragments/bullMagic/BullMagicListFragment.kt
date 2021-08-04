@@ -3,7 +3,6 @@ package com.bullSaloon.bull.fragments.bullMagic
 
 import android.os.Bundle
 import android.transition.TransitionInflater
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -75,7 +74,7 @@ class BullMagicListFragment : Fragment() {
 
         db.collection("Users")
             .get()
-            .addOnSuccessListener { it ->
+            .addOnSuccessListener {
                 if (!it.isEmpty) {
                         for (document in it.documents) {
                             if (document.id != auth.currentUser?.uid && document.get("photos") != null) {

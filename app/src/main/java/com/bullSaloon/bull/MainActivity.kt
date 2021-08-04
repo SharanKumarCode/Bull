@@ -16,7 +16,6 @@ import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CancellationSignal
 import android.os.CountDownTimer
 import android.provider.Settings
 import android.util.Log
@@ -30,8 +29,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat
 import androidx.core.util.Consumer
-import androidx.core.widget.ImageViewCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -59,7 +56,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var animate: AnimatedVectorDrawable
     private var userLatitude = 0.0
     private var userLongitude = 0.0
-    private val TAG: String = "TAG"
     private var resumeFlag = false
 
     private lateinit var storage: FirebaseStorage
@@ -165,10 +161,8 @@ class MainActivity : AppCompatActivity() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         if (LocationManagerCompat.isLocationEnabled(locationManager)){
-            Log.i("TAGLocation", "Location is Enabled")
             getLocation()
         } else {
-            Log.i("TAGLocation", "Location is NOT Enabled")
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.dialog_turn_on_location)
             val enableButton = dialog.findViewById<MaterialButton>(R.id.dialogLocationEnableButton)
@@ -191,8 +185,6 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun getLocation(){
-
-        Log.i("TAGLocation", "Getting Location")
 
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_fetching_location_data)
@@ -218,7 +210,7 @@ class MainActivity : AppCompatActivity() {
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
         val cancellation = androidx.core.os.CancellationSignal()
 
@@ -245,9 +237,9 @@ class MainActivity : AppCompatActivity() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         val locationConsumer = Consumer<Location> {
-            Log.i("TAGLocation", "latitude : ${it?.latitude}")
-            Log.i("TAGLocation", "longitude : ${it?.longitude}")
-            Log.i("TAGLocation", "current location provider : ${it?.provider}")
+            Log.i(TAG, "latitude : ${it?.latitude}")
+            Log.i(TAG, "longitude : ${it?.longitude}")
+            Log.i(TAG, "current location provider : ${it?.provider}")
 
             val dataViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
@@ -275,7 +267,6 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         if (resumeFlag){
-            Log.i("TAGLocation", "Returned from GPS")
             getLocation()
         }
     }
@@ -291,14 +282,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         val dataViewModel = ViewModelProvider(this).get(UserDataViewModel::class.java)
-        dataViewModel.getProfilePic().observe(LifecycleOwner { lifecycle },{
+        dataViewModel.getProfilePic().observe( { lifecycle },{
             var data = it
 
             if (it == null){
                 data = BitmapFactory.decodeResource(this.resources, R.drawable.ic_baseline_person_black_40)
             }
 
-            Log.i("TAGProfile", "user profile updated main activity : ${data}")
+            Log.i(TAG, "user profile updated main activity : $data")
 
             GlideApp.with(this)
                 .asBitmap()
@@ -325,7 +316,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "TAG"
+        private const val TAG = "TAGProfile"
         private const val REQUEST_CODE_PERMISSIONS = 123
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 

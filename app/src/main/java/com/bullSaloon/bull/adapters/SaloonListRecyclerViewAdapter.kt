@@ -1,15 +1,11 @@
 package com.bullSaloon.bull.adapters
 
 import android.content.Context
-import android.location.Location
-import android.location.LocationManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.core.location.LocationManagerCompat
-import androidx.core.math.MathUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,11 +14,9 @@ import com.bullSaloon.bull.databinding.ViewHolderShopItemBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.SaloonDataClass
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
-import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.lang.Error
-import kotlin.math.round
 import kotlin.math.roundToLong
 
 class SaloonListRecyclerViewAdapter(lists: MutableList<SaloonDataClass>, dataViewModel: MainActivityViewModel, _fragment: Fragment): RecyclerView.Adapter<SaloonListRecyclerViewAdapter.ShopRecyclerViewHolder>() {
@@ -46,10 +40,10 @@ class SaloonListRecyclerViewAdapter(lists: MutableList<SaloonDataClass>, dataVie
         holderBinding.areaNameTextView.text = saloonList[position].areaName
 
         if (saloonList[position].openStatus == true){
-            holderBinding.openStatusTextView.text = "open"
+            holderBinding.openStatusTextView.text = holderBinding.root.context.resources.getString(R.string.placeHolderOpenStatus)
             holderBinding.openStatusTextView.setTextColor(context.getColor(R.color.openStatusColor))
         } else {
-            holderBinding.openStatusTextView.text = "closed"
+            holderBinding.openStatusTextView.text = holderBinding.root.context.resources.getString(R.string.placeHolderClosedStatus)
             holderBinding.openStatusTextView.setTextColor(context.getColor(R.color.closeStatusColor))
         }
 
@@ -66,7 +60,10 @@ class SaloonListRecyclerViewAdapter(lists: MutableList<SaloonDataClass>, dataVie
 
         if (saloonList[position].distance != null){
             holderBinding.textSaloonDistanceLayout.visibility = View.VISIBLE
-            holderBinding.textSaloonDistance.text = holderBinding.root.resources.getString(R.string.textSaloonDistance, (saloonList[position].distance?.div(1000))?.roundToLong().toString())
+            holderBinding.textSaloonDistance.text = holderBinding.root.resources.getString(
+                                                    R.string.textSaloonDistance,
+                                                    (saloonList[position].distance?.div(1000))?.roundToLong().toString()
+                                                )
         }
 
         holder.binding.cardView.animation = AnimationUtils.loadAnimation(holder.binding.root.context, R.anim.animation)

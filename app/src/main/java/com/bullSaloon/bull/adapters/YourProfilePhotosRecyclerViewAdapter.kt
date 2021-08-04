@@ -18,9 +18,9 @@ import com.google.firebase.storage.ktx.storage
 
 class YourProfilePhotosRecyclerViewAdapter(lists: MutableList<MyPhotosData>, dataViewModel: YourProfileViewModel, childFragmentManager: YourProfilePhotosFragment): RecyclerView.Adapter<YourProfilePhotosRecyclerViewAdapter.YourProfilePhotosRecyclerViewHolder>(){
 
-    val myPhotosList = lists
-    val storage = Firebase.storage
-    val dataModel = dataViewModel
+    private val myPhotosList = lists
+    private val storage = Firebase.storage
+    private val dataModel = dataViewModel
     private val childFragManager = childFragmentManager
 
 

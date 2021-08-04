@@ -41,12 +41,12 @@ class BullMagicFragment : Fragment() {
         val navHost = this.childFragmentManager.findFragmentById(R.id.bullMagicfragmentContainer)
         val navController = navHost?.findNavController()
 
-        if (args?.get("fragment_flag") == FRAGMENT_FLAG.BullMagicItem){
+        if (args?.get("fragment_flag") == FragmentFlag.BullMagicItem){
             Log.i("TAGNav", "navigating to Bull magic Item : $args")
             val arg = Bundle()
             arg.putSerializable("userImageData",args)
             navController?.navigate(R.id.action_bullMagicListFragment_to_bullMagicItemFragment, arg)
-        } else if (args?.get("fragment_flag") == FRAGMENT_FLAG.BullMagicTargetUser) {
+        } else if (args?.get("fragment_flag") == FragmentFlag.BullMagicTargetUser) {
             Log.i("TAGNav", "navigating to Bull magic target user : $args")
             val arg = Bundle()
             arg.putString("user_id", args["user_id"])
@@ -57,7 +57,7 @@ class BullMagicFragment : Fragment() {
 
     companion object {
 
-        private object FRAGMENT_FLAG {
+        private object FragmentFlag {
             const val BullMagicItem = "BullMagicItem"
             const val BullMagicTargetUser = "BullMagicTargetUser"
         }

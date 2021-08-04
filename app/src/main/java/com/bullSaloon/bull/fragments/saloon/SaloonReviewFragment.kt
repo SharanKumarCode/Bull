@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bullSaloon.bull.R
 import com.bullSaloon.bull.adapters.SaloonReviewRecyclerAdapter
-import com.bullSaloon.bull.databinding.FragmentSaloonBinding
 import com.bullSaloon.bull.databinding.FragmentSaloonReviewBinding
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
 import com.google.firebase.firestore.ktx.firestore

@@ -24,8 +24,6 @@ class YourProfilePhotosFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var dataViewModel: YourProfileViewModel
 
-    private val TAG = "TAG"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,7 +35,7 @@ class YourProfilePhotosFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentYourProfilePhotosBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,11 +57,11 @@ class YourProfilePhotosFragment : Fragment() {
             .document(auth.currentUser?.uid!!)
             .addSnapshotListener { value, error ->
                 if (error == null){
-                    var myPhotosList: MutableList<MyPhotosData>  = mutableListOf()
+                    val myPhotosList: MutableList<MyPhotosData>  = mutableListOf()
                     if (value?.exists()!! && value.contains("photos")){
                         val photos = value.get("photos") as Map<String, Map<String,Any>>
-                        photos.forEach { keys, values ->
-                            val nices = if (values.get("nices") != null) values.get("nices") as List<String> else mutableListOf()
+                        photos.forEach { (keys, values) ->
+                            val nices = if (values["nices"] != null) values["nices"] as List<String> else mutableListOf()
                             val saloonName = if (values["saloon_name"].toString() != "null") values["saloon_name"].toString() else ""
                             val caption = if (values["caption"].toString() != "null") values["caption"].toString() else ""
                             val data = MyPhotosData(
@@ -90,5 +88,9 @@ class YourProfilePhotosFragment : Fragment() {
                     Log.i(TAG, "error occurred: $error")
                 }
             }
+    }
+
+    companion object {
+        private const val TAG = "TAG"
     }
 }

@@ -1,13 +1,11 @@
 package com.bullSaloon.bull.adapters
 
-import android.Manifest
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.camera.core.CameraSelector
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -69,7 +67,7 @@ class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>, _fragm
                 nicesList[position].targetUserID,
                 nicesList[position].targetPhotoID,
                 nicesList[position].targetImageRef,
-                FRAGMENT_FLAG.BullMagicItem)
+                FragmentFlag.BullMagicItem)
         }
 
 //        launch bullMagicTargetUser
@@ -78,7 +76,7 @@ class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>, _fragm
                 nicesList[position].targetUserID,
                 nicesList[position].targetPhotoID,
                 nicesList[position].targetImageRef,
-                FRAGMENT_FLAG.BullMagicTargetUser)
+                FragmentFlag.BullMagicTargetUser)
         }
 
     }
@@ -133,7 +131,7 @@ class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>, _fragm
 
     companion object {
 
-        private object FRAGMENT_FLAG {
+        private object FragmentFlag {
             const val BullMagicItem = "BullMagicItem"
             const val BullMagicTargetUser = "BullMagicTargetUser"
         }

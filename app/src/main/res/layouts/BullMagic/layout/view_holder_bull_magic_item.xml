@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_marginBottom="10dp"
-    android:id="@+id/bullMagicItemContainer"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/bullMagicItemContainer">
 
     <TextView
         android:id="@+id/BullMagicShopName"
@@ -54,7 +53,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
 
-            android:text="Sharan Kumar"
+            android:text="@string/placeHolderUserName"
             android:textColor="@color/white"
             android:textSize="18sp"/>
 
@@ -93,7 +92,7 @@
             android:paddingTop="8dp"
             android:layout_marginEnd="10dp"
 
-            android:text="3"
+            android:text="@string/placeHolderCommentsCount"
             android:textSize="18sp"
             android:textColor="@color/white"/>
 
@@ -135,7 +134,7 @@
             android:paddingTop="8dp"
             android:layout_marginEnd="10dp"
 
-            android:text="20"
+            android:text="@string/placeHolderNiceCount"
             android:textSize="18sp"
             android:textColor="@color/white"/>
 

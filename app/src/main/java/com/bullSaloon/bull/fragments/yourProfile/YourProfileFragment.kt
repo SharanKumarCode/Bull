@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.BitmapFactory
 import android.graphics.drawable.InsetDrawable
-import android.os.Build
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.util.Log
@@ -26,7 +25,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.adapters.DialogFollowersRecyclerViewAdapter
-import com.bullSaloon.bull.adapters.SaloonItemViewPagerAdapter
 import com.bullSaloon.bull.adapters.YourProfileViewPagerAdapter
 import com.bullSaloon.bull.databinding.FragmentYourProfileBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
@@ -64,7 +62,7 @@ class YourProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentYourProfileBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -174,16 +172,7 @@ class YourProfileFragment : Fragment() {
                         TypedValue.COMPLEX_UNIT_DIP, 10F ,resources.displayMetrics)
                         .toInt()
                 if (item.icon != null) {
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx,0)
-                    } else {
-                        item.icon =
-                            object : InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0) {
-                                override fun getIntrinsicWidth(): Int {
-                                    return intrinsicHeight + iconMarginPx + iconMarginPx
-                                }
-                            }
-                    }
+                    item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx,0)
                 }
             }
         }
@@ -202,7 +191,7 @@ class YourProfileFragment : Fragment() {
                 data = BitmapFactory.decodeResource(this.resources, R.drawable.ic_baseline_person_24)
             }
 
-            Log.i("TAGProfile", "user profile updated fragment : ${data}")
+            Log.i("TAGProfile", "user profile updated fragment : $data")
 
             GlideApp.with(this)
                 .load(data)
@@ -262,7 +251,6 @@ class YourProfileFragment : Fragment() {
         var userLists: MutableList<String>
         val db = Firebase.firestore
         val auth = Firebase.auth
-        var dataType = ""
 
         val dialog = Dialog(this.requireContext())
         dialog.setContentView(R.layout.dialog_box_followers_list)
@@ -278,7 +266,7 @@ class YourProfileFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         dialog.show()
 
-        dataType = if (_dataType == "Followers"){
+        val dataType = if (_dataType == "Followers"){
             "followers"
         } else {
             "following"

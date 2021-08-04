@@ -34,7 +34,7 @@ object SingletonUserData {
 
     private val storage = Firebase.storage
     private val auth = Firebase.auth
-    private val TAG = "TAG"
+    private const val TAG = "TAG"
 
     init {
         Log.i(TAG, "Singleton class for basic user data created")
@@ -45,7 +45,7 @@ object SingletonUserData {
             .get()
             .addOnSuccessListener {
 
-                if (it?.exists()!!) {
+                if (it.exists()) {
 
                     val userName = it.getString("user_name")!!
                     val userID = it.getString("user_id")!!
@@ -64,9 +64,9 @@ object SingletonUserData {
         db.collection("Users")
             .document(auth.currentUser?.uid!!)
             .get()
-            .addOnSuccessListener { it ->
+            .addOnSuccessListener {
 
-                if (it?.exists()!!) {
+                if (it.exists()) {
 
                     userName = it.getString("user_name")!!
                     userID = it.getString("user_id")!!
@@ -146,9 +146,9 @@ object SingletonUserData {
     }
 
     private fun getOutputDirectory(context: Context): File {
-        val mediaDir = context.externalMediaDirs.firstOrNull().let {
+        val mediaDir = context.getExternalFilesDir(null).let {
             File(it, context.resources.getString(R.string.app_name)).apply { mkdirs() } }
-        return if (mediaDir != null && mediaDir.exists())
+        return if (mediaDir.exists())
             mediaDir else context.filesDir
     }
 

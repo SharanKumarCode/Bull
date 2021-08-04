@@ -22,8 +22,8 @@ import com.bullSaloon.bull.R
 import com.bullSaloon.bull.adapters.SaloonListRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentSaloonListBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
-import com.bullSaloon.bull.viewModel.MainActivityViewModel
 import com.bullSaloon.bull.genericClasses.dataClasses.SaloonDataClass
+import com.bullSaloon.bull.viewModel.MainActivityViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.GeoPoint
@@ -95,7 +95,6 @@ class SaloonListFragment : Fragment() {
 
                 if (!binding.recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE){
                     Log.i("TAGRecycle", "Scrolled to Bottom")
-                    generateDataFirestore()
                 }
             }
         })
@@ -115,13 +114,11 @@ class SaloonListFragment : Fragment() {
 
         val query: Task<QuerySnapshot> = if (lastVisible == null){
             db.collection("Saloons")
-                .limit(5)
                 .get()
         } else {
             db.collection("Saloons")
                 .orderBy("saloon_name")
                 .startAfter(lastVisible)
-                .limit(5)
                 .get()
         }
 

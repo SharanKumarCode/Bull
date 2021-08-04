@@ -7,11 +7,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.FragmentCreateAccountBinding
 import com.bullSaloon.bull.databinding.FragmentSignInBinding
 
-class OtpTextWatcherGeneric(view: View, otpEditTextBoxes: MutableList<EditText>):
+class OtpTextWatcherGeneric() :
     TextWatcher {
 
     private lateinit var _view: View
@@ -21,21 +22,21 @@ class OtpTextWatcherGeneric(view: View, otpEditTextBoxes: MutableList<EditText>)
     private lateinit var verifyButton: Button
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    constructor(view: View, otpEditTextBoxes: MutableList<EditText>, binding: FragmentCreateAccountBinding):this(view, otpEditTextBoxes){
+    constructor(view: View, otpEditTextBoxes: MutableList<EditText>, binding: FragmentCreateAccountBinding):this() {
         this._view = view
         this._otpEditTextBoxes = otpEditTextBoxes
         this.verifyButton = binding.verifyOtpButton
-        this.focusedDrawable = binding.root.resources.getDrawable(R.drawable.bg_otp_box_focused)
-        this.unFocusedDrawable = binding.root.resources.getDrawable(R.drawable.bg_otp_box)
+        this.focusedDrawable = ContextCompat.getDrawable(binding.root.context, R.drawable.bg_otp_box_focused)!!
+        this.unFocusedDrawable = ContextCompat.getDrawable(binding.root.context, R.drawable.bg_otp_box)!!
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    constructor(view: View, otpEditTextBoxes: MutableList<EditText>, binding: FragmentSignInBinding):this(view, otpEditTextBoxes){
+    constructor(view: View, otpEditTextBoxes: MutableList<EditText>, binding: FragmentSignInBinding):this() {
         this._view = view
         this._otpEditTextBoxes = otpEditTextBoxes
         this.verifyButton = binding.verifyOtpButton
-        this.focusedDrawable = binding.root.resources.getDrawable(R.drawable.bg_otp_box_focused)
-        this.unFocusedDrawable = binding.root.resources.getDrawable(R.drawable.bg_otp_box)
+        this.focusedDrawable = ContextCompat.getDrawable(binding.root.context, R.drawable.bg_otp_box_focused)!!
+        this.unFocusedDrawable = ContextCompat.getDrawable(binding.root.context, R.drawable.bg_otp_box)!!
     }
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

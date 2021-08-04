@@ -40,7 +40,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
-                android:text="Sharan Kumar"
+                android:text="@string/placeHolderUserName"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -53,7 +53,7 @@
                 android:layout_alignStart="@+id/userNameYourProfileTextView"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/userPhotoYourProfileTextView"
-                android:text="+919941677517"
+                android:text="@string/placeHolderMobileNumber"
                 android:textSize="14sp" />
 
             <ImageView

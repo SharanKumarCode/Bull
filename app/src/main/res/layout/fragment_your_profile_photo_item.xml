@@ -13,42 +13,43 @@
         android:id="@+id/yourProfilePhotoItemSaloonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textViewSaloonName"
-        android:textSize="14sp"
-        android:layout_margin="10dp"
-
         android:layout_alignTop="@+id/yourProfileBackButtonImageView"
         android:layout_alignBottom="@+id/yourProfileBackButtonImageView"
-        />
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/yourProfileBackButtonImageView"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/textViewSaloonName"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/yourProfilePhotoItemDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textBullMagicImageDate"
-        android:textSize="14sp"
-        android:textAlignment="center"
+        android:layout_below="@+id/yourProfilePhotoItemSaloonName"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
 
-        android:layout_alignStart="@+id/yourProfilePhotoItemImageView"
-        android:layout_alignEnd="@+id/yourProfilePhotoItemImageView"
-        android:layout_alignTop="@+id/yourProfileBackButtonImageView"
-        android:layout_alignBottom="@+id/yourProfileBackButtonImageView"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
-        />
+        android:text="@string/textBullMagicImageDate"
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/yourProfileBackButtonImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        />
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -56,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_below="@id/yourProfileBackButtonImageView"/>
+        android:layout_below="@id/yourProfilePhotoItemDate"/>
 
     <TextView
         android:id="@+id/yourProfilePhotoItemCaption"
@@ -90,7 +91,7 @@
             android:paddingTop="11dp"
             android:layout_marginStart="20dp"
 
-            android:text="3"
+            android:text="@string/placeHolderReviewCount"
             android:textSize="18sp"
             android:textColor="@color/white"/>
 
@@ -131,7 +132,7 @@
             android:paddingTop="8dp"
             android:layout_marginStart="22dp"
 
-            android:text="20"
+            android:text="@string/placeHolderNiceCount"
             android:textSize="18sp"
             android:textColor="@color/white"/>
 

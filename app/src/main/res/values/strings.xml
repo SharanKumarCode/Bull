@@ -103,5 +103,15 @@
     <string name="buttonTurnOnGPS">Turn ON GPS</string>
     <string name="textFetchingLocationData">"Please wait.. Fetching Location Data.. "</string>
     <string name="textFetchingLocationDataFailed">"Unable to fetch location data. \n\n Saloon distance cannot be determined. \n\n Continue to use the app and try again later to use location services"</string>
+    <string name="contentDescriptionCapturedImage">Captured Image Preview</string>
+    <string name="placeHolderCommentsCount">3</string>
+    <string name="placeHolderNiceCount">20</string>
+    <string name="contentDescriptionSaloonDisplayImage">Saloon Display Image</string>
+    <string name="placeHolderSaloonName">Saloon Name</string>
+    <string name="placeHolderSaloonAddress">Saloon Address</string>
+    <string name="placeHolderReviewCount">5</string>
+    <string name="contentDescriptionReviewCount">Review Count</string>
+    <string name="placeHolderMobileNumber">+919941677517</string>
+    <string name="placeHolderNoComments">No Comments yet...</string>
 
 </resources>

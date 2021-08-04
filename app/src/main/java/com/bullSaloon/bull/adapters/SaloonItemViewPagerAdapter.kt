@@ -8,7 +8,7 @@ import com.bullSaloon.bull.fragments.saloon.SaloonReviewFragment
 
 class SaloonItemViewPagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
 
-    val fragmentList = mutableListOf<Fragment>()
+    private val fragmentList = mutableListOf<Fragment>()
     override fun getItemCount(): Int {
         return 3
     }

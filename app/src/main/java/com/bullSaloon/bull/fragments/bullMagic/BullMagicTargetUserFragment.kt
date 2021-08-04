@@ -39,8 +39,6 @@ class BullMagicTargetUserFragment : Fragment() {
     private val db = Firebase.firestore
     private val auth = Firebase.auth
 
-    private val TAG = "TAG"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -261,8 +259,6 @@ class BullMagicTargetUserFragment : Fragment() {
 
         var userLists: MutableList<String>
         val db = Firebase.firestore
-        val auth = Firebase.auth
-        var dataType = ""
 
         val dialog = Dialog(this.requireContext())
         dialog.setContentView(R.layout.dialog_box_followers_list)
@@ -278,7 +274,7 @@ class BullMagicTargetUserFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         dialog.show()
 
-        dataType = if (_dataType == "Followers"){
+        val dataType = if (_dataType == "Followers"){
             "followers"
         } else {
             "following"
@@ -298,5 +294,9 @@ class BullMagicTargetUserFragment : Fragment() {
             .addOnFailureListener { e->
                 Log.i("TAG", "Error in retrieving follow data : ${e.message}")
             }
+    }
+
+    companion object {
+        private const val TAG = "TAG"
     }
 }

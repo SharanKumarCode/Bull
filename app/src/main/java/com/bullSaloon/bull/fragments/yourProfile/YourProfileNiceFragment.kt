@@ -1,7 +1,6 @@
 package com.bullSaloon.bull.fragments.yourProfile
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,8 +23,6 @@ class YourProfileNiceFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var dataViewModel: YourProfileViewModel
     private var nicesList = mutableListOf<MyNicesData>()
-
-    private val TAG = "YourProfileNiceFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -105,6 +102,10 @@ class YourProfileNiceFragment : Fragment() {
                     Log.i(TAG,"Error in retrieving nice data from FireStore : $error")
                 }
             }
+    }
+
+    companion object {
+        private const val TAG = "TAG"
     }
 
 }

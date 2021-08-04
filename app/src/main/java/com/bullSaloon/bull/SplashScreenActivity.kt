@@ -11,14 +11,12 @@ import com.bullSaloon.bull.databinding.ActivitySplashScreenBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 @Suppress("DEPRECATION")
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
-    private val TAG: String = "TAG"
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,5 +58,9 @@ class SplashScreenActivity : AppCompatActivity() {
     private fun launchHomeActivity(){
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
+    }
+
+    companion object {
+        private const val TAG = "TAG"
     }
 }

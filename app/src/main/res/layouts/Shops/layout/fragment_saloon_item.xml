@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:contentDescription="@string/contentDescriptionSaloonDisplayImage"
             android:id="@+id/saloonItemDisplayImage"
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -42,10 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="300dp"
-                android:text="Style Saloon"
+                android:text="@string/placeHolderSaloonName"
                 android:textColor="#DDDDDD"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/openStatus_TextView"
@@ -53,6 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/saloonItemNameTextView"
+                android:textAlignment="textEnd"
                 android:layout_marginEnd="10dp"
                 android:text="@string/placeHolderOpenStatus"
                 android:textColor="#0FFF33"
@@ -65,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/saloonItemNameTextView"
-                android:text="Nallurhalli, Whitefield, Bengaluru, Karnataka 560066"
+                android:text="@string/placeHolderSaloonAddress"
                 android:textColor="#DDDDDD"
                 android:textSize="14sp"
                 />
@@ -116,7 +118,7 @@
                     android:id="@+id/saloonItemReviewCountText"
                     android:layout_width="15dp"
                     android:layout_height="wrap_content"
-                    android:text="5"
+                    android:text="@string/placeHolderReviewCount"
                     android:textColor="@color/white"
                     android:textSize="16sp"
 
@@ -127,6 +129,7 @@
                     android:gravity="center"/>
 
                 <ImageView
+                    android:contentDescription="@string/contentDescriptionReviewCount"
                     android:id="@+id/saloonItemReviewCountImage"
                     android:layout_width="35dp"
                     android:layout_height="35dp"

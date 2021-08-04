@@ -30,7 +30,7 @@
                 android:id="@+id/bullMagicTargetUserNameTextView"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:text="Sharan Kumar"
+                android:text="@string/placeHolderUserName"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/white"

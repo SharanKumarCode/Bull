@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bullSaloon.bull.adapters.SaloonPricingRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentSaloonPricingBinding
@@ -24,7 +23,7 @@ class SaloonPricingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSaloonPricingBinding.inflate(inflater, container, false)
         return binding.root
     }

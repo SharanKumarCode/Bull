@@ -142,17 +142,17 @@ class YourProfilePhotoItemFragment : Fragment() {
                         db.collection("Users").document(auth.currentUser?.uid!!)
                             .update("photos.${photoID}", FieldValue.delete())
                             .addOnSuccessListener {
-                                Log.i("TAG","pic deleted from firestore")
+                                Log.i("TAG","pic deleted from fireStore")
                                 this.parentFragmentManager.popBackStack()
                             }
                             .addOnFailureListener {e->
-                                Log.i("TAG","error on pic deletion from firestore: ${e.message}")
+                                Log.i("TAG","error on pic deletion from fireStore: ${e.message}")
                             }
                     }
                 }
             }
             .addOnFailureListener {
-                Log.i("TAG","error on getting data from firestore: ${it.message}")
+                Log.i("TAG","error on getting data from fireStore: ${it.message}")
             }
     }
 }

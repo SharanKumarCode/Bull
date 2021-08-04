@@ -3,7 +3,7 @@ package com.bullSaloon.bull.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context.INPUT_METHOD_SERVICE
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -21,16 +21,16 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.transition.TransitionInflater
 import android.util.Log
+import android.util.Size
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.inputmethod.InputMethodManager
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
@@ -42,6 +42,9 @@ import com.bullSaloon.bull.databinding.FragmentCameraBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -57,19 +60,21 @@ import java.lang.Exception
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class CameraFragment : Fragment() {
 
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
 
-    private var ACTIVITY_FLAG: String = "none"
+
 
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private lateinit var outputDirectory: File
     private lateinit var imageCapture: ImageCapture
     private lateinit var cameraSelector: CameraSelector
+    private lateinit var cameraExecutor: ExecutorService
     private lateinit var camera: Camera
     private lateinit var photoFileTemp: File
     private lateinit var userData: Map<String,String>
@@ -125,61 +130,15 @@ class CameraFragment : Fragment() {
             )
         }
 
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
         loadingIconAnim = binding.loadingIconCamera.drawable as AnimatedVectorDrawable
         outputDirectory = getOutputDirectory()
 
         startCamera(cameraLens)
 
-        binding.saloonNameTextField.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                when {
-                    binding.saloonNameTextField.text?.length!! < 5 -> {
-                        binding.saloonNameTextInputLayout.error = "minimum 5 characters required"
-                    }
-                    binding.saloonNameTextField.text?.length!! > 20 -> {
-                        binding.saloonNameTextInputLayout.error = "restrict saloon name to 20 characters"
-                    }
-                    else -> {
-                        binding.saloonNameTextInputLayout.error = null
-                    }
-                }
-            }
-        })
-
-        binding.captionTextField.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                when {
-                    binding.captionTextField.text?.length!! < 1 -> {
-                        binding.captionTextInputLayout.error = "minimum 1 character required"
-                    }
-                    binding.captionTextField.text?.length!! > 50 -> {
-                        binding.captionTextInputLayout.error = "restrict caption name to 50 characters"
-                    }
-                    else -> {
-                        binding.captionTextInputLayout.error = null
-                    }
-                }
-            }
-        })
-
         binding.takePhotoButton.setOnClickListener{
-            setButtonVisibility(VIEW_VISIBILITY.INITIAL_INVISIBLE)
+            setButtonVisibility(ViewVisibility.INITIAL_INVISIBLE)
 
 //            starting loading icon
             startLoadingIcon()
@@ -209,37 +168,11 @@ class CameraFragment : Fragment() {
             } else {
 
 //                show popup to enter image data
-                binding.popUpImageDataLayout.visibility = View.VISIBLE
+                launchDialogCaption()
             }
         }
 
-        binding.OkButton.setOnClickListener {
 
-            val saloonLength = binding.saloonNameTextField.text?.length!!
-            val captionLength = binding.captionTextField.text?.length!!
-
-            if ((saloonLength in 6..19) || (captionLength in 2..49)){
-
-                saloonName = binding.saloonNameTextField.text.toString()
-                val captionString = binding.captionTextField.text.toString()
-                captionText = URLEncoder.encode(captionString, "UTF-8")
-
-                binding.popUpImageDataLayout.visibility = View.GONE
-
-                activity?.window?.setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-                binding.progressIndicatorCardView.visibility = View.VISIBLE
-                uploadImage()
-            }
-        }
-
-        binding.SkipButton.setOnClickListener {
-
-            binding.popUpImageDataLayout.visibility = View.GONE
-            binding.progressIndicatorCardView.visibility = View.VISIBLE
-            uploadImage()
-        }
 
         binding.CancelImageButton.setOnClickListener{
             deleteImageFile()
@@ -266,26 +199,9 @@ class CameraFragment : Fragment() {
         }
 
         binding.uploadFromGalleryButton.setOnClickListener {
-            setButtonVisibility(VIEW_VISIBILITY.INITIAL_INVISIBLE)
+            setButtonVisibility(ViewVisibility.INITIAL_INVISIBLE)
             getImageFromGallery()
         }
-
-        binding.closepopUpImageDataLayoutButton.setOnClickListener {
-            saloonName = ""
-            captionText = ""
-            binding.saloonNameTextField.setText("")
-            binding.captionTextField.setText("")
-
-            binding.popUpImageDataLayout.visibility = View.GONE
-        }
-    }
-
-    private fun startCamera(cameraLens: Int){
-        cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-        cameraProviderFuture.addListener(Runnable {
-            val cameraProvider = cameraProviderFuture.get()
-            bindPreview(cameraProvider, cameraLens)
-        }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     override fun onRequestPermissionsResult(
@@ -315,9 +231,124 @@ class CameraFragment : Fragment() {
         if (this::photoFileTemp.isInitialized){
             photoFileTemp.delete()
         }
+
+        _binding = null
+        cameraExecutor.shutdown()
     }
 
-    private fun bindPreview(cameraProvider : ProcessCameraProvider, cameraLens: Int){
+    private fun launchDialogCaption(){
+
+        val dialog = Dialog(requireContext())
+
+        dialog.setContentView(R.layout.dialog_camera_caption_saloon)
+
+        val okButton = dialog.findViewById<MaterialButton>(R.id.OkButton)
+        val skipButton = dialog.findViewById<MaterialButton>(R.id.SkipButton)
+        val closeButton = dialog.findViewById<ImageButton>(R.id.closeDialogButton)
+        val saloonNameTextField = dialog.findViewById<TextInputEditText>(R.id.saloonNameTextField)
+        val captionTextField = dialog.findViewById<TextInputEditText>(R.id.captionTextField)
+        val saloonNameTextInputLayout = dialog.findViewById<TextInputLayout>(R.id.saloonNameTextInputLayout)
+        val captionTextInputLayout = dialog.findViewById<TextInputLayout>(R.id.captionTextInputLayout)
+
+        saloonNameTextField.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                when {
+                    saloonNameTextField.text?.length!! < 5 -> {
+                        saloonNameTextInputLayout.error = "minimum 5 characters required"
+                    }
+                    saloonNameTextField.text?.length!! > 20 -> {
+                        saloonNameTextInputLayout.error = "restrict saloon name to 20 characters"
+                    }
+                    else -> {
+                        saloonNameTextInputLayout.error = null
+                    }
+                }
+            }
+        })
+
+        captionTextField.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                when {
+                    captionTextField.text?.length!! < 1 -> {
+                        captionTextInputLayout.error = "minimum 1 character required"
+                    }
+                    captionTextField.text?.length!! > 50 -> {
+                        captionTextInputLayout.error = "restrict caption name to 50 characters"
+                    }
+                    else -> {
+                        captionTextInputLayout.error = null
+                    }
+                }
+            }
+        })
+
+        okButton.setOnClickListener {
+
+            val saloonLength = saloonNameTextField.text?.length!!
+            val captionLength = captionTextField.text?.length!!
+
+            if ((saloonLength in 6..19) || (captionLength in 2..49)){
+
+                saloonName = saloonNameTextField.text.toString()
+                val captionString = captionTextField.text.toString()
+                captionText = URLEncoder.encode(captionString, "UTF-8")
+
+                activity?.window?.setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+
+                binding.progressIndicatorCardView.visibility = View.VISIBLE
+                uploadImage()
+
+                dialog.hide()
+            }
+        }
+
+        skipButton.setOnClickListener {
+
+            binding.progressIndicatorCardView.visibility = View.VISIBLE
+            uploadImage()
+
+            dialog.hide()
+        }
+
+        closeButton.setOnClickListener {
+            saloonName = ""
+            captionText = ""
+            saloonNameTextField.setText("")
+            captionTextField.setText("")
+
+            dialog.hide()
+        }
+
+        dialog.show()
+
+    }
+
+    private fun startCamera(cameraLens: Int){
+        cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        cameraProviderFuture.addListener( {
+            val cameraProvider = cameraProviderFuture.get()
+            bindUseCases(cameraProvider, cameraLens)
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    private fun bindUseCases(cameraProvider : ProcessCameraProvider, cameraLens: Int){
         cameraProvider.unbindAll()
 
         val preview: Preview = Preview.Builder()
@@ -330,7 +361,20 @@ class CameraFragment : Fragment() {
             .setTargetAspectRatio(AspectRatio.RATIO_16_9)
             .build()
 
-        camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector,imageCapture, preview)
+        val imageAnalysis = ImageAnalysis.Builder()
+            .setTargetResolution(Size(1280,720))
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .build()
+
+        imageAnalysis.setAnalyzer(cameraExecutor, {
+            val rotationDegrees = it.imageInfo.rotationDegrees
+
+
+
+            it.close()
+        })
+
+        camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector,imageCapture, imageAnalysis, preview)
 
         preview.setSurfaceProvider(binding.viewFinder.surfaceProvider)
 
@@ -378,10 +422,11 @@ class CameraFragment : Fragment() {
                         .apply(RequestOptions.overrideOf(width, height))
                         .placeholder(R.drawable.ic_bull)
                         .into(binding.capturedImageView)
+
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    setButtonVisibility(VIEW_VISIBILITY.UPLOAD_COMPLETE_VISIBILITY)
+                    setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
                     Log.d(TAG, "error occurred: $exception")
                 }
             }
@@ -466,7 +511,7 @@ class CameraFragment : Fragment() {
 
             Toast.makeText(requireContext(),"Image uploaded..", Toast.LENGTH_SHORT).show()
 
-            setButtonVisibility(VIEW_VISIBILITY.UPLOAD_COMPLETE_VISIBILITY)
+            setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
 
             Log.d(TAG, "Image is uploaded")
 
@@ -486,7 +531,7 @@ class CameraFragment : Fragment() {
 
         uploadTask.addOnFailureListener{
 
-            setButtonVisibility(VIEW_VISIBILITY.UPLOAD_COMPLETE_VISIBILITY)
+            setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
 
             Log.d(TAG, "Image upload failed: ${it.message}")
             Toast.makeText(requireContext(),"Image upload failed..", Toast.LENGTH_SHORT).show()
@@ -564,7 +609,7 @@ class CameraFragment : Fragment() {
         }
         Log.i(TAG, "PhotoFile Deleted")
 
-        setButtonVisibility(VIEW_VISIBILITY.UPLOAD_COMPLETE_VISIBILITY)
+        setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
 
     }
 
@@ -595,19 +640,19 @@ class CameraFragment : Fragment() {
     }
 
     private fun getOutputDirectory(): File {
-        val mediaDir = requireContext().externalMediaDirs.firstOrNull()?.let {
+        val mediaDir = requireContext().getExternalFilesDir(null).let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }
-        return if (mediaDir != null && mediaDir.exists())
+        return if (mediaDir.exists())
             mediaDir else requireContext().filesDir
     }
 
     private fun setButtonVisibility(flag: String){
-        if (flag == VIEW_VISIBILITY.INITIAL_INVISIBLE){
+        if (flag == ViewVisibility.INITIAL_INVISIBLE){
             binding.takePhotoButton.visibility = View.INVISIBLE
             binding.changeCameraButton.visibility = View.INVISIBLE
             binding.uploadFromGalleryButton.visibility = View.INVISIBLE
 
-        } else if (flag == VIEW_VISIBILITY.UPLOAD_COMPLETE_VISIBILITY){
+        } else if (flag == ViewVisibility.UPLOAD_COMPLETE_VISIBILITY){
             binding.progressIndicatorCardView.visibility = View.GONE
             binding.capturedImageViewLayout.visibility = View.GONE
             binding.takePhotoButton.visibility = View.VISIBLE
@@ -620,12 +665,13 @@ class CameraFragment : Fragment() {
 
     companion object {
         private const val TAG = "CameraX"
+        private var ACTIVITY_FLAG: String = "none"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val LENS_FRONT = CameraSelector.LENS_FACING_FRONT
         private const val LENS_BACK = CameraSelector.LENS_FACING_BACK
         const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-        private object VIEW_VISIBILITY {
+        private object ViewVisibility {
             const val INITIAL_INVISIBLE = "initial_invisible"
             const val UPLOAD_COMPLETE_VISIBILITY = "upload_complete_visibility"
         }

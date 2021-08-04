@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
-import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.FragmentBullMagicItemBinding
@@ -213,7 +212,7 @@ class BullMagicItemFragment : Fragment() {
                                 updateNiceStatusToSelf(userId, photoID, userName, imageRef)
                             }
                             .addOnFailureListener {e->
-                                Log.i("TAG","failed to add nice status to firestore : ${e.message}")
+                                Log.i("TAG","failed to add nice status to fireStore : ${e.message}")
                             }
                     } else if (it.contains("photos.$photoID.nices_userid") && !array.contains(auth.currentUser?.uid)){
                         db.collection("Users")
@@ -223,7 +222,7 @@ class BullMagicItemFragment : Fragment() {
                                 updateNiceStatusToSelf(userId, photoID, userName, imageRef)
                             }
                             .addOnFailureListener {e->
-                                Log.i("TAG","failed to add nice status to firestore : ${e.message}")
+                                Log.i("TAG","failed to add nice status to fireStore : ${e.message}")
                             }
                     } else {
                         db.collection("Users")
@@ -243,10 +242,10 @@ class BullMagicItemFragment : Fragment() {
                                                             .document(auth.currentUser?.uid!!)
                                                             .update("nices.$key", FieldValue.delete())
                                                             .addOnSuccessListener {
-                                                                Log.i("TAG","deleted nice data from self firestore data")
+                                                                Log.i("TAG","deleted nice data from self fireStore data")
                                                             }
                                                             .addOnFailureListener {e->
-                                                                Log.i("TAG","failed to delete nice status from self firestore data : ${e.message}")
+                                                                Log.i("TAG","failed to delete nice status from self fireStore data : ${e.message}")
                                                             }
                                                     }
                                                 }
@@ -256,7 +255,7 @@ class BullMagicItemFragment : Fragment() {
                                     }
                             }
                             .addOnFailureListener {e->
-                                Log.i("TAG","failed to add nice status to firestore : ${e.message}")
+                                Log.i("TAG","failed to add nice status to fireStore : ${e.message}")
                             }
                     }
 
@@ -272,10 +271,10 @@ class BullMagicItemFragment : Fragment() {
             .document(auth.currentUser?.uid!!)
             .update("nices.$niceUUID", niceMap)
             .addOnSuccessListener {
-                Log.i("TAG","nice data added to firestore")
+                Log.i("TAG","nice data added to fireStore")
             }
             .addOnFailureListener {e->
-                Log.i("TAG","failed to add nice data to firestore : ${e.message}")
+                Log.i("TAG","failed to add nice data to fireStore : ${e.message}")
             }
     }
 

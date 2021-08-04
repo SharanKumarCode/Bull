@@ -35,7 +35,7 @@
         android:id="@+id/targetUserNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sharan Kumar"
+        android:text="@string/placeHolderUserName"
 
         android:textSize="18sp"
         android:textStyle="normal"

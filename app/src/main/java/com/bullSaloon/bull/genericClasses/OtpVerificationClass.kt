@@ -30,7 +30,6 @@ import java.util.concurrent.TimeUnit
 
 class OtpVerificationClass() {
     private var auth: FirebaseAuth = Firebase.auth
-    private val TAG: String = "TAG"
 
     private lateinit var mobileNumber: String
     private lateinit var storedVerificationId:String
@@ -211,7 +210,7 @@ class OtpVerificationClass() {
                 .document(auth.currentUser?.uid!!)
                 .get()
                 .addOnSuccessListener {
-                    if (it?.exists()!!) {
+                    if (it.exists()) {
 
                         val userName = it.getString("user_name")!!
                         val userID = it.getString("user_id")!!
@@ -243,8 +242,8 @@ class OtpVerificationClass() {
                             val intent = Intent(context, MainActivity::class.java)
                             startActivity(context, intent, null)
                         }
-                            .addOnFailureListener{
-                                Log.i("TAG","profile pic error : ${it.message}")
+                            .addOnFailureListener{e->
+                                Log.i("TAG","profile pic error : ${e.message}")
                                 SingletonUserData.userData =
                                     UserDataClass(userID, userName, mobileNumber, null)
                             }
@@ -258,9 +257,13 @@ class OtpVerificationClass() {
     }
 
     private fun getOutputDirectory(): File {
-        val mediaDir = context.externalMediaDirs.firstOrNull().let {
+        val mediaDir = context.getExternalFilesDir(null).let {
             File(it, context.resources.getString(R.string.app_name)).apply { mkdirs() } }
-        return if (mediaDir != null && mediaDir.exists())
+        return if (mediaDir.exists())
             mediaDir else context.filesDir
+    }
+
+    companion object {
+        private const val TAG = "TAG"
     }
 }

@@ -1,11 +1,10 @@
 package com.bullSaloon.bull.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.ViewHolderSaloonPricingItemBinding
@@ -44,12 +43,9 @@ class SaloonPricingRecyclerViewAdapter(_lists: MutableList<HashMap<String, Numbe
             R.color.black,
             R.color.teal_700)
 
-        val sample = listOf<Int>(1,3,6)
-
         holder.binding.saloonPricingLayout.layoutParams = ConstraintLayout.LayoutParams(width,height)
 
-        holder.binding.saloonPricingLabelText.setBackgroundColor(holder.binding.root.resources.getColor(colors.random()))
-
+        holder.binding.saloonPricingLabelText.setBackgroundColor(ContextCompat.getColor(holder.binding.root.context, colors.random()))
 
     }
 
