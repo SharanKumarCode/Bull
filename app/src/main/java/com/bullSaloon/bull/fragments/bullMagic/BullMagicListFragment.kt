@@ -2,26 +2,36 @@ package com.bullSaloon.bull.fragments.bullMagic
 
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.transition.TransitionInflater
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.HandlerCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.adapters.BullMagicListRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentBullMagicListBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.BullMagicListData
+import com.bullSaloon.bull.viewModel.MainActivityViewModel
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
 
 
 class BullMagicListFragment : Fragment() {
 
     private var _binding: FragmentBullMagicListBinding? = null
     private val binding get() = _binding!!
+    private var bullMagicList = mutableListOf<BullMagicListData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +62,17 @@ class BullMagicListFragment : Fragment() {
         if (scrollState != null){
             binding.recyclerViewBullMagicList.layoutManager?.onRestoreInstanceState(scrollState)
         }
+
+        binding.bullMagicListRefresher.setOnRefreshListener {
+            getFirebaseData()
+
+            HandlerCompat.postDelayed(
+                Handler(Looper.getMainLooper()),
+                {
+                    binding.bullMagicListRefresher.isRefreshing = false
+                }, null, 1000)
+        }
+
     }
 
     override fun onPause() {
@@ -69,40 +90,68 @@ class BullMagicListFragment : Fragment() {
     private fun getFirebaseData() {
         val db = Firebase.firestore
         val auth = Firebase.auth
+        val dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
-        val bullMagicList = mutableListOf<BullMagicListData>()
+        bullMagicList.clear()
+        dataViewModel.temp.clear()
+
+        val taskList = mutableListOf<Task<QuerySnapshot>>()
 
         db.collection("Users")
             .get()
             .addOnSuccessListener {
                 if (!it.isEmpty) {
-                        for (document in it.documents) {
-                            if (document.id != auth.currentUser?.uid && document.get("photos") != null) {
-                                val photos = document.get("photos") as Map<String,Map<String, *>>
-                                photos.forEach{(keys, values) ->
-                                    val nicesUserId = if (values["nices_userid"] != null) values["nices_userid"] as List<String> else null
+                    for (userDocument in it.documents) {
+
+                        db.collection("Users")
+                            .document(userDocument.id)
+                            .collection("photos")
+                            .get()
+                            .addOnSuccessListener { photoSnapshots ->
+
+                                for (photoDoc in photoSnapshots){
+
+                                    val nicesUserId = if (photoDoc.get("nices_userid") != null) photoDoc.get("nices_userid") as List<String> else null
                                     val niceStatus = nicesUserId?.contains(auth.currentUser?.uid)
-                                    val saloonName = if (values["saloon_name"] != null) values["saloon_name"].toString() else ""
-                                    val caption = if (values["caption"] != null) values["caption"].toString() else ""
+                                    val saloonName = if (photoDoc.get("saloon_name") != null) photoDoc.get("saloon_name").toString() else ""
+                                    val caption = if (photoDoc.get("caption") != null) photoDoc.get("caption").toString() else ""
                                     val data = BullMagicListData(
-                                        document.getString("user_id")!!,
-                                        document.getString("user_name")!!,
-                                        keys,
-                                        values["image_ref"].toString(),
-                                        values["timestamp"].toString(),
+                                        userDocument.getString("user_id").toString(),
+                                        userDocument.getString("user_name").toString(),
+                                        photoDoc.getString("photoID").toString(),
+                                        photoDoc.getString("image_ref").toString(),
+                                        photoDoc.getString("timestamp").toString(),
                                         niceStatus ?: false,
                                         nicesUserId?.size ?: 0,
                                         saloonName,
                                         caption
                                     )
+
                                     bullMagicList.add(data)
+                                    dataViewModel.putBullMagicData(data)
                                 }
                             }
-                        }
-                    binding.recyclerViewBullMagicList.adapter = BullMagicListRecyclerViewAdapter(bullMagicList, this)
-                        }
+                            .addOnFailureListener { e->
+                                Log.i(TAG,"Error fetching photo data : ${e.message}")
+                            }
+                    }
                 }
-
+            }
+            .addOnFailureListener {e->
+                Log.i(TAG,"Error fetching user data : ${e.message}")
+            }
+            .addOnCompleteListener {
+                if(view != null){
+                    dataViewModel.getBullMagicDataList().observe(viewLifecycleOwner, {data->
+                        if (data != null){
+                            binding.recyclerViewBullMagicList.adapter = BullMagicListRecyclerViewAdapter(data, this)
+                        }
+                    })
+                }
+            }
     }
 
+    companion object {
+        private const val TAG = "TAGBullMagicListFragment"
+    }
 }

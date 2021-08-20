@@ -1,33 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/saloonListRefresher"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.saloon.SaloonListFragment">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent">
 
-        android:background="@color/mainActivityBg"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-    <ImageView
-        android:contentDescription="@string/contentDescriptionLoadingIcon"
-        android:id="@+id/loading_icon_list_fragment_ImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/avd_loading_icon_wtob_anim"
-        android:visibility="visible"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"/>
+            android:background="@color/mainActivityBg"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            />
 
-</RelativeLayout>
+        <ImageView
+            android:contentDescription="@string/contentDescriptionLoadingIcon"
+            android:id="@+id/loading_icon_list_fragment_ImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="90dp"
+            android:src="@drawable/avd_loading_icon_wtob_anim"
+            android:visibility="visible"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:id="@+id/loadMoreSaloonButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/buttonLoadMoreSaloons"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+
+            android:layout_below="@+id/recyclerView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
+            android:padding="30dp"/>
+
+    </RelativeLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+

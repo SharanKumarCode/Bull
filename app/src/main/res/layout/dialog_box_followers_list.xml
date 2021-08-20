@@ -26,7 +26,7 @@
         android:layout_margin="10dp"
         android:background="@color/teal_700"
 
-        android:src="@drawable/ic_baseline_close_black_40"
+        android:src="@drawable/ic_baseline_close_40"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
     <androidx.recyclerview.widget.RecyclerView

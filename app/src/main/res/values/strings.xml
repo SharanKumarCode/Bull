@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Bull</string>
+    <string name="facebook_app_id">2629927187154177</string>
+    <string name="fb_login_protocol_scheme">fb2629927187154177</string>
 
     <!--    Text/Placeholder/Hints/Helper Texts-->
     <string name="hintSearchEdit">Search for shops</string>
@@ -53,6 +55,10 @@
     <string name="buttonOK">OK</string>
     <string name="buttonFollow">Follow</string>
     <string name="buttonUnFollow">Un-Follow</string>
+    <string name="buttonDismiss">Dismiss</string>
+    <string name="buttonGoogleSignIn">GOOGLE SIGN-IN</string>
+    <string name="buttonFacebookSignIn">FACEBOOK SIGN-IN</string>
+    <string name="buttonMobileSignIn">MOBILE SIGN-IN</string>
 
     <!--    Content Description Texts-->
     <string name="contentDescription">Bull Logo</string>
@@ -113,5 +119,8 @@
     <string name="contentDescriptionReviewCount">Review Count</string>
     <string name="placeHolderMobileNumber">+919941677517</string>
     <string name="placeHolderNoComments">No Comments yet...</string>
+    <string name="buttonLoadMoreReviews">Load more reviews</string>
+    <string name="buttonLoadMoreSaloons">Load more saloons</string>
+    <string name="buttonLoadMore">load more</string>
 
 </resources>

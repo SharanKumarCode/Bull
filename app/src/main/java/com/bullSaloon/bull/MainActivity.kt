@@ -21,10 +21,7 @@ import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat
@@ -41,8 +38,10 @@ import com.bullSaloon.bull.viewModel.MainActivityViewModel
 import com.bullSaloon.bull.viewModel.UserDataViewModel
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.facebook.login.LoginManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationBarView
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -106,6 +105,24 @@ class MainActivity : AppCompatActivity() {
 
             }
         })
+
+        binding.topAppBar.setOnMenuItemClickListener {
+
+            Log.i(TAG, "menu item clicked : ${it.itemId}")
+
+            when(it!!.itemId)
+            {
+                R.id.menuItemSettings -> {
+                    Firebase.auth.signOut()
+                    LoginManager.getInstance().logOut()
+                    Toast.makeText(this, "Signed-Out successfully", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, SplashScreenActivity::class.java))
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
 
         navController?.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.cameraFragment){
@@ -316,7 +333,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "TAGProfile"
+        private const val TAG = "TAGMainActivity"
         private const val REQUEST_CODE_PERMISSIONS = 123
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 

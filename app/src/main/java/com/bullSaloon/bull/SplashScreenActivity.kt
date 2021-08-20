@@ -1,5 +1,6 @@
 package com.bullSaloon.bull
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,14 @@ import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import android.content.pm.PackageManager
+
+import android.content.pm.PackageInfo
+import android.util.Base64
+import java.lang.Exception
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+
 
 @Suppress("DEPRECATION")
 class SplashScreenActivity : AppCompatActivity() {
@@ -37,6 +46,8 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Log.i(TAG,"user id: ${auth.currentUser?.uid}")
 
+        printHashKey(this)
+
         Handler().postDelayed({
             if (auth.currentUser == null){
 //                launch Home Activity
@@ -60,7 +71,24 @@ class SplashScreenActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun printHashKey(pContext: Context) {
+        try {
+            val info: PackageInfo = pContext.packageManager
+                .getPackageInfo(pContext.packageName, PackageManager.GET_SIGNATURES)
+            for (signature in info.signatures) {
+                val md: MessageDigest = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val hashKey: String = String(Base64.encode(md.digest(), 0))
+                Log.i(TAG, "printHashKey() Hash Key: $hashKey")
+            }
+        } catch (e: NoSuchAlgorithmException) {
+            Log.e(TAG, "printHashKey()", e)
+        } catch (e: Exception) {
+            Log.e(TAG, "printHashKey()", e)
+        }
+    }
+
     companion object {
-        private const val TAG = "TAG"
+        private const val TAG = "TAGSplashScreenActivity"
     }
 }

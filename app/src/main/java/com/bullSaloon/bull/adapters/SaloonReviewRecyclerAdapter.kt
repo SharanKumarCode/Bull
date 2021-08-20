@@ -41,7 +41,7 @@ class SaloonReviewRecyclerAdapter(_lists: MutableList<SaloonReviewFragment.Ratin
         getFirestoreData(lists[position].userID, holderBinding)
 
 //        set date
-        val date = lists[position].timeStamp.substring(0,10)
+        val date = lists[position].timestamp.substring(0,10)
         val dateFormatted = LocalDate.parse(date, DateTimeFormatter.ISO_DATE)
         val month = dateFormatted.month.toString()
             .lowercase()
@@ -50,6 +50,11 @@ class SaloonReviewRecyclerAdapter(_lists: MutableList<SaloonReviewFragment.Ratin
 
 //        set review
         holderBinding.saloonReviewUserReviewText.text = lists[position].review
+        if (lists[position].review == ""){
+            val param = holderBinding.saloonReviewUserReviewText.layoutParams as ViewGroup.MarginLayoutParams
+            param.setMargins(10,30,10,40)
+            holderBinding.saloonReviewUserReviewText.layoutParams = param
+        }
 
 //        set rating
         when(lists[position].rating.toInt()){

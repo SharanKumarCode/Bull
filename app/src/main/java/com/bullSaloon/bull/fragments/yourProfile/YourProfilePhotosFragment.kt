@@ -44,10 +44,10 @@ class YourProfilePhotosFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.yourProfilePhotosRecycler.layoutManager = GridLayoutManager(activity, 2)
-        generateFirestoreData()
+        getPhotosFirestoreData()
     }
 
-    private fun generateFirestoreData(){
+    private fun getPhotosFirestoreData(){
 
         val db = Firebase.firestore
         val auth = Firebase.auth
@@ -55,22 +55,24 @@ class YourProfilePhotosFragment : Fragment() {
 
         db.collection("Users")
             .document(auth.currentUser?.uid!!)
-            .addSnapshotListener { value, error ->
+            .collection("photos")
+            .addSnapshotListener { snapshot, error ->
                 if (error == null){
                     val myPhotosList: MutableList<MyPhotosData>  = mutableListOf()
-                    if (value?.exists()!! && value.contains("photos")){
-                        val photos = value.get("photos") as Map<String, Map<String,Any>>
-                        photos.forEach { (keys, values) ->
-                            val nices = if (values["nices"] != null) values["nices"] as List<String> else mutableListOf()
-                            val saloonName = if (values["saloon_name"].toString() != "null") values["saloon_name"].toString() else ""
-                            val caption = if (values["caption"].toString() != "null") values["caption"].toString() else ""
+
+                    if (!snapshot?.isEmpty!!){
+
+                        for (document in snapshot.documents){
+                            val nicesCount = document.get("nices_userid")as ArrayList<String>
+                            val saloonName = if (document.get("saloon_name").toString() != "null") document.get("saloon_name").toString() else ""
+                            val caption = if (document.get("caption").toString() != "null") document.get("caption").toString() else ""
                             val data = MyPhotosData(
-                                keys,
-                                values["image_ref"].toString(),
-                                value["user_name"].toString(),
-                                value["user_id"].toString(),
-                                nices.size,
-                                values["timestamp"].toString(),
+                                document.get("photoID").toString(),
+                                document.get("image_ref").toString(),
+                                document.get("user_name").toString(),
+                                document.get("user_id").toString(),
+                                nicesCount.size,
+                                document.get("timestamp").toString(),
                                 saloonName,
                                 caption
                             )

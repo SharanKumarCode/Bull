@@ -1,301 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/saloonRefresher"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.saloon.SaloonItemFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:contentDescription="@string/contentDescriptionSaloonDisplayImage"
-            android:id="@+id/saloonItemDisplayImage"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@drawable/marvel_saloon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutSaloonItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingTop="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/saloonItemDisplayImage"
-            app:layout_constraintVertical_bias="0.02"
-            >
-
-            <TextView
-                android:id="@+id/saloonItemNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxWidth="300dp"
-                android:text="@string/placeHolderSaloonName"
-                android:textColor="#DDDDDD"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/openStatus_TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/saloonItemNameTextView"
-                android:textAlignment="textEnd"
-                android:layout_marginEnd="10dp"
-                android:text="@string/placeHolderOpenStatus"
-                android:textColor="#0FFF33"
-                android:textSize="14sp"
-                />
-
-            <TextView
-                android:id="@+id/saloonItemAddressTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/saloonItemNameTextView"
-                android:text="@string/placeHolderSaloonAddress"
-                android:textColor="#DDDDDD"
-                android:textSize="14sp"
-                />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/secondRelativeLayoutSaloonItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/relativeLayoutSaloonItem"
-            android:layout_marginTop="20dp">
+            android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/ratingSaloonItemImageView"
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-
-                android:layout_alignTop="@+id/callSaloonItemImageView"
-                android:layout_toStartOf="@+id/callSaloonItemImageView"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginTop="20dp"
-
-                android:backgroundTint="@color/mainActButtonBgColorActive"
-
-
-                android:contentDescription="@string/contentDescriptionRating"
-                android:src="@drawable/ic_rating_three_stars" />
+                android:contentDescription="@string/contentDescriptionSaloonDisplayImage"
+                android:id="@+id/saloonItemDisplayImage"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/marvel_saloon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <RelativeLayout
-                android:id="@+id/saloonItemReviewCountLayout"
-                android:layout_width="wrap_content"
+                android:id="@+id/relativeLayoutSaloonItem"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ratingSaloonItemImageView"
-                android:layout_alignStart="@+id/ratingSaloonItemImageView"
-                android:layout_alignEnd="@+id/ratingSaloonItemImageView"
-                android:layout_marginTop="20dp">
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/saloonItemDisplayImage"
+                app:layout_constraintVertical_bias="0.02"
+                >
 
                 <TextView
-                    android:id="@+id/saloonItemReviewCountText"
-                    android:layout_width="15dp"
+                    android:id="@+id/saloonItemNameTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/placeHolderReviewCount"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:maxWidth="300dp"
+                    android:text="@string/placeHolderSaloonName"
+                    android:textColor="#DDDDDD"
+                    android:textSize="20sp" />
 
-                    android:layout_alignTop="@+id/saloonItemReviewCountImage"
-                    android:layout_alignBottom="@+id/saloonItemReviewCountImage"
-                    android:layout_toStartOf="@+id/saloonItemReviewCountImage"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center"/>
-
-                <ImageView
-                    android:contentDescription="@string/contentDescriptionReviewCount"
-                    android:id="@+id/saloonItemReviewCountImage"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-
+                <TextView
+                    android:id="@+id/openStatus_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="30dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/saloonItemNameTextView"
+                    android:textAlignment="textEnd"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/placeHolderOpenStatus"
+                    android:textColor="#0FFF33"
+                    android:textSize="14sp"
+                    />
 
-                    app:srcCompat="@drawable/ic_baseline_rate_review_24"/>
+                <TextView
+                    android:id="@+id/saloonItemAddressTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/saloonItemNameTextView"
+                    android:text="@string/placeHolderSaloonAddress"
+                    android:textColor="#DDDDDD"
+                    android:textSize="14sp"
+                    />
+
 
             </RelativeLayout>
 
-
-            <ImageView
-                android:id="@+id/callSaloonItemImageView"
-                android:layout_width="30dp"
+            <RelativeLayout
+                android:id="@+id/secondRelativeLayoutSaloonItem"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayoutSaloonItem"
+                android:layout_marginTop="20dp">
 
-                android:layout_toStartOf="@+id/callSaloonItemText"
-                android:clickable="true"
-                android:contentDescription="@string/contentDescriptionCallButton"
-                android:focusable="true"
-                android:src="@drawable/ic_baseline_call_40" />
+                <ImageView
+                    android:id="@+id/ratingSaloonItemImageView"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
 
-            <TextView
-                android:id="@+id/callSaloonItemText"
-                android:layout_width="wrap_content"
+                    android:layout_alignTop="@+id/callSaloonItemImageView"
+                    android:layout_toStartOf="@+id/callSaloonItemImageView"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginTop="20dp"
+
+                    android:backgroundTint="@color/mainActButtonBgColorActive"
+
+
+                    android:contentDescription="@string/contentDescriptionRating"
+                    android:src="@drawable/ic_rating_three_stars" />
+
+                <RelativeLayout
+                    android:id="@+id/saloonItemReviewCountLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ratingSaloonItemImageView"
+                    android:layout_alignStart="@+id/ratingSaloonItemImageView"
+                    android:layout_alignEnd="@+id/ratingSaloonItemImageView"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:id="@+id/saloonItemReviewCountText"
+                        android:layout_width="15dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/placeHolderReviewCount"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+
+                        android:layout_alignTop="@+id/saloonItemReviewCountImage"
+                        android:layout_alignBottom="@+id/saloonItemReviewCountImage"
+                        android:layout_toStartOf="@+id/saloonItemReviewCountImage"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:contentDescription="@string/contentDescriptionReviewCount"
+                        android:id="@+id/saloonItemReviewCountImage"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="30dp"
+
+                        app:srcCompat="@drawable/ic_baseline_rate_review_24"/>
+
+                </RelativeLayout>
+
+
+                <ImageView
+                    android:id="@+id/callSaloonItemImageView"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+
+                    android:layout_toStartOf="@+id/callSaloonItemText"
+                    android:clickable="true"
+                    android:contentDescription="@string/contentDescriptionCallButton"
+                    android:focusable="true"
+                    android:src="@drawable/ic_baseline_call_40" />
+
+                <TextView
+                    android:id="@+id/callSaloonItemText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignTop="@+id/callSaloonItemImageView"
+                    android:layout_alignBottom="@+id/callSaloonItemImageView"
+                    android:layout_marginEnd="30dp"
+
+                    android:layout_toStartOf="@+id/googleMapImageView"
+                    android:gravity="center"
+                    android:text="@string/textCall"
+                    android:textAlignment="center"
+
+                    android:textColor="@color/white"
+
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/callSaloonItemText"
+
+                    android:layout_alignBottom="@+id/callSaloonItemText"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@+id/googleMapImageView"
+                    android:background="@color/white" />
+
+                <ImageView
+                    android:id="@+id/googleMapImageView"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/callSaloonItemText"
+
+                    android:layout_alignBottom="@+id/callSaloonItemText"
+
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@+id/locationSaloonItemText"
+
+                    android:clickable="true"
+                    android:contentDescription="@string/contentDescriptionMapButton"
+                    android:focusable="true"
+                    android:src="@drawable/ic_baseline_location_on_40" />
+
+                <TextView
+                    android:id="@+id/locationSaloonItemText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignTop="@+id/callSaloonItemText"
+                    android:layout_alignBottom="@+id/callSaloonItemText"
+                    android:layout_alignParentEnd="true"
+
+                    android:layout_marginEnd="20dp"
+                    android:gravity="center"
+                    android:text="@string/textLocation"
+                    android:textAlignment="center"
+
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+
+                    android:layout_below="@+id/googleMapImageView"
+                    android:layout_alignStart="@+id/callSaloonItemImageView"
+                    android:layout_alignEnd="@+id/locationSaloonItemText"
+
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/saloonItemShareImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/locationSaloonItemText"
+                    android:layout_toStartOf="@+id/appointmentSaloonItemButton"
+                    android:layout_alignTop="@+id/appointmentSaloonItemButton"
+                    android:layout_alignBottom="@+id/appointmentSaloonItemButton"
+                    android:layout_alignStart="@+id/callSaloonItemImageView"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="10dp"
+
+                    app:srcCompat="@drawable/ic_baseline_share_40"/>
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/appointmentSaloonItemButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="12sp"
+
+                    android:layout_below="@+id/locationSaloonItemText"
+                    android:layout_alignEnd="@+id/locationSaloonItemText"
+
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+
+                    android:backgroundTint="@color/teal_700"
+                    android:clickable="true"
+                    android:contentDescription="@string/contentDescriptionAppointment"
+                    android:focusable="true"
+
+                    android:text="@string/buttonAppointment" />
+            </RelativeLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabInputSaloonItem"
+                style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_alignTop="@+id/callSaloonItemImageView"
-                android:layout_alignBottom="@+id/callSaloonItemImageView"
-                android:layout_marginEnd="30dp"
-
-                android:layout_toStartOf="@+id/googleMapImageView"
-                android:gravity="center"
-                android:text="@string/textCall"
-                android:textAlignment="center"
-
-                android:textColor="@color/white"
-
-                android:textSize="14sp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/callSaloonItemText"
-
-                android:layout_alignBottom="@+id/callSaloonItemText"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/googleMapImageView"
-                android:background="@color/white" />
-
-            <ImageView
-                android:id="@+id/googleMapImageView"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/callSaloonItemText"
-
-                android:layout_alignBottom="@+id/callSaloonItemText"
-
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/locationSaloonItemText"
-
-                android:clickable="true"
-                android:contentDescription="@string/contentDescriptionMapButton"
-                android:focusable="true"
-                android:src="@drawable/ic_baseline_location_on_40" />
-
-            <TextView
-                android:id="@+id/locationSaloonItemText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_alignTop="@+id/callSaloonItemText"
-                android:layout_alignBottom="@+id/callSaloonItemText"
-                android:layout_alignParentEnd="true"
-
-                android:layout_marginEnd="20dp"
-                android:gravity="center"
-                android:text="@string/textLocation"
-                android:textAlignment="center"
-
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-
-                android:layout_below="@+id/googleMapImageView"
-                android:layout_alignStart="@+id/callSaloonItemImageView"
-                android:layout_alignEnd="@+id/locationSaloonItemText"
-
-                android:layout_marginTop="10dp"
-                android:background="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/saloonItemShareImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/locationSaloonItemText"
-                android:layout_toStartOf="@+id/appointmentSaloonItemButton"
-                android:layout_alignTop="@+id/appointmentSaloonItemButton"
-                android:layout_alignBottom="@+id/appointmentSaloonItemButton"
-                android:layout_alignStart="@+id/callSaloonItemImageView"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="10dp"
-
-                app:srcCompat="@drawable/ic_baseline_share_40"/>
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/appointmentSaloonItemButton"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:textSize="12sp"
-
-                android:layout_below="@+id/locationSaloonItemText"
-                android:layout_alignEnd="@+id/locationSaloonItemText"
-
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
 
-                android:backgroundTint="@color/teal_700"
-                android:clickable="true"
-                android:contentDescription="@string/contentDescriptionAppointment"
-                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/secondRelativeLayoutSaloonItem"
 
-                android:text="@string/buttonAppointment" />
-        </RelativeLayout>
+                app:layout_constraintVertical_bias="0.0"
+                app:tabBackground="@color/mainActivityBg"
+                app:tabIconTint="@color/teal_700"
+                app:tabIndicatorColor="@color/teal_700"
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextAppearance="@style/MineCustomTabText"
+                app:tabTextColor="#CCCCCC">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabInputSaloonItem"
-            style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            </com.google.android.material.tabs.TabLayout>
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/secondRelativeLayoutSaloonItem"
-
-            app:layout_constraintVertical_bias="0.0"
-            app:tabBackground="@color/mainActivityBg"
-            app:tabIconTint="@color/teal_700"
-            app:tabIndicatorColor="@color/teal_700"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextAppearance="@style/MineCustomTabText"
-            app:tabTextColor="#CCCCCC">
-
-        </com.google.android.material.tabs.TabLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/ViewPagerSaloonItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabInputSaloonItem"
-            app:layout_constraintVertical_bias="0.02" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/ViewPagerSaloonItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tabInputSaloonItem"
+                app:layout_constraintVertical_bias="0.02" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-</androidx.core.widget.NestedScrollView>
 

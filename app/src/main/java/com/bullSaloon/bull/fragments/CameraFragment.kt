@@ -43,6 +43,8 @@ import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.common.util.concurrent.ListenableFuture
@@ -86,6 +88,7 @@ class CameraFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
 
     private lateinit var loadingIconAnim: AnimatedVectorDrawable
+    private lateinit var snackBar: Snackbar
     private var saloonName = ""
     private var captionText = ""
 
@@ -121,6 +124,17 @@ class CameraFragment : Fragment() {
         auth = Firebase.auth
 
         userData = mapOf("user_name" to data.user_name.replace("\\s".toRegex(), "_"), "id" to data.user_id)
+
+        snackBar = Snackbar
+            .make(binding.takePhotoButton, "Image is being uploaded in the background", Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(requireContext().getColor(R.color.teal_200))
+            .setTextColor(requireContext().getColor(R.color.black))
+            .setAnimationMode(ANIMATION_MODE_SLIDE)
+
+        snackBar.setAction(R.string.buttonDismiss) {
+            snackBar.dismiss()
+        }
+
         binding.progressIndicatorCardView.visibility = View.GONE
 
 //        Request camera permissions
@@ -163,7 +177,8 @@ class CameraFragment : Fragment() {
             if (ACTIVITY_FLAG == "profilePicture"){
 
 //                show progress
-                binding.progressIndicatorCardView.visibility = View.VISIBLE
+//                binding.progressIndicatorCardView.visibility = View.VISIBLE
+
                 uploadImage()
             } else {
 
@@ -312,8 +327,9 @@ class CameraFragment : Fragment() {
                 activity?.window?.setSoftInputMode(
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
-                binding.progressIndicatorCardView.visibility = View.VISIBLE
+//                binding.progressIndicatorCardView.visibility = View.VISIBLE
                 uploadImage()
+                snackBar.show()
 
                 dialog.hide()
             }
@@ -321,9 +337,9 @@ class CameraFragment : Fragment() {
 
         skipButton.setOnClickListener {
 
-            binding.progressIndicatorCardView.visibility = View.VISIBLE
+//            binding.progressIndicatorCardView.visibility = View.VISIBLE
             uploadImage()
-
+            snackBar.show()
             dialog.hide()
         }
 
@@ -506,10 +522,10 @@ class CameraFragment : Fragment() {
 
         uploadTask.addOnSuccessListener{
 
-            binding.progressIndicatorText.text = resources.getString(R.string.textProgressIndicator, "100 %")
-            binding.progressHorizontal.progress = 100
+//            binding.progressIndicatorText.text = resources.getString(R.string.textProgressIndicator, "100 %")
+//            binding.progressHorizontal.progress = 100
 
-            Toast.makeText(requireContext(),"Image uploaded..", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity().applicationContext,"Image uploaded successfully..", Toast.LENGTH_SHORT).show()
 
             setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
 
@@ -534,15 +550,16 @@ class CameraFragment : Fragment() {
             setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
 
             Log.d(TAG, "Image upload failed: ${it.message}")
-            Toast.makeText(requireContext(),"Image upload failed..", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity().applicationContext,"Image upload failed..", Toast.LENGTH_SHORT).show()
 
             deleteImageFile()
         }
 
         uploadTask.addOnProgressListener {
             val progress = ((it.bytesTransferred.toFloat() / it.totalByteCount.toFloat()) * 100).toInt()
-            binding.progressHorizontal.progress = progress
-            binding.progressIndicatorText.text = resources.getString(R.string.textProgressIndicator, "$progress %")
+//            binding.progressHorizontal.progress = progress
+//            binding.progressIndicatorText.text = resources.getString(R.string.textProgressIndicator, "$progress %")
+            Log.i(TAG, "upload in progress :$progress %")
         }
     }
 
@@ -552,53 +569,38 @@ class CameraFragment : Fragment() {
 
         try {
 
+            val photoUUID = UUID.randomUUID().toString()
+            val mapData = hashMapOf<String, Any>("timestamp" to dateFormat,
+                                                "image_ref" to "$fireStoreUrl$imagePath",
+                                                "caption" to captionText,
+                                                "nices_userid" to arrayListOf<String>(),
+                                                "photoID" to photoUUID,
+                                                "saloon_name" to saloonName,
+                                                "user_id" to SingletonUserData.userData.user_id,
+                                                "user_name" to SingletonUserData.userData.user_name)
+
             db.collection("Users")
                 .document(auth.currentUser?.uid.toString())
-                .get()
-                .addOnSuccessListener { it ->
-                    if (it.exists()){
-                        if (it.id == auth.currentUser?.uid.toString()){
-                            val mapData = hashMapOf<String, Any>("timestamp" to dateFormat, "image_ref" to "$fireStoreUrl$imagePath", "caption" to captionText, "saloon_name" to saloonName)
-                            val photoUUID = UUID.randomUUID().toString()
+                .collection("photos")
+                .document(photoUUID)
+                .set(mapData)
+                .addOnSuccessListener {
 
-                            if (it.get("photos") == null){
-                                val photoData = hashMapOf<String, Map<String,Any>>(photoUUID to mapData)
-                                db.collection("Users")
-                                    .document(it.id)
-                                    .update("photos", photoData)
-                                    .addOnSuccessListener {
-                                        deleteImageFile()
-                                        Log.i(TAG, "Data updated")
-                                    }
-                                    .addOnFailureListener {
-
-                                        stopLoadingIcon()
-                                        Log.i(TAG, "Data update Failed : ${it.message}")
-                                    }
-                            } else {
-                                db.collection("Users")
-                                    .document(it.id)
-                                    .update("photos.${photoUUID}", mapData)
-                                    .addOnSuccessListener {
-                                        stopLoadingIcon()
-                                        deleteImageFile()
-                                        Log.i(TAG, "Data updated")
-                                    }
-                                    .addOnFailureListener {
-                                        stopLoadingIcon()
-                                        Log.i(TAG, "Data update Failed : ${it.message}")
-                                    }
-                            }
-                        }
-                    }
+                    Log.i(TAG, "Data updated")
                 }
                 .addOnFailureListener {
-                    stopLoadingIcon()
-                    Log.i(TAG, "User Data Not Found")
+
+                    Log.i(TAG, "Data update Failed : ${it.message}")
                 }
+                .addOnCompleteListener {
+                    stopLoadingIcon()
+                    deleteImageFile()
+                }
+
         }catch (e: Exception){
             stopLoadingIcon()
-            Log.i(TAG, "error: e")
+            deleteImageFile()
+            Log.i(TAG, "error: $e")
         }
     }
 
@@ -651,6 +653,7 @@ class CameraFragment : Fragment() {
             binding.takePhotoButton.visibility = View.INVISIBLE
             binding.changeCameraButton.visibility = View.INVISIBLE
             binding.uploadFromGalleryButton.visibility = View.INVISIBLE
+            binding.backCameraButton.visibility = View.INVISIBLE
 
         } else if (flag == ViewVisibility.UPLOAD_COMPLETE_VISIBILITY){
             binding.progressIndicatorCardView.visibility = View.GONE
@@ -658,6 +661,7 @@ class CameraFragment : Fragment() {
             binding.takePhotoButton.visibility = View.VISIBLE
             binding.changeCameraButton.visibility = View.VISIBLE
             binding.uploadFromGalleryButton.visibility = View.VISIBLE
+            binding.backCameraButton.visibility = View.VISIBLE
 
         }
 

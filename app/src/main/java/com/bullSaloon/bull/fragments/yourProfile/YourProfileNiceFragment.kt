@@ -64,19 +64,18 @@ class YourProfileNiceFragment : Fragment() {
 
         db.collection("Users")
             .document(auth.currentUser?.uid!!)
-            .addSnapshotListener { document, error ->
+            .collection("nices")
+            .addSnapshotListener { snapshot, error ->
                 if (error == null){
 
-                    if (document?.exists()!! && document.contains("nices")){
-                        val nicesData = document.get("nices") as Map<String, Map<String,String>>
+                    if (!snapshot?.isEmpty!!){
 
-                        nicesData.forEach { (_, value) ->
-
-                            val targetUserID = value["user_id"].toString()
-                            val photoID = value["photo_id"].toString()
-                            val timeStamp = value["timestamp"].toString()
-                            val targetUserName = value["user_name"].toString()
-                            val targetImageRef = value["image_ref"].toString()
+                        for (document in snapshot.documents){
+                            val targetUserID = document.get("user_id").toString()
+                            val photoID = document.get("photo_id").toString()
+                            val timeStamp = document.get("timestamp").toString()
+                            val targetUserName = document.get("user_name").toString()
+                            val targetImageRef = document.get("image_ref").toString()
                             val targetUserNameUnderScore = targetUserName.replace("\\s".toRegex(), "_")
                             val targetUserProfilePicRef= "User_Images/${targetUserID}/${targetUserNameUnderScore}_profilePicture.jpg"
 

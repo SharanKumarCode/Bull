@@ -62,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/saloonItemDialogRatingSlider"
 
         android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/ic_baseline_close_black_40" />
+        app:srcCompat="@drawable/ic_baseline_close_40" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/saloonItemDialogRateButton"

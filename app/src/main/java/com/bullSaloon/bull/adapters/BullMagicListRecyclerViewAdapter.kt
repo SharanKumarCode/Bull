@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _fragment: BullMagicListFragment): RecyclerView.Adapter<BullMagicListRecyclerViewAdapter.BullMagicListRecyclerViewHolder>() {
 
@@ -35,12 +36,14 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _f
     private val auth = Firebase.auth
     private val storage = Firebase.storage
     private val fragment = _fragment
+    private val currentUserID = auth.currentUser?.uid
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): BullMagicListRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_bull_magic_item,parent,false)
+
         return BullMagicListRecyclerViewHolder(view)
     }
 
@@ -104,11 +107,12 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _f
         //check nice status and number of nices
         db.collection("Users")
             .document(bullMagicLists[position].userId)
+            .collection("photos")
+            .document(bullMagicLists[position].photoId)
             .addSnapshotListener { value, error ->
                 if (error == null){
                     if (value?.exists() == true){
-                        val photoID = bullMagicLists[position].photoId
-                        val array = if (value.contains("photos.$photoID.nices_userid")) value.get("photos.$photoID.nices_userid") as List<String> else listOf()
+                        val array = value.get("nices_userid") as List<String>
                         if (array.contains(auth.currentUser?.uid)){
                             holderBinding.BullMagicNiceImageView.setImageResource(R.drawable.ic_nice_filled_icon)
                         } else {
@@ -139,86 +143,88 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _f
             .into(binding.BullMagicImageView)
     }
 
-    private fun updateNiceStatus(userId: String, photoID: String, userName: String, imageRef: String){
+    private fun updateNiceStatus(targetUserId: String, photoID: String, userName: String, imageRef: String){
 
-        db.collection("Users")
-            .document(userId)
-            .get()
+        val niceQuery = db.collection("Users")
+            .document(targetUserId)
+            .collection("photos")
+            .document(photoID)
+
+        niceQuery.get()
             .addOnSuccessListener {
                 if (it.exists()){
-                    val array = if (it.contains("photos.$photoID.nices_userid")) it.get("photos.$photoID.nices_userid") as List<String> else listOf()
-                    if (!it.contains("photos.$photoID.nices_userid")){
-                        db.collection("Users")
-                            .document(userId)
-                            .update("photos.$photoID.nices_userid", FieldValue.arrayUnion(auth.currentUser?.uid))
+                    val nicesUserIDList = it.get("nices_userid") as ArrayList<String>
+
+                    if (nicesUserIDList.contains(currentUserID)){
+                        niceQuery.update("nices_userid", FieldValue.arrayRemove(currentUserID))
                             .addOnSuccessListener {
-                                updateNiceStatusToSelf(userId, photoID, userName, imageRef)
+                                updateNiceStatusToSelf(targetUserId, photoID, userName, imageRef, removeNiceData = true)
                             }
-                            .addOnFailureListener {e->
-                                Log.i("TAG","failed to add nice status to fireStore : ${e.message}")
-                            }
-                    } else if (it.contains("photos.$photoID.nices_userid") && !array.contains(auth.currentUser?.uid)){
-                        db.collection("Users")
-                            .document(userId)
-                            .update("photos.$photoID.nices_userid", FieldValue.arrayUnion(auth.currentUser?.uid))
-                            .addOnSuccessListener {
-                                updateNiceStatusToSelf(userId, photoID, userName, imageRef)
-                            }
-                            .addOnFailureListener {e->
-                                Log.i("TAG","failed to add nice status to fireStore : ${e.message}")
+                            .addOnFailureListener{e->
+                                Log.i(TAG,"failed to remove nice status from fireStore : ${e.message}")
                             }
                     } else {
-                        db.collection("Users")
-                            .document(userId)
-                            .update("photos.$photoID.nices_userid", FieldValue.arrayRemove(auth.currentUser?.uid))
+                        niceQuery.update("nices_userid", FieldValue.arrayUnion(currentUserID))
                             .addOnSuccessListener {
-                                db.collection("Users")
-                                    .document(auth.currentUser?.uid!!)
-                                    .get()
-                                    .addOnSuccessListener { document->
-                                        if (document.exists()){
-                                            val nicesMapData = document.get("nices") as Map<String,Map<String,String>>
-                                            nicesMapData.forEach { (key, _) ->
-                                                run {
-                                                    if (nicesMapData[key]?.get("photo_id") == photoID) {
-                                                        db.collection("Users")
-                                                            .document(auth.currentUser?.uid!!)
-                                                            .update("nices.$key", FieldValue.delete())
-                                                            .addOnSuccessListener {
-                                                                Log.i("TAG","deleted nice data from self fireStore data")
-                                                            }
-                                                            .addOnFailureListener {e->
-                                                                Log.i("TAG","failed to delete nice status from self fireStore data : ${e.message}")
-                                                            }
-                                                    }
-                                                }
-
-                                            }
-                                        }
-                                    }
+                                updateNiceStatusToSelf(targetUserId, photoID, userName, imageRef)
                             }
-                            .addOnFailureListener {e->
-                                Log.i("TAG","failed to add nice status to fireStore : ${e.message}")
+                            .addOnFailureListener{e->
+                                Log.i(TAG,"failed to add nice status to fireStore : ${e.message}")
                             }
                     }
-
                 }
             }
+            .addOnFailureListener { e->
+                Log.i(TAG,"failed to get nice status from fireStore : ${e.message}")
+            }
+
+
     }
 
-    private fun updateNiceStatusToSelf(userId: String, photoID: String, userName: String, imageRef: String){
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis())
-        val niceMap = mapOf("user_id" to userId, "photo_id" to photoID, "timestamp" to dateFormat.toString(), "user_name" to userName, "image_ref" to imageRef)
+    private fun updateNiceStatusToSelf(targetUserId: String, photoID: String, userName: String, imageRef: String, removeNiceData: Boolean = false){
+
         val niceUUID = UUID.randomUUID().toString()
-        db.collection("Users")
-            .document(auth.currentUser?.uid!!)
-            .update("nices.$niceUUID", niceMap)
-            .addOnSuccessListener {
-                Log.i("TAG","nice data added to fireStore")
-            }
-            .addOnFailureListener {e->
-                Log.i("TAG","failed to add nice data to fireStore : ${e.message}")
-            }
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis())
+        val niceMap = mapOf("user_id" to targetUserId,
+                            "photo_id" to photoID,
+                            "timestamp" to dateFormat.toString(),
+                            "user_name" to userName,
+                            "image_ref" to imageRef,
+                            "nice_id" to niceUUID)
+
+        val niceCollectionRef = db.collection("Users")
+                                    .document(currentUserID!!)
+                                    .collection("nices")
+
+        if (!removeNiceData){
+
+            niceCollectionRef
+                .document(niceUUID)
+                .set(niceMap)
+                .addOnSuccessListener {
+                    Log.i(TAG,"nice data added to self fireStore")
+                }
+                .addOnFailureListener {e->
+                    Log.i(TAG,"failed to add nice data to self fireStore : ${e.message}")
+                }
+
+        } else {
+
+            niceCollectionRef
+                .whereEqualTo("photo_id", photoID)
+                .get()
+                .addOnSuccessListener {
+                    niceCollectionRef
+                        .document(it.documents.firstOrNull()?.id!!)
+                        .delete()
+                        .addOnSuccessListener {
+                            Log.i(TAG,"nice data deleted from self fireStore")
+                        }
+                        .addOnFailureListener {e->
+                            Log.i(TAG,"failed to remove nice data from self fireStore : ${e.message}")
+                        }
+                }
+        }
     }
 
     inner class BullMagicListRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -254,6 +260,10 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _f
         args.putString("user_id", userID)
 
         navController?.navigate(R.id.action_bullMagicListFragment_to_bullMagicTargetUserFragment, args)
+    }
+
+    companion object {
+        private const val TAG = "TAGBullMagicListRecyclerViewAdapter"
     }
 
 }

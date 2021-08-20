@@ -20,18 +20,16 @@
         android:id="@+id/closeDialogButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_below="@+id/skipOkButtonContainer"
         android:layout_alignStart="@+id/skipOkButtonContainer"
         android:layout_alignEnd="@+id/skipOkButtonContainer"
-        android:layout_marginStart="120dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="120dp"
         android:layout_marginBottom="10dp"
 
-        android:background="@drawable/ic_baseline_close_black_40"
-        android:backgroundTint="@color/black"
-
-        android:gravity="center" />
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:src="@drawable/ic_baseline_close_black_40" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/saloonNameTextInputLayout"

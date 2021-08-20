@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.transition.TransitionInflater
@@ -15,7 +17,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.HandlerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -29,13 +33,16 @@ import com.bullSaloon.bull.viewModel.MainActivityViewModel
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class SaloonItemFragment : Fragment() {
@@ -43,7 +50,11 @@ class SaloonItemFragment : Fragment() {
     private var _binding: FragmentSaloonItemBinding? = null
     private val binding get() = _binding!!
     private lateinit var saloonID: String
-    private var rating = "1"
+    private lateinit var dataViewModel: MainActivityViewModel
+
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private var rating = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +75,10 @@ class SaloonItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
+        db = Firebase.firestore
+        auth = Firebase.auth
+
         var contact = ""
         var shopAddress = ""
 
@@ -76,7 +91,7 @@ class SaloonItemFragment : Fragment() {
         })
 
 //        Getting data from ViewModel - MainActivityViewModel
-        val dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
+
         dataViewModel.getShopData().observe(viewLifecycleOwner, { data ->
 
 //            Set Image, shop name, shop address and contact number
@@ -116,10 +131,6 @@ class SaloonItemFragment : Fragment() {
             locationActivity(shopAddress)
         }
 
-        binding.saloonItemReviewCountImage.setOnClickListener {
-            Log.i("TAG","Clicked review")
-        }
-
         val viewPagerAdapter = SaloonItemViewPagerAdapter(this)
         binding.ViewPagerSaloonItem.adapter = viewPagerAdapter
 
@@ -151,6 +162,24 @@ class SaloonItemFragment : Fragment() {
             }
 
         })
+
+        binding.saloonRefresher.setOnRefreshListener {
+
+            if (binding.ViewPagerSaloonItem.currentItem == 1){
+                Log.i(TAG, "Refreshed : ${binding.ViewPagerSaloonItem.currentItem}")
+            }else if (binding.ViewPagerSaloonItem.currentItem == 2){
+                dataViewModel.setSaloonRefreshState(MainActivityViewModel.SaloonRefreshData(saloonPhotosState = false,saloonReview = true))
+                setRatingAndReview()
+                viewPagerAdapter.notifyItemChanged(binding.ViewPagerSaloonItem.currentItem)
+            }
+
+            HandlerCompat.postDelayed(Handler(Looper.getMainLooper()),
+                {
+                    binding.saloonRefresher.isRefreshing = false
+                    dataViewModel.setSaloonRefreshState(MainActivityViewModel.SaloonRefreshData(saloonPhotosState = false,saloonReview = false))
+                }
+                ,null,2000)
+        }
 
         binding.ViewPagerSaloonItem.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
 
@@ -190,24 +219,8 @@ class SaloonItemFragment : Fragment() {
             .addOnSuccessListener { document ->
                 if (document.exists()){
 
-                    val ratings =
-                        if (document.get("rating") != null) document.get("rating") as HashMap<String, HashMap<String, String>> else hashMapOf()
-                    var ratingSum = 0
-                    var reviewCount = 0
-
-                    ratings.forEach { (_, value) ->
-                        ratingSum += value["rating_value"]?.toInt()!!
-
-                        if (value["review"] != "") {
-                            reviewCount += 1
-                        }
-                    }
-
-                    val averageRating = if (ratings.size == 0) {
-                        1
-                    } else {
-                        ratingSum / ratings.size
-                    }
+                    val averageRating = document.getDouble("average_rating.current_average_rating")?.roundToInt()
+                    val reviewCount = document.getLong("average_rating.number_of_reviews")?.toInt()
 
                     when(averageRating){
                         1 -> setRatingPic(R.drawable.ic_rating_one_stars)
@@ -245,11 +258,11 @@ class SaloonItemFragment : Fragment() {
 
         slider.addOnChangeListener { _, value, _ ->
             when(value.toInt()){
-                1-> setRatingImageDialog(dialog, R.drawable.avd_rating_one_stars, "1")
-                2-> setRatingImageDialog(dialog, R.drawable.avd_rating_two_stars, "2")
-                3-> setRatingImageDialog(dialog, R.drawable.avd_rating_three_stars, "3")
-                4-> setRatingImageDialog(dialog, R.drawable.avd_rating_four_stars, "4")
-                5-> setRatingImageDialog(dialog, R.drawable.avd_rating_five_stars, "5")
+                1-> setRatingImageDialog(dialog, R.drawable.avd_rating_one_stars, 1)
+                2-> setRatingImageDialog(dialog, R.drawable.avd_rating_two_stars, 2)
+                3-> setRatingImageDialog(dialog, R.drawable.avd_rating_three_stars, 3)
+                4-> setRatingImageDialog(dialog, R.drawable.avd_rating_four_stars, 4)
+                5-> setRatingImageDialog(dialog, R.drawable.avd_rating_five_stars, 5)
             }
         }
 
@@ -302,25 +315,20 @@ class SaloonItemFragment : Fragment() {
                 dialog.dismiss()
                 uploadRatingToFireStore(reviewEditText.text.toString())
             }
-
         }
 
         skipButton.setOnClickListener {
             dialog.dismiss()
             uploadRatingToFireStore()
         }
-
         dialog.show()
     }
 
     private fun uploadRatingToFireStore(review: String = ""){
 
-        val db = Firebase.firestore
-        val auth = Firebase.auth
-
         val timeStamp = SimpleDateFormat(CameraFragment.FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())
 
-        val ratingMap = hashMapOf<String, String>(
+        val ratingMap = hashMapOf<String, Any>(
             "rating_id" to UUID.randomUUID().toString(),
             "timestamp" to timeStamp,
             "user_id" to auth.currentUser?.uid.toString(),
@@ -329,17 +337,66 @@ class SaloonItemFragment : Fragment() {
 
         db.collection("Saloons")
             .document(saloonID)
-            .update("rating.${ratingMap["rating_id"]}", ratingMap)
+            .collection("rating")
+            .document(ratingMap["rating_id"].toString())
+            .set(ratingMap)
             .addOnSuccessListener {
-                Log.i("TAG", "review is added")
-                setRatingAndReview()
+                Log.i(TAG, "review is added")
+                updateAverageRatingAndReviewCount(review)
             }
             .addOnFailureListener {e->
-                Log.i("TAG", "error in adding review : ${e.message}")
+                Log.i(TAG, "error in adding review : ${e.message}")
             }
     }
 
-    private fun setRatingImageDialog(_dialog:Dialog, d: Int, _rating: String){
+    private fun updateAverageRatingAndReviewCount(review: String){
+        db.collection("Saloons")
+            .document(saloonID)
+            .get()
+            .addOnSuccessListener {
+                if (it.exists()){
+                    val oldAverageRating = it.getDouble("average_rating.current_average_rating")!!
+                    val ratingCount = it.getDouble("average_rating.number_of_ratings")!!
+                    val oldReviewCount = it.getLong("average_rating.number_of_reviews")?.toInt()!!
+
+                    val newReviewCount = if (review == "") oldReviewCount.toLong() else (oldReviewCount + 1).toLong()
+                    val newAverageRating = ((oldAverageRating * ratingCount) + rating.toDouble()) / (ratingCount + 1 )
+
+                    Log.i(TAG,"old Average Rating : $oldAverageRating")
+                    Log.i(TAG,"number Rating : $ratingCount")
+                    Log.i(TAG,"new Sum Rating : ${(oldAverageRating * ratingCount) + rating}")
+                    Log.i(TAG,"new Average Rating : $newAverageRating")
+
+                    val updateRatingReviewCountMap = mutableMapOf(
+                        "current_average_rating" to newAverageRating,
+                        "number_of_ratings" to (ratingCount + 1),
+                        "number_of_reviews" to newReviewCount)
+
+                    db.collection("Saloons")
+                        .document(saloonID)
+                        .update("average_rating", updateRatingReviewCountMap)
+                        .addOnSuccessListener {
+
+                            Toast.makeText(
+                                requireContext(),
+                                "Your Rating and Review is Updated. \n\n Refresh Screen to make it visible",
+                                Toast.LENGTH_SHORT)
+                                .show()
+
+                            setRatingAndReview()
+                            Log.i(TAG, "average rating is updated")
+                        }
+                        .addOnFailureListener {e->
+                            Log.i(TAG, "error in updating average rating : ${e.message}")
+                        }
+                }
+            }
+            .addOnFailureListener {e->
+                Log.i(TAG, "error in getting average Rating : ${e.message}")
+            }
+    }
+
+    private fun setRatingImageDialog(_dialog:Dialog, d: Int, _rating: Int){
         rating = _rating
         val ratingImage = _dialog.findViewById<ImageView>(R.id.saloonItemAnimatedRating)
         ratingImage.setImageResource(d)
@@ -358,6 +415,10 @@ class SaloonItemFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
 
+    }
+
+    companion object {
+        private const val TAG = "TAGSaloonItemFragment"
     }
 
 }

@@ -2,45 +2,93 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical|center_horizontal"
     tools:context=".fragments.homeActivity.SignUpAndSignInFragment">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:id="@+id/CreateAccountButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#AAAAAA"
+
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+
+        android:backgroundTint="@color/teal_700"
+        android:padding="20dp"
         android:text="@string/buttonCreateAccount"
-
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="16sp"/>
 
-        android:padding="10dp"
-
-        />
-
-
-    <Button
-        android:id="@+id/SignInButton"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/googleSignInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#AAAAAA"
-        android:text="@string/buttonSignIn"
-
-        android:textColor="@color/black"
-        android:textSize="16sp"
 
         android:layout_below="@+id/CreateAccountButton"
+        android:backgroundTint="@color/black"
+
         android:layout_alignStart="@+id/CreateAccountButton"
         android:layout_alignEnd="@+id/CreateAccountButton"
+        android:layout_marginTop="20dp"
 
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:elevation="20dp"
 
+        android:text="@string/buttonGoogleSignIn"
+        android:textColor="@color/white"
 
-        />
+        app:icon="@drawable/ic_google_icon"
+        app:iconTint="@color/white"
+        app:iconTintMode="multiply"
+        app:iconSize="20dp"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/facebookSignInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/googleSignInButton"
+        android:backgroundTint="@color/facebookColor"
+
+        android:layout_alignStart="@+id/CreateAccountButton"
+        android:layout_alignEnd="@+id/CreateAccountButton"
+        android:layout_marginTop="20dp"
+
+        android:layout_marginBottom="30dp"
+        android:text="@string/buttonFacebookSignIn"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+
+        app:icon="@drawable/ic_facebook_icon"
+        app:iconTint="@color/white"
+        app:iconTintMode="src_in"
+        app:iconSize="30dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/SignInButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/facebookSignInButton"
+        android:layout_alignStart="@+id/CreateAccountButton"
+        android:layout_alignEnd="@+id/CreateAccountButton"
+        android:layout_marginBottom="30dp"
+
+        android:text="@string/buttonMobileSignIn"
+        android:textColor="@color/teal_200"
+        android:textSize="16sp"
+
+        app:icon="@drawable/ic_enter_mobile_number"
+        app:iconTint="@color/teal_200"
+        android:insetLeft="5dp"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebookLoginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
 </RelativeLayout>

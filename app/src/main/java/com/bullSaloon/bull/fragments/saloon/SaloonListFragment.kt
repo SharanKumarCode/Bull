@@ -24,12 +24,15 @@ import com.bullSaloon.bull.databinding.FragmentSaloonListBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.SaloonDataClass
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlin.math.roundToInt
 
 class SaloonListFragment : Fragment() {
 
@@ -39,7 +42,7 @@ class SaloonListFragment : Fragment() {
     private lateinit var animate: AnimatedVectorDrawable
     private lateinit var dataViewModel: MainActivityViewModel
     private lateinit var recyclerState: Parcelable
-    private val shopLists = mutableListOf<SaloonDataClass>()
+    private val saloonLists = mutableListOf<SaloonDataClass>()
     private var lastVisible: DocumentSnapshot? = null
 
 
@@ -136,23 +139,8 @@ class SaloonListFragment : Fragment() {
 
                     lastVisible = it.documents[it.size() - 1]
 
-                    val ratings = if (document.get("rating") != null) document.get("rating") as HashMap<String, HashMap<String,String>> else hashMapOf()
-                    var ratingSum = 0
-                    var reviewCount = 0
-
-                    ratings.forEach { (_, value) ->
-                        ratingSum += value["rating_value"]?.toInt()!!
-
-                        if (value["review"] != ""){
-                            reviewCount += 1
-                        }
-                    }
-
-                    val averageRating = if (ratings.size == 0){
-                        1
-                    } else {
-                        ratingSum / ratings.size
-                    }
+                    val averageRating = document.getDouble("average_rating.current_average_rating")?.roundToInt()
+                    val reviewCount = document.getLong("average_rating.number_of_reviews")?.toInt()
 
                     val saloonNameUnderScore = saloonName?.replace("\\s".toRegex(),"_")
                     val imageUrl = "Saloon_Images/$saloonID/${saloonNameUnderScore}_displayPicture.jpg"
@@ -172,7 +160,7 @@ class SaloonListFragment : Fragment() {
                         locationData,
                         distance)
 
-                    shopLists.add(saloonData)
+                    saloonLists.add(saloonData)
 
                     animate.stop()
                     animate.clearAnimationCallbacks()
@@ -181,27 +169,27 @@ class SaloonListFragment : Fragment() {
                 }
 
                 dataViewModel.getUserLocationData().observe(viewLifecycleOwner, {data ->
-                    for (shop in shopLists){
+                    for (saloon in saloonLists){
                         if (data != null && data.latitude != 0.0 && data.longitude != 0.0){
                             val userData = Location(LocationManager.GPS_PROVIDER)
                             userData.latitude = data.latitude
                             userData.longitude = data.longitude
 
                             val saloonData = Location(LocationManager.GPS_PROVIDER)
-                            saloonData.latitude = shop.locationData?.latitude!!
-                            saloonData.longitude = shop.locationData.longitude
+                            saloonData.latitude = saloon.locationData?.latitude!!
+                            saloonData.longitude = saloon.locationData.longitude
 
-                            shop.distance = userData.distanceTo(saloonData)
+                            saloon.distance = userData.distanceTo(saloonData)
                         } else {
-                            shop.distance = null
+                            saloon.distance = null
                         }
                     }
 
-                    shopLists.sortBy { sortData ->
+                    saloonLists.sortBy { sortData ->
                         sortData.distance
                     }
 
-                    dataViewModel.assignShopData(shopLists)
+                    dataViewModel.assignShopData(saloonLists)
                     if(view != null){
                         dataViewModel.getShopDataList().observe(viewLifecycleOwner, { result ->
                             binding.recyclerView.adapter = SaloonListRecyclerViewAdapter(result, dataViewModel, this)
@@ -211,5 +199,12 @@ class SaloonListFragment : Fragment() {
                     }
                 })
             }
+                .addOnFailureListener {e->
+                    Log.i(TAG, "error in fetching saloon list : ${e.message}")
+                }
+    }
+
+    companion object {
+        private const val TAG = "TAGSaloonListFragment"
     }
 }
