@@ -15,8 +15,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
+import android.os.*
 import android.text.Editable
 import android.text.TextWatcher
 import android.transition.TransitionInflater
@@ -40,6 +39,8 @@ import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.databinding.FragmentCameraBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
+import com.bullSaloon.bull.genericClasses.dataClasses.UploadImageServicePayload
+import com.bullSaloon.bull.services.UploadImageToFirebaseService
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton
@@ -135,8 +136,6 @@ class CameraFragment : Fragment() {
             snackBar.dismiss()
         }
 
-        binding.progressIndicatorCardView.visibility = View.GONE
-
 //        Request camera permissions
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -176,18 +175,13 @@ class CameraFragment : Fragment() {
 
             if (ACTIVITY_FLAG == "profilePicture"){
 
-//                show progress
-//                binding.progressIndicatorCardView.visibility = View.VISIBLE
-
-                uploadImage()
+                launchUploadImageService()
             } else {
 
 //                show popup to enter image data
                 launchDialogCaption()
             }
         }
-
-
 
         binding.CancelImageButton.setOnClickListener{
             deleteImageFile()
@@ -327,8 +321,7 @@ class CameraFragment : Fragment() {
                 activity?.window?.setSoftInputMode(
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
-//                binding.progressIndicatorCardView.visibility = View.VISIBLE
-                uploadImage()
+                launchUploadImageService()
                 snackBar.show()
 
                 dialog.hide()
@@ -337,8 +330,8 @@ class CameraFragment : Fragment() {
 
         skipButton.setOnClickListener {
 
-//            binding.progressIndicatorCardView.visibility = View.VISIBLE
-            uploadImage()
+            launchUploadImageService()
+
             snackBar.show()
             dialog.hide()
         }
@@ -507,100 +500,28 @@ class CameraFragment : Fragment() {
         }
     }
 
-    private fun uploadImage(){
-
-        val dateFormat = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())
-
-        val imagePathFirestore: String = if (ACTIVITY_FLAG == "profilePicture"){
-            "User_Images/${userData["id"]}/${userData["user_name"]}_profilePicture.jpg"
-        } else {
-            "User_Images/${userData["id"]}/${userData["user_name"]}_$dateFormat.jpg"
-        }
-
-        val imageRef = storageRef.child(imagePathFirestore)
-        val uploadTask = imageRef.putFile(Uri.fromFile(photoFileTemp))
-
-        uploadTask.addOnSuccessListener{
-
-//            binding.progressIndicatorText.text = resources.getString(R.string.textProgressIndicator, "100 %")
-//            binding.progressHorizontal.progress = 100
-
-            Toast.makeText(requireActivity().applicationContext,"Image uploaded successfully..", Toast.LENGTH_SHORT).show()
-
-            setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
-
-            Log.d(TAG, "Image is uploaded")
-
-            if (ACTIVITY_FLAG == "profilePicture"){
-                deleteImageFile()
-
-                (activity as MainActivity).updateProfilePicOutsideMain()
-
-                val navHostFragment = this.parentFragment?.childFragmentManager?.findFragmentById(R.id.fragment)
-                val navController = navHostFragment?.findNavController()
-                navController?.navigate(R.id.action_cameraFragment_to_yourProfileFragment)
-
-            } else {
-                updateFirestoreUserData(imagePathFirestore, dateFormat)
-            }
-        }
-
-        uploadTask.addOnFailureListener{
-
-            setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
-
-            Log.d(TAG, "Image upload failed: ${it.message}")
-            Toast.makeText(requireActivity().applicationContext,"Image upload failed..", Toast.LENGTH_SHORT).show()
-
-            deleteImageFile()
-        }
-
-        uploadTask.addOnProgressListener {
-            val progress = ((it.bytesTransferred.toFloat() / it.totalByteCount.toFloat()) * 100).toInt()
-//            binding.progressHorizontal.progress = progress
-//            binding.progressIndicatorText.text = resources.getString(R.string.textProgressIndicator, "$progress %")
-            Log.i(TAG, "upload in progress :$progress %")
-        }
-    }
-
-    private fun updateFirestoreUserData(imagePath: String, dateFormat: String){
-
-        val fireStoreUrl = "gs://bull-saloon.appspot.com/"
-
+    private fun launchUploadImageService(){
         try {
+            val serviceIntent = Intent(requireContext(), UploadImageToFirebaseService::class.java)
+            val serviceData = UploadImageServicePayload(
+                userData["user_name"]!!,
+                userData["id"]!!,
+                photoFileTemp.absolutePath,
+                saloonName,
+                captionText,
+                ACTIVITY_FLAG)
+            val servicePayload = Bundle()
+            servicePayload.putParcelable("service_data", serviceData)
+            serviceIntent.putExtra("service_payload", servicePayload)
+            requireActivity().startService(serviceIntent)
 
-            val photoUUID = UUID.randomUUID().toString()
-            val mapData = hashMapOf<String, Any>("timestamp" to dateFormat,
-                                                "image_ref" to "$fireStoreUrl$imagePath",
-                                                "caption" to captionText,
-                                                "nices_userid" to arrayListOf<String>(),
-                                                "photoID" to photoUUID,
-                                                "saloon_name" to saloonName,
-                                                "user_id" to SingletonUserData.userData.user_id,
-                                                "user_name" to SingletonUserData.userData.user_name)
+            setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
 
-            db.collection("Users")
-                .document(auth.currentUser?.uid.toString())
-                .collection("photos")
-                .document(photoUUID)
-                .set(mapData)
-                .addOnSuccessListener {
+        } catch (e: Exception){
 
-                    Log.i(TAG, "Data updated")
-                }
-                .addOnFailureListener {
-
-                    Log.i(TAG, "Data update Failed : ${it.message}")
-                }
-                .addOnCompleteListener {
-                    stopLoadingIcon()
-                    deleteImageFile()
-                }
-
-        }catch (e: Exception){
-            stopLoadingIcon()
-            deleteImageFile()
-            Log.i(TAG, "error: $e")
+            setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
+            Log.i("TAGUploadImageToFirebaseService", "error in service : ${e.message}")
+            Toast.makeText(requireActivity(), "Error in uploading Image.. Please try again later", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -656,7 +577,6 @@ class CameraFragment : Fragment() {
             binding.backCameraButton.visibility = View.INVISIBLE
 
         } else if (flag == ViewVisibility.UPLOAD_COMPLETE_VISIBILITY){
-            binding.progressIndicatorCardView.visibility = View.GONE
             binding.capturedImageViewLayout.visibility = View.GONE
             binding.takePhotoButton.visibility = View.VISIBLE
             binding.changeCameraButton.visibility = View.VISIBLE
@@ -666,6 +586,8 @@ class CameraFragment : Fragment() {
         }
 
     }
+
+
 
     companion object {
         private const val TAG = "CameraX"

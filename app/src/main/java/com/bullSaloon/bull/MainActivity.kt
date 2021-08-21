@@ -3,6 +3,8 @@ package com.bullSaloon.bull
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -66,6 +68,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         supportActionBar?.hide()
+
+        createNotificationChannel()
 
         storage = Firebase.storage
 
@@ -328,12 +332,26 @@ class MainActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    private fun createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val name = "Bull App"
+            val descriptionText = "Notification channel for Bull Saloon App"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name , importance).apply {
+                description = descriptionText
+            }
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
     fun updateProfilePicOutsideMain(){
         SingletonUserData.getProfilePic(this)
     }
 
     companion object {
         private const val TAG = "TAGMainActivity"
+        private const val NOTIFICATION_CHANNEL_ID = "100"
         private const val REQUEST_CODE_PERMISSIONS = 123
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
