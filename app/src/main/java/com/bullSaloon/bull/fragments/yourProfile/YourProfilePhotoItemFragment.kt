@@ -15,16 +15,12 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.FragmentYourProfilePhotoItemBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.viewModel.YourProfileViewModel
 import com.bumptech.glide.request.target.Target
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import java.net.URLDecoder
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -35,7 +31,9 @@ class YourProfilePhotoItemFragment : Fragment() {
     private var _binding: FragmentYourProfilePhotoItemBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var storage: FirebaseStorage
+    private val storageRef = SingletonInstances.getStorageReference()
+    private val db = SingletonInstances.getFireStoreInstance()
+    private val auth = SingletonInstances.getAuthInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +55,6 @@ class YourProfilePhotoItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        storage = Firebase.storage
         val dataViewModel = ViewModelProvider(requireActivity()).get(YourProfileViewModel::class.java)
         dataViewModel.getUserPhotoData().observe(viewLifecycleOwner, { data ->
 
@@ -101,7 +98,7 @@ class YourProfilePhotoItemFragment : Fragment() {
 
     private fun setImageFromFirebase(context: Context, binding: FragmentYourProfilePhotoItemBinding, imageUrl: String){
 
-        val imageRef = storage.getReferenceFromUrl(imageUrl)
+        val imageRef = storageRef.storage.getReferenceFromUrl(imageUrl)
         val width = Resources.getSystem().displayMetrics.widthPixels
 
         GlideApp.with(context)
@@ -113,7 +110,7 @@ class YourProfilePhotoItemFragment : Fragment() {
 
     private fun deleteImageFromFirebaseCloud(imageUrl: String, photoID: String){
 
-        val imageRef = storage.reference.child(imageUrl.replace("gs://bull-saloon.appspot.com",""))
+        val imageRef = storageRef.storage.reference.child(imageUrl.replace("gs://bull-saloon.appspot.com",""))
 
         imageRef.delete()
             .addOnSuccessListener {
@@ -129,9 +126,6 @@ class YourProfilePhotoItemFragment : Fragment() {
     }
 
     private fun deleteImageFromFirestore(imageUrl: String, photoID: String){
-
-        val db = Firebase.firestore
-        val auth = Firebase.auth
 
         db.collection("Users")
             .document(auth.currentUser?.uid!!)

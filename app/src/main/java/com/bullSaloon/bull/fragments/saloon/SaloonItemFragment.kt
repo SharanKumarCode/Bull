@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.adapters.SaloonItemViewPagerAdapter
 import com.bullSaloon.bull.databinding.FragmentSaloonItemBinding
 import com.bullSaloon.bull.fragments.CameraFragment
@@ -34,11 +35,7 @@ import com.google.android.material.slider.RangeSlider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,6 +51,7 @@ class SaloonItemFragment : Fragment() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private var storageRef = SingletonInstances.getStorageReference()
     private var rating = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,8 +74,8 @@ class SaloonItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
-        db = Firebase.firestore
-        auth = Firebase.auth
+        db = SingletonInstances.getFireStoreInstance()
+        auth = SingletonInstances.getAuthInstance()
 
         var contact = ""
         var shopAddress = ""
@@ -200,7 +198,7 @@ class SaloonItemFragment : Fragment() {
 
     private fun setSaloonDisplayPic(profilePicRef: String){
 
-        val imageRef = Firebase.storage.reference.child(profilePicRef)
+        val imageRef = storageRef.child(profilePicRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()
@@ -211,7 +209,6 @@ class SaloonItemFragment : Fragment() {
     }
 
     private fun setRatingAndReview(){
-        val db = Firebase.firestore
 
         db.collection("Saloons")
             .document(saloonID)

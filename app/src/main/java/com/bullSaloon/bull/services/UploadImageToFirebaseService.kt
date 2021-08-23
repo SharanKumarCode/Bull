@@ -9,16 +9,13 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.fragments.CameraFragment
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.UploadImageServicePayload
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -64,9 +61,9 @@ class UploadImageToFirebaseService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        auth = Firebase.auth
-        db = Firebase.firestore
-        storageRef = Firebase.storage.reference
+        auth = SingletonInstances.getAuthInstance()
+        db = SingletonInstances.getFireStoreInstance()
+        storageRef = SingletonInstances.getStorageReference()
 
         HandlerThread("UploadImageServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
             start()

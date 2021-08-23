@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_cameraFragment_to_bullMagicFragment"
             app:destination="@id/bullMagicFragment" />
+        <action
+            android:id="@+id/action_cameraFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/saloonFragment"
@@ -77,5 +80,18 @@
                 app:destination="@id/shopListFragment" />
         </fragment>
     </navigation>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.bullSaloon.bull.fragments.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" >
+            <argument
+                android:name="camera_purpose"
+                app:argType="string"
+                android:defaultValue="profilePicture" />
+        </action>
+    </fragment>
 
 </navigation>

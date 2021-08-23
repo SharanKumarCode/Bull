@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.ViewHolderSaloonReviewItemBinding
 import com.bullSaloon.bull.fragments.saloon.SaloonReviewFragment
 import com.bullSaloon.bull.genericClasses.GlideApp
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -21,6 +19,8 @@ import java.util.*
 class SaloonReviewRecyclerAdapter(_lists: MutableList<SaloonReviewFragment.RatingReviewData>): RecyclerView.Adapter<SaloonReviewRecyclerAdapter.SaloonReviewRecyclerViewHolder>() {
 
     private val lists = _lists
+    private val db = SingletonInstances.getFireStoreInstance()
+    private val storageRef = SingletonInstances.getStorageReference()
 
     inner class SaloonReviewRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -75,8 +75,6 @@ class SaloonReviewRecyclerAdapter(_lists: MutableList<SaloonReviewFragment.Ratin
 
     private fun getFirestoreData(userID : String, binding: ViewHolderSaloonReviewItemBinding){
 
-        val db = Firebase.firestore
-
         db.collection("Users")
             .document(userID)
             .get()
@@ -98,7 +96,7 @@ class SaloonReviewRecyclerAdapter(_lists: MutableList<SaloonReviewFragment.Ratin
 
     private fun setTargetUserProfilePic(binding: ViewHolderSaloonReviewItemBinding, profilePicRef: String){
 
-        val imageRef = Firebase.storage.reference.child(profilePicRef)
+        val imageRef = storageRef.storage.reference.child(profilePicRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()

@@ -13,15 +13,11 @@ import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
 import com.bullSaloon.bull.R
-import com.bullSaloon.bull.adapters.BullMagicListRecyclerViewAdapter
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.FragmentBullMagicItemBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bumptech.glide.request.target.Target
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -35,9 +31,9 @@ class BullMagicItemFragment : Fragment() {
     private var _binding: FragmentBullMagicItemBinding? = null
     private val binding get() = _binding!!
     private lateinit var userImageData: HashMap<String,String>
-    private val storage = Firebase.storage
-    private val auth = Firebase.auth
-    private val db = Firebase.firestore
+    private val storageRef = SingletonInstances.getStorageReference()
+    private val auth = SingletonInstances.getAuthInstance()
+    private val db = SingletonInstances.getFireStoreInstance()
     private lateinit var currentUserID: String
 
     private lateinit var dataUserID: String
@@ -183,7 +179,7 @@ class BullMagicItemFragment : Fragment() {
 
     private fun setImageFromFirebase(imageUrl: String){
 
-        val imageRef = storage.getReferenceFromUrl(imageUrl)
+        val imageRef = storageRef.storage.getReferenceFromUrl(imageUrl)
         val width = Resources.getSystem().displayMetrics.widthPixels
 
         GlideApp.with(this)
@@ -195,7 +191,7 @@ class BullMagicItemFragment : Fragment() {
 
     private fun setTargetUserProfile(profilePicRef: String){
 
-        val imageRef = Firebase.storage.reference.child(profilePicRef)
+        val imageRef = storageRef.child(profilePicRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()

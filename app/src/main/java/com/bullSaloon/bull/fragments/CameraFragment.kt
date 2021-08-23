@@ -35,8 +35,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.FragmentCameraBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.UploadImageServicePayload
@@ -50,13 +50,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Exception
@@ -70,8 +66,6 @@ class CameraFragment : Fragment() {
 
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
-
-
 
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private lateinit var outputDirectory: File
@@ -119,10 +113,9 @@ class CameraFragment : Fragment() {
         val data = SingletonUserData.userData
         ACTIVITY_FLAG = arguments?.getString("camera_purpose")!!
 
-        storage = Firebase.storage
-        storageRef = storage.reference
-        db = Firebase.firestore
-        auth = Firebase.auth
+        storageRef = SingletonInstances.getStorageReference()
+        db = SingletonInstances.getFireStoreInstance()
+        auth = SingletonInstances.getAuthInstance()
 
         userData = mapOf("user_name" to data.user_name.replace("\\s".toRegex(), "_"), "id" to data.user_id)
 

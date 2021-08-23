@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.FragmentSignUpAndSignInBinding
 import com.facebook.*
 import com.facebook.login.LoginResult
@@ -22,9 +23,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 
 class SignUpAndSignInFragment : Fragment() {
@@ -32,8 +30,8 @@ class SignUpAndSignInFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
-    private val auth = Firebase.auth
-    private val db = Firebase.firestore
+    private val auth = SingletonInstances.getAuthInstance()
+    private val db = SingletonInstances.getFireStoreInstance()
 
     private lateinit var faceBookCredential: AuthCredential
 
@@ -168,7 +166,6 @@ class SignUpAndSignInFragment : Fragment() {
     private fun firebaseAuthWithGoogle(idToken: String) {
         Log.i(TAG, "firebaseAuthWithGoogle")
 
-        val auth = Firebase.auth
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->

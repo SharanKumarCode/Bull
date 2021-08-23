@@ -10,19 +10,20 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.FragmentYourProfilePhotosBinding
 import com.bullSaloon.bull.genericClasses.dataClasses.MyPhotosData
 import com.bullSaloon.bull.adapters.YourProfilePhotosRecyclerViewAdapter
 import com.bullSaloon.bull.viewModel.YourProfileViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class YourProfilePhotosFragment : Fragment() {
 
     private var _binding: FragmentYourProfilePhotosBinding? = null
     private val binding get() = _binding!!
     private lateinit var dataViewModel: YourProfileViewModel
+
+    private val db = SingletonInstances.getFireStoreInstance()
+    private val auth = SingletonInstances.getAuthInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +50,6 @@ class YourProfilePhotosFragment : Fragment() {
 
     private fun getPhotosFirestoreData(){
 
-        val db = Firebase.firestore
-        val auth = Firebase.auth
         dataViewModel = ViewModelProvider(requireActivity()).get(YourProfileViewModel::class.java)
 
         db.collection("Users")

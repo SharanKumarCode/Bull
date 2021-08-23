@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.adapters.DialogFollowersRecyclerViewAdapter
 import com.bullSaloon.bull.adapters.YourProfileViewPagerAdapter
 import com.bullSaloon.bull.databinding.FragmentYourProfileBinding
@@ -34,11 +35,6 @@ import com.bullSaloon.bull.viewModel.UserDataViewModel
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 
 class YourProfileFragment : Fragment() {
 
@@ -47,9 +43,9 @@ class YourProfileFragment : Fragment() {
 
     private lateinit var data: UserDataClass
 
-    private lateinit var storage: FirebaseStorage
-    private val db = Firebase.firestore
-    private val auth = Firebase.auth
+    private val storageRef = SingletonInstances.getStorageReference()
+    private val db = SingletonInstances.getFireStoreInstance()
+    private val auth = SingletonInstances.getAuthInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +65,6 @@ class YourProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        storage = Firebase.storage
 
         data = SingletonUserData.userData
 
@@ -210,7 +204,7 @@ class YourProfileFragment : Fragment() {
         val userData2 = mapOf("user_name" to data.user_name.replace("\\s".toRegex(), "_"), "id" to data.user_id)
         val imageUrl2 = "User_Images/${data.user_id}/${userData2["user_name"]}_profilePicture.jpg"
 
-        val imageRef = storage.reference.child(imageUrl2)
+        val imageRef = storageRef.child(imageUrl2)
 
         imageRef.delete()
             .addOnSuccessListener {
@@ -249,8 +243,6 @@ class YourProfileFragment : Fragment() {
     private fun setUpDialogBoxFollow(_dataType: String){
 
         var userLists: MutableList<String>
-        val db = Firebase.firestore
-        val auth = Firebase.auth
 
         val dialog = Dialog(this.requireContext())
         dialog.setContentView(R.layout.dialog_box_followers_list)

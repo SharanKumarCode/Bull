@@ -15,21 +15,20 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.exifinterface.media.ExifInterface
 import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.FragmentCreateAccountBinding
 import com.bullSaloon.bull.databinding.FragmentSignInBinding
 import com.bullSaloon.bull.genericClasses.dataClasses.UserDataClass
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.util.concurrent.TimeUnit
 
 class OtpVerificationClass() {
-    private var auth: FirebaseAuth = Firebase.auth
+    private val auth = SingletonInstances.getAuthInstance()
+    private val db = SingletonInstances.getFireStoreInstance()
+    private val storageRef = SingletonInstances.getStorageReference()
 
     private lateinit var mobileNumber: String
     private lateinit var storedVerificationId:String
@@ -160,7 +159,6 @@ class OtpVerificationClass() {
 
     private fun updateUserName(){
         Log.i(TAG,"updating user to fireStore")
-        val db = Firebase.firestore
 
         val userId = auth.currentUser?.uid.toString()
 
@@ -203,9 +201,6 @@ class OtpVerificationClass() {
             Toast.makeText(context, "Error occurred. Please check your internet connection", Toast.LENGTH_SHORT).show()
         } else {
 
-            val db = Firebase.firestore
-            val storage = Firebase.storage
-
             db.collection("Users")
                 .document(auth.currentUser?.uid!!)
                 .get()
@@ -224,7 +219,7 @@ class OtpVerificationClass() {
                             "profile_picture" + ".jpg"
                         )
 
-                        storage.reference.child(imageUrl).getFile(profilePicFileTemp).addOnSuccessListener {
+                        storageRef.storage.reference.child(imageUrl).getFile(profilePicFileTemp).addOnSuccessListener {
 
                             val ei = ExifInterface(profilePicFileTemp).rotationDegrees
 

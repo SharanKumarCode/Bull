@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_marginTop="20dp">
+
+<LinearLayout
+    android:id="@+id/settingsFragmentContainer"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:orientation="horizontal"
+
+    android:layout_margin="10dp"
+
+    android:gravity="center_vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/UserNameTextField"
+
+        android:text="@string/placeHolderUserName"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+
+        android:layout_weight="1"
+
+        android:gravity="center" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profilePicImage"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+
+        android:layout_weight="1"
+
+        app:srcCompat="@drawable/ic_baseline_person_black_40" />
+
+</LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/changeUserNameButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignTop="@+id/changeDisplayPicture"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/changeDisplayPicture"
+
+        android:text="@string/buttonChangeUserName"
+        android:textSize="14sp"
+        android:textAllCaps="false"
+
+        android:textColor="@color/teal_200" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/changeDisplayPicture"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/settingsFragmentContainer"
+        android:layout_alignParentEnd="true"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+
+        android:text="@string/buttonChangeProfilePic"
+        android:textSize="14sp"
+        android:textAllCaps="false"
+        android:textColor="@color/teal_200" />
+
+
+
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/aboutButton"
+    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_below="@+id/changeUserNameButton"
+    android:layout_alignStart="@+id/changeUserNameButton"
+    android:layout_alignEnd="@+id/changeUserNameButton"
+
+    android:layout_marginTop="50dp"
+
+    android:text="@string/menuItemTitleAbout"
+    android:textAllCaps="false"
+    android:textColor="@color/teal_200" />
+
+<com.google.android.material.textview.MaterialTextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/versionText"
+
+    android:text="@string/placeHolderAppVersion"
+    android:textSize="16sp"
+
+    android:gravity="center"
+
+    android:layout_below="@+id/aboutButton"
+    android:layout_alignStart="@+id/aboutButton"
+    android:layout_alignEnd="@+id/aboutButton"
+
+    android:layout_marginTop="2dp"/>
+
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/clearCacheButton"
+    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_alignStart="@+id/changeDisplayPicture"
+    android:layout_alignTop="@+id/aboutButton"
+
+    android:layout_alignEnd="@+id/changeDisplayPicture"
+    android:layout_alignBottom="@+id/aboutButton"
+
+    android:text="@string/buttonClearCache"
+    android:textAllCaps="false"
+
+    android:textColor="@color/teal_200" />
+
+<com.google.android.material.textview.MaterialTextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/cacheSizeText"
+
+    android:text="@string/textCacheSize"
+    android:textSize="16sp"
+
+    android:gravity="center"
+
+    android:layout_below="@+id/clearCacheButton"
+    android:layout_alignStart="@+id/clearCacheButton"
+    android:layout_alignEnd="@+id/clearCacheButton"
+
+    android:layout_marginTop="2dp"/>
+
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/signOutButton"
+
+    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_below="@+id/cacheSizeText"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentEnd="true"
+
+    android:layout_marginTop="40dp"
+    android:layout_marginStart="120dp"
+    android:layout_marginEnd="120dp"
+
+    android:text="@string/menuItemTitleSignOut"
+    android:textColor="@color/teal_200" />
+
+</RelativeLayout>
+

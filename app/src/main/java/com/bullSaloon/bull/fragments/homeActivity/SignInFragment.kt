@@ -17,11 +17,10 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.FragmentSignInBinding
 import com.bullSaloon.bull.genericClasses.OtpTextWatcherGeneric
 import com.bullSaloon.bull.genericClasses.OtpVerificationClass
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 
 class SignInFragment : Fragment() {
@@ -31,6 +30,9 @@ class SignInFragment : Fragment() {
 
     private var mobileNumber: String = ""
     private lateinit var otpVerification: OtpVerificationClass
+
+
+    private val db = SingletonInstances.getFireStoreInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,8 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.i(TAG, "SignInFragment created")
+
         binding.mobileNumberTextField.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -69,11 +73,20 @@ class SignInFragment : Fragment() {
                     }
                     binding.mobileNumberTextField.text?.length!! == 10 -> {
                         val phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
-                        val db = Firebase.firestore
                         val collectionRef = db.collection("Users")
                         val task = collectionRef.whereEqualTo("mobile_number", phoneNumberCheck).get()
 
+                        collectionRef.document("dummy").set(hashMapOf("data" to "dummy"))
+                            .addOnSuccessListener {
+                                Log.i(TAG, "User success")
+                            }
+                            .addOnFailureListener {
+                                Log.i(TAG, "User failure : ${it.message}")
+                            }
+
                         task.addOnSuccessListener {
+                            Log.i(TAG, "User : ${it.size()} , mobile : $phoneNumberCheck")
+
                             if (it.isEmpty){
                                 binding.mobileNumberTextInputLayout.apply {
                                     error = "Account does not exist with this mobile number"
@@ -100,11 +113,11 @@ class SignInFragment : Fragment() {
 
         binding.generateOtpButton.setOnClickListener {
             val phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
-            val db = Firebase.firestore
             val collectionRef = db.collection("Users")
             val task = collectionRef.whereEqualTo("mobile_number", phoneNumberCheck).get()
             task
                 .addOnSuccessListener {
+                    Log.i(TAG, "User : ${it.size()}")
                     if (it.isEmpty) {
                         Log.i("TAG", "User does not exists")
                         val builder = AlertDialog.Builder(binding.root.context)
@@ -118,14 +131,14 @@ class SignInFragment : Fragment() {
                             ) { p0, _ -> p0?.dismiss() }
                             .show()
                     } else {
-                        Log.i("TAG", "Existing User")
+                        Log.i(TAG, "Existing User")
                         generateOtp()
                         binding.otpBox1.requestFocus()
                         binding.otpBox1.background = AppCompatResources.getDrawable(binding.root.context, R.drawable.bg_otp_box_focused)
                     }
                 }
                 .addOnFailureListener {
-                    Log.i("TAG", "Unable to connect with server: ${it.message}")
+                    Log.i(TAG, "Unable to connect with server: ${it.message}")
                     Toast.makeText(
                         context,
                         "Unable to connect with server. \nCheck your Internet connection or please try again later..",
@@ -217,6 +230,10 @@ class SignInFragment : Fragment() {
         }
 
         timer?.start()
+    }
+
+    companion object {
+        private const val TAG = "TAGSignInFragment"
     }
 
 }

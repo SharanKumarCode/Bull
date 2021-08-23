@@ -16,11 +16,10 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.FragmentCreateAccountBinding
 import com.bullSaloon.bull.genericClasses.OtpTextWatcherGeneric
 import com.bullSaloon.bull.genericClasses.OtpVerificationClass
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 
 class CreateAccountFragment : Fragment() {
@@ -31,6 +30,7 @@ class CreateAccountFragment : Fragment() {
 
     private var mobileNumber: String = ""
     private lateinit var otpVerification: OtpVerificationClass
+    private val db = SingletonInstances.getFireStoreInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,6 @@ class CreateAccountFragment : Fragment() {
                     }
                     binding.mobileNumberTextField.text?.length!! == 10 -> {
                         val phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
-                        val db = Firebase.firestore
                         val collectionRef = db.collection("Users")
                         val task = collectionRef.whereEqualTo("mobile_number", phoneNumberCheck).get()
 
@@ -124,13 +123,13 @@ class CreateAccountFragment : Fragment() {
 
         binding.generateOtpButton.setOnClickListener {
             val phoneNumberCheck = "+91${binding.mobileNumberTextField.text.toString()}"
-            val db = Firebase.firestore
+
             val collectionRef = db.collection("Users")
             val task = collectionRef.whereEqualTo("mobile_number", phoneNumberCheck).get()
             task
                 .addOnSuccessListener {
                     if (!it.isEmpty) {
-                        Log.i("TAG", "User does not exists")
+                        Log.i(TAG, "User does not exists")
                         val builder = AlertDialog.Builder(binding.root.context)
                         val message =
                             "User account already exist with Mobile Number: $phoneNumberCheck \n\n Use Sign-In Option"
@@ -147,7 +146,7 @@ class CreateAccountFragment : Fragment() {
                     }
                 }
                 .addOnFailureListener {
-                    Log.i("TAG", "Unable to connect with server: ${it.message}")
+                    Log.i(TAG, "Unable to connect with server: ${it.message}")
                     Toast.makeText(
                         context,
                         "Unable to connect with server. \nCheck your Internet connection or please try again later..",
@@ -240,6 +239,10 @@ class CreateAccountFragment : Fragment() {
         }
 
         timer?.start()
+    }
+
+    companion object {
+        private const val TAG = "TAGCreateAccountFragment"
     }
 
 }

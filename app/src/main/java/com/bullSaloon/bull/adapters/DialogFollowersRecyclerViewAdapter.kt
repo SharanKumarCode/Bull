@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.ViewHolderDialogBoxFollowersBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 
 class DialogFollowersRecyclerViewAdapter(list: MutableList<String>, _fragment: Fragment): RecyclerView.Adapter<DialogFollowersRecyclerViewAdapter.DialogFollowersViewHolder>() {
 
     private val lists = list
     private val fragment = _fragment
+    private val db = SingletonInstances.getFireStoreInstance()
+    private val storageRef = SingletonInstances.getStorageReference()
 
     inner class DialogFollowersViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val binding: ViewHolderDialogBoxFollowersBinding = ViewHolderDialogBoxFollowersBinding.bind(itemView)
@@ -41,7 +41,6 @@ class DialogFollowersRecyclerViewAdapter(list: MutableList<String>, _fragment: F
     }
 
     private fun getUserDataFromFireStore(binding: ViewHolderDialogBoxFollowersBinding, userID: String){
-        val db = Firebase.firestore
 
         db.collection("Users")
             .document(userID)
@@ -64,7 +63,7 @@ class DialogFollowersRecyclerViewAdapter(list: MutableList<String>, _fragment: F
 
     private fun setTargetUserProfilePic(binding: ViewHolderDialogBoxFollowersBinding, profilePicRef: String){
 
-        val imageRef = Firebase.storage.reference.child(profilePicRef)
+        val imageRef = storageRef.storage.reference.child(profilePicRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()

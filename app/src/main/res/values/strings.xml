@@ -10,6 +10,8 @@
     <string name="hintEnterSaloonName">Enter Saloon Name (Optional)</string>
     <string name="hintCaption">Caption (Optional)</string>
     <string name="hintComment">Enter comment..</string>
+    <string name="hintReview">Enter Review..</string>
+
     <string name="placeHolderAreaName">Gandhipuram</string>
     <string name="placeHolderOpenStatus">Open</string>
     <string name="placeHolderClosedStatus">Closed</string>
@@ -17,6 +19,17 @@
     <string name="placeHolderUserName">Sharan Kumar</string>
     <string name="placeHolderNumber">5</string>
     <string name="placeHolderReview"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, </string>
+    <string name="placeHolderSaloonName">Saloon Name</string>
+    <string name="placeHolderSaloonAddress">Saloon Address</string>
+    <string name="placeHolderReviewCount">5</string>
+    <string name="placeHolderMobileNumber">+919941677517</string>
+    <string name="placeHolderNoComments">No Comments yet...</string>
+    <string name="placeholderPricingLabel">Haircut</string>
+    <string name="placeHolderCommentsCount">3</string>
+    <string name="placeHolderNiceCount">20</string>
+    <string name="placeHolderAppVersion">Version : 1.0</string>
+
+
     <string name="textViewSaloonName">Shop Name</string>
     <string name="textResendOtp">Resending OTP in %1$d secs</string>
     <string name="textAlreadyHaveAccount">Already have an account?</string>
@@ -35,6 +48,19 @@
     <string name="textNoReviews">No Reviews yet.. Be the First to add a Review and Rating</string>
     <string name="textFollowers">Followers</string>
     <string name="textFollowing">Following</string>
+    <string name="textHaircut">Haircut</string>
+    <string name="textHaircutPrice" formatted="true">\u20B9 %s</string>
+    <string name="textShaving">Shaving</string>
+    <string name="textShavingPrice">\u20B9 100</string>
+    <string name="textSaloonDistance">%s km</string>
+    <string name="textCall">Call</string>
+    <string name="textLocation">Location</string>
+    <string name="textReviewCount">5</string>
+    <string name="textCacheSize">0 MB</string>
+    <string name="textTurnOnGPS">Turn ON GPS to sort Saloon by Distance</string>
+    <string name="textFetchingLocationData">"Please wait.. Fetching Location Data.. "</string>
+    <string name="textFetchingLocationDataFailed">"Unable to fetch location data. \n\n Saloon distance cannot be determined. \n\n Continue to use the app and try again later to use location services"</string>
+
 
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
 
@@ -59,6 +85,16 @@
     <string name="buttonGoogleSignIn">GOOGLE SIGN-IN</string>
     <string name="buttonFacebookSignIn">FACEBOOK SIGN-IN</string>
     <string name="buttonMobileSignIn">MOBILE SIGN-IN</string>
+    <string name="buttonAppointment">Appointment</string>
+    <string name="buttonRate">Rate</string>
+    <string name="buttonAddReviewAndRating">Add Rating / Add Review</string>
+    <string name="buttonTurnOnGPS">Turn ON GPS</string>
+    <string name="buttonLoadMoreReviews">Load more reviews</string>
+    <string name="buttonLoadMoreSaloons">Load more saloons</string>
+    <string name="buttonLoadMore">load more</string>
+    <string name="buttonChangeUserName">Change User Name</string>
+    <string name="buttonChangeProfilePic">Change Profile Pic</string>
+    <string name="buttonClearCache">Clear Cache</string>
 
     <!--    Content Description Texts-->
     <string name="contentDescription">Bull Logo</string>
@@ -76,9 +112,12 @@
     <string name="contentDescriptionLoadingIcon">Loading icon</string>
     <string name="contentDescriptionBackButton">Back button</string>
     <string name="contentDescriptionCameraFab">Camera FAB</string>
+    <string name="contentDescriptionReviewCount">Review Count</string>
+    <string name="contentDescriptionCapturedImage">Captured Image Preview</string>
+    <string name="contentDescriptionSaloonDisplayImage">Saloon Display Image</string>
 
     <!--    Menu items title-->
-    <string name="menuItemTitleAbout">About</string>
+    <string name="menuItemTitleAbout">About Us</string>
     <string name="menuItemTitleSignOut">Sign out</string>
     <string name="menuItemTitleUserProfile">Your Profile</string>
     <string name="menuItemSavedStyles">Saved Styles</string>
@@ -92,35 +131,9 @@
     <string name="popUpMenuItemRemovePhoto">Remove Photo</string>
 
     <string name="hello_blank_fragment">hello_blank_fragment</string>
-    <string name="textHaircut">Haircut</string>
-    <string name="textHaircutPrice" formatted="true">\u20B9 %s</string>
-    <string name="textShaving">Shaving</string>
-    <string name="textShavingPrice">\u20B9 100</string>
-    <string name="textSaloonDistance">%s km</string>
-    <string name="textCall">Call</string>
-    <string name="textLocation">Location</string>
-    <string name="buttonAppointment">Appointment</string>
-    <string name="textReviewCount">5</string>
-    <string name="buttonRate">Rate</string>
-    <string name="hintReview">Enter Review..</string>
-    <string name="buttonAddReviewAndRating">Add Rating / Add Review</string>
-    <string name="placeholderPricingLabel">Haircut</string>
-    <string name="textTurnOnGPS">Turn ON GPS to sort Saloon by Distance</string>
-    <string name="buttonTurnOnGPS">Turn ON GPS</string>
-    <string name="textFetchingLocationData">"Please wait.. Fetching Location Data.. "</string>
-    <string name="textFetchingLocationDataFailed">"Unable to fetch location data. \n\n Saloon distance cannot be determined. \n\n Continue to use the app and try again later to use location services"</string>
-    <string name="contentDescriptionCapturedImage">Captured Image Preview</string>
-    <string name="placeHolderCommentsCount">3</string>
-    <string name="placeHolderNiceCount">20</string>
-    <string name="contentDescriptionSaloonDisplayImage">Saloon Display Image</string>
-    <string name="placeHolderSaloonName">Saloon Name</string>
-    <string name="placeHolderSaloonAddress">Saloon Address</string>
-    <string name="placeHolderReviewCount">5</string>
-    <string name="contentDescriptionReviewCount">Review Count</string>
-    <string name="placeHolderMobileNumber">+919941677517</string>
-    <string name="placeHolderNoComments">No Comments yet...</string>
-    <string name="buttonLoadMoreReviews">Load more reviews</string>
-    <string name="buttonLoadMoreSaloons">Load more saloons</string>
-    <string name="buttonLoadMore">load more</string>
+    <string name="textAppDeveloper">App Developed By</string>
+    <string name="textAppDeveloperName">Sharan Kumar</string>
+    <string name="textAppOwner">App Owned By</string>
+    <string name="textAppOwnerName">Shanthosh Sivan</string>
 
 </resources>

@@ -8,17 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.adapters.SaloonPricingRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentSaloonPricingBinding
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class SaloonPricingFragment : Fragment() {
 
     private var _binding: FragmentSaloonPricingBinding? = null
     private val binding get() = _binding!!
     private lateinit var saloonID: String
+
+    private val db = SingletonInstances.getFireStoreInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +39,7 @@ class SaloonPricingFragment : Fragment() {
     }
 
     private fun generatePricingFireStoreData(){
-        val db = Firebase.firestore
+
         val priceList = mutableListOf<HashMap<String, Number>>()
 
         val dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)

@@ -10,12 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.ViewHolderYourProfileNicesItemBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.MyNicesData
 import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -25,6 +24,7 @@ class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>, _fragm
 
     private var nicesList = list
     private val fragment = _fragment
+    private val storageRef = SingletonInstances.getStorageReference()
 
     inner class YourProfileNicesRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val binding: ViewHolderYourProfileNicesItemBinding = ViewHolderYourProfileNicesItemBinding.bind(itemView)
@@ -87,7 +87,7 @@ class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>, _fragm
 
     private fun setTargetUserProfilePic(binding: ViewHolderYourProfileNicesItemBinding, profilePicRef: String){
 
-        val imageRef = Firebase.storage.reference.child(profilePicRef)
+        val imageRef = storageRef.storage.reference.child(profilePicRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()
@@ -99,7 +99,7 @@ class YourProfileNicesRecyclerViewAdapter(list: MutableList<MyNicesData>, _fragm
 
     private fun setTargetImage(binding: ViewHolderYourProfileNicesItemBinding, _imageRef: String){
 
-        val imageRef = Firebase.storage.getReferenceFromUrl(_imageRef)
+        val imageRef = storageRef.storage.getReferenceFromUrl(_imageRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()

@@ -12,16 +12,13 @@ import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.ViewHolderBullMagicItemBinding
 import com.bullSaloon.bull.fragments.bullMagic.BullMagicListFragment
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.BullMagicListData
 import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -32,9 +29,9 @@ import kotlin.collections.ArrayList
 class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _fragment: BullMagicListFragment): RecyclerView.Adapter<BullMagicListRecyclerViewAdapter.BullMagicListRecyclerViewHolder>() {
 
     private val bullMagicLists = lists
-    private val db = Firebase.firestore
-    private val auth = Firebase.auth
-    private val storage = Firebase.storage
+    private val db = SingletonInstances.getFireStoreInstance()
+    private val auth = SingletonInstances.getAuthInstance()
+    private val storage = SingletonInstances.getStorageReference()
     private val fragment = _fragment
     private val currentUserID = auth.currentUser?.uid
 
@@ -131,7 +128,7 @@ class BullMagicListRecyclerViewAdapter(lists: MutableList<BullMagicListData>, _f
 
     private fun setImageFromFirebase(context: Context, binding: ViewHolderBullMagicItemBinding, imageUrl: String){
 
-        val imageRef = storage.getReferenceFromUrl(imageUrl)
+        val imageRef = storage.storage.getReferenceFromUrl(imageUrl)
         val width = Resources.getSystem().displayMetrics.widthPixels
         val height = (Resources.getSystem().displayMetrics.heightPixels * 0.40).toInt()
 

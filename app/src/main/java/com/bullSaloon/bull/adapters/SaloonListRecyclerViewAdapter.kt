@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.ViewHolderShopItemBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.SaloonDataClass
@@ -24,6 +25,7 @@ class SaloonListRecyclerViewAdapter(lists: MutableList<SaloonDataClass>, dataVie
     private val saloonList = lists
     private val dataModel = dataViewModel
     private val fragment = _fragment
+    private val storageRef = SingletonInstances.getStorageReference()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_shop_item,parent,false)
@@ -93,7 +95,7 @@ class SaloonListRecyclerViewAdapter(lists: MutableList<SaloonDataClass>, dataVie
 
     private fun setSaloonDisplayPic(binding: ViewHolderShopItemBinding, profilePicRef: String){
 
-        val imageRef = Firebase.storage.reference.child(profilePicRef)
+        val imageRef = storageRef.storage.reference.child(profilePicRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()

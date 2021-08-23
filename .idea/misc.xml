@@ -6,12 +6,20 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/drawable/avd_anim.xml" value="0.3402777777777778" />
         <entry key="..\:/Sample/Bull/app/src/main/res/drawable/bg_custom_parallelogram_shape.xml" value="0.18518518518518517" />
         <entry key="..\:/Sample/Bull/app/src/main/res/drawable/bg_cutom_parralleogram_inverted.xml" value="0.3402777777777778" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/drawable/bg_otp_box.xml" value="0.3402777777777778" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/drawable/bg_popup_rounded.xml" value="0.3402777777777778" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/drawable/bg_popup_rounded_solid.xml" value="0.3402777777777778" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/drawable/bg_profile_pic_rounded.xml" value="0.3402777777777778" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/drawable/bg_rounded_solid_small_rounded.xml" value="0.3402777777777778" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/drawable/bg_rounded_stroked_teal_200.xml" value="0.3402777777777778" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/drawable/bg_take_photo_rounded.xml" value="0.3402777777777778" />
         <entry key="..\:/Sample/Bull/app/src/main/res/drawable/ic_baseline_close_black_40.xml" value="0.3402777777777778" />
         <entry key="..\:/Sample/Bull/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.262037037037037" />
         <entry key="..\:/Sample/Bull/app/src/main/res/drawable/ic_enter_mobile_number.xml" value="0.3402777777777778" />
         <entry key="..\:/Sample/Bull/app/src/main/res/drawable/ic_facebook_icon.xml" value="0.3402777777777778" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/activity_home.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/activity_splash_screen.xml" value="0.13580246913580246" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_about_us.xml" value="0.5" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_box_followers_list.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_camera_caption_saloon.xml" value="0.32592592592592595" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_fetching_location_data.xml" value="0.33" />
@@ -25,6 +33,7 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_saloon_photos.xml" value="0.11458333333333333" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_saloon_pricing.xml" value="0.13935185185185187" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_saloon_review.xml" value="0.1503623188405797" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_sign_in.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_sign_up_and_sign_in.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile.xml" value="0.1503623188405797" />

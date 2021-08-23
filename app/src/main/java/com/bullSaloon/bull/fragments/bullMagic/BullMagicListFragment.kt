@@ -14,17 +14,12 @@ import androidx.core.os.HandlerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.adapters.BullMagicListRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentBullMagicListBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.BullMagicListData
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.UploadTask
 
 
 class BullMagicListFragment : Fragment() {
@@ -32,6 +27,9 @@ class BullMagicListFragment : Fragment() {
     private var _binding: FragmentBullMagicListBinding? = null
     private val binding get() = _binding!!
     private var bullMagicList = mutableListOf<BullMagicListData>()
+
+    private val db = SingletonInstances.getFireStoreInstance()
+    private val auth = SingletonInstances.getAuthInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,14 +86,11 @@ class BullMagicListFragment : Fragment() {
     }
 
     private fun getFirebaseData() {
-        val db = Firebase.firestore
-        val auth = Firebase.auth
+
         val dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
         bullMagicList.clear()
         dataViewModel.temp.clear()
-
-        val taskList = mutableListOf<Task<QuerySnapshot>>()
 
         db.collection("Users")
             .get()

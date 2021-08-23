@@ -19,19 +19,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.adapters.SaloonListRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentSaloonListBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.SaloonDataClass
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
-import com.firebase.geofire.GeoFireUtils
-import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import kotlin.math.roundToInt
 
 class SaloonListFragment : Fragment() {
@@ -44,6 +41,8 @@ class SaloonListFragment : Fragment() {
     private lateinit var recyclerState: Parcelable
     private val saloonLists = mutableListOf<SaloonDataClass>()
     private var lastVisible: DocumentSnapshot? = null
+
+    private val db = SingletonInstances.getFireStoreInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,7 +111,6 @@ class SaloonListFragment : Fragment() {
 
     private fun generateDataFirestore(){
 
-        val db = Firebase.firestore
         dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
         val query: Task<QuerySnapshot> = if (lastVisible == null){

@@ -1,6 +1,6 @@
 package com.bullSaloon.bull.viewModel
 
-import android.util.Log
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bullSaloon.bull.genericClasses.dataClasses.BullMagicListData

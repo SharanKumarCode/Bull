@@ -9,16 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.ViewHolderBullmagicTargetuserItemBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.MyPhotosData
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 
 class BullMagicTargetUserRecyclerViewAdapter(_lists: MutableList<MyPhotosData>, _fragment: Fragment): RecyclerView.Adapter<BullMagicTargetUserRecyclerViewAdapter.BullMagicTargetUserRecyclerViewHolder>() {
 
     private val lists = _lists
-    private val storage = Firebase.storage
+    private val storage = SingletonInstances.getStorageReference()
     private val fragment = _fragment
 
     inner class BullMagicTargetUserRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -52,7 +51,7 @@ class BullMagicTargetUserRecyclerViewAdapter(_lists: MutableList<MyPhotosData>, 
 
     private fun setImageFromFirebase(context: Context, binding: ViewHolderBullmagicTargetuserItemBinding, imageUrl: String){
 
-        val imageRef = storage.getReferenceFromUrl(imageUrl)
+        val imageRef = storage.storage.getReferenceFromUrl(imageUrl)
 
         GlideApp.with(context)
             .load(imageRef)

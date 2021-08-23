@@ -43,11 +43,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.facebook.login.LoginManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationBarView
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.GeoPoint
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 
 
 class MainActivity : AppCompatActivity() {
@@ -59,8 +55,6 @@ class MainActivity : AppCompatActivity() {
     private var userLongitude = 0.0
     private var resumeFlag = false
 
-    private lateinit var storage: FirebaseStorage
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -70,8 +64,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         createNotificationChannel()
-
-        storage = Firebase.storage
 
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -117,11 +109,7 @@ class MainActivity : AppCompatActivity() {
             when(it!!.itemId)
             {
                 R.id.menuItemSettings -> {
-                    Firebase.auth.signOut()
-                    LoginManager.getInstance().logOut()
-                    Toast.makeText(this, "Signed-Out successfully", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, SplashScreenActivity::class.java))
-                    finish()
+                    navController?.navigate(R.id.settingsFragment)
                     true
                 }
                 else -> false

@@ -18,17 +18,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.adapters.BullMagicTargetUserRecyclerViewAdapter
 import com.bullSaloon.bull.adapters.DialogFollowersRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentBullMagicTargetUserBinding
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.MyPhotosData
 import com.bullSaloon.bull.viewModel.YourProfileViewModel
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 
 class BullMagicTargetUserFragment : Fragment() {
 
@@ -36,8 +33,9 @@ class BullMagicTargetUserFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var dataViewModel: YourProfileViewModel
     private lateinit var dataUserID :String
-    private val db = Firebase.firestore
-    private val auth = Firebase.auth
+    private val db = SingletonInstances.getFireStoreInstance()
+    private val auth = SingletonInstances.getAuthInstance()
+    private val storageRef = SingletonInstances.getStorageReference()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,7 +149,7 @@ class BullMagicTargetUserFragment : Fragment() {
 
     private fun setTargetUserProfilePic(profilePicRef: String){
 
-        val imageRef = Firebase.storage.reference.child(profilePicRef)
+        val imageRef = storageRef.child(profilePicRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()
@@ -258,7 +256,6 @@ class BullMagicTargetUserFragment : Fragment() {
     private fun setUpDialogBoxFollow(_dataType: String){
 
         var userLists: MutableList<String>
-        val db = Firebase.firestore
 
         val dialog = Dialog(this.requireContext())
         dialog.setContentView(R.layout.dialog_box_followers_list)

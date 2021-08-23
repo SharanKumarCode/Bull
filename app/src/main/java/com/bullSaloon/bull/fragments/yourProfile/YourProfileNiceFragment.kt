@@ -9,19 +9,21 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.adapters.YourProfileNicesRecyclerViewAdapter
 import com.bullSaloon.bull.databinding.FragmentYourProfileNiceBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
 import com.bullSaloon.bull.genericClasses.dataClasses.MyNicesData
 import com.bullSaloon.bull.viewModel.YourProfileViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class YourProfileNiceFragment : Fragment() {
     private var _binding: FragmentYourProfileNiceBinding? = null
     private val binding get() = _binding!!
     private lateinit var dataViewModel: YourProfileViewModel
+
+    val db = SingletonInstances.getFireStoreInstance()
+    val auth = SingletonInstances.getAuthInstance()
+
     private var nicesList = mutableListOf<MyNicesData>()
 
     override fun onCreateView(
@@ -58,8 +60,7 @@ class YourProfileNiceFragment : Fragment() {
     }
 
     private fun getNiceDataFromFireStore(){
-        val db = Firebase.firestore
-        val auth = Firebase.auth
+
         dataViewModel = ViewModelProvider(requireActivity()).get(YourProfileViewModel::class.java)
 
         db.collection("Users")

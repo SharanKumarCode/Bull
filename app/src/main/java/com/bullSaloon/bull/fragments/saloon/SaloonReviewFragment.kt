@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.adapters.SaloonReviewRecyclerAdapter
 import com.bullSaloon.bull.databinding.FragmentSaloonReviewBinding
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
@@ -28,6 +28,9 @@ class SaloonReviewFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var saloonID: String
     private lateinit var dataViewModel: MainActivityViewModel
+
+    val db = SingletonInstances.getFireStoreInstance()
+
     private val ratingsList = mutableListOf<RatingReviewData>()
     private var lastVisible: DocumentSnapshot? = null
     private var prevRatingsListSize = 0
@@ -73,7 +76,6 @@ class SaloonReviewFragment : Fragment() {
     }
 
     private fun getReviewDataFromFireStore(){
-        val db = Firebase.firestore
 
         val dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
         dataViewModel.getShopData().observe(viewLifecycleOwner, { data ->

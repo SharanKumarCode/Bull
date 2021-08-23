@@ -15,13 +15,12 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModelProvider
 import com.bullSaloon.bull.MainActivity
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.genericClasses.dataClasses.UserDataClass
 import com.bullSaloon.bull.viewModel.UserDataViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 object SingletonUserData {
 
@@ -32,19 +31,20 @@ object SingletonUserData {
     private lateinit var mobileNumber: String
     private var scrollState = Bundle()
 
-    private val storage = Firebase.storage
-    private val auth = Firebase.auth
-    private const val TAG = "TAG"
+    private val storage = SingletonInstances.getStorageReference()
+    private val auth = SingletonInstances.getAuthInstance()
+    private const val TAG = "TAGSingletonUserData"
 
     init {
         Log.i(TAG, "Singleton class for basic user data created")
-        val db = Firebase.firestore
+        val db = SingletonInstances.getFireStoreInstance()
 
         db.collection("Users")
             .document(auth.currentUser?.uid!!)
             .get()
             .addOnSuccessListener {
 
+                Log.i(TAG, "Singleton data cehck : ${it.id} , data app : ${db.app}")
                 if (it.exists()) {
 
                     val userName = it.getString("user_name")!!
@@ -59,7 +59,9 @@ object SingletonUserData {
 
     fun updateUserData(context: Context, activityFlag: String = "null"){
 
-        val db = Firebase.firestore
+        val db = SingletonInstances.getFireStoreInstance()
+
+        Log.i(TAG, "SingletonUserData user data: ${db.firestoreSettings.cacheSizeBytes}")
 
         db.collection("Users")
             .document(auth.currentUser?.uid!!)
@@ -85,7 +87,7 @@ object SingletonUserData {
 
                     }
                 }.addOnFailureListener {
-                    Log.i(TAG, "error: ${it.message}")
+                    Log.i(TAG, "error singleton: ${it.message}")
                 }
     }
 
@@ -96,7 +98,7 @@ object SingletonUserData {
             "profile_picture" + ".jpg"
         )
 
-        storage.reference.child(imageUrl).getFile(profilePicFileTemp)
+        storage.child(imageUrl).getFile(profilePicFileTemp)
             .addOnSuccessListener {
 
                 val ei = ExifInterface(profilePicFileTemp).rotationDegrees

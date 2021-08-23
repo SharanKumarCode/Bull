@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
+import com.bullSaloon.bull.SingletonInstances
 import com.bullSaloon.bull.databinding.ViewHolderYourProfilePhotosItemBinding
 import com.bullSaloon.bull.fragments.yourProfile.YourProfilePhotosFragment
 import com.bullSaloon.bull.genericClasses.GlideApp
@@ -19,7 +20,7 @@ import com.google.firebase.storage.ktx.storage
 class YourProfilePhotosRecyclerViewAdapter(lists: MutableList<MyPhotosData>, dataViewModel: YourProfileViewModel, childFragmentManager: YourProfilePhotosFragment): RecyclerView.Adapter<YourProfilePhotosRecyclerViewAdapter.YourProfilePhotosRecyclerViewHolder>(){
 
     private val myPhotosList = lists
-    private val storage = Firebase.storage
+    private val storageRef = SingletonInstances.getStorageReference()
     private val dataModel = dataViewModel
     private val childFragManager = childFragmentManager
 
@@ -58,7 +59,7 @@ class YourProfilePhotosRecyclerViewAdapter(lists: MutableList<MyPhotosData>, dat
 
     private fun setImageFromFirebase(context: Context, binding: ViewHolderYourProfilePhotosItemBinding, imageUrl: String){
 
-        val imageRef = storage.getReferenceFromUrl(imageUrl)
+        val imageRef = storageRef.storage.getReferenceFromUrl(imageUrl)
 
         GlideApp.with(context)
             .load(imageRef)

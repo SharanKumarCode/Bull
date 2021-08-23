@@ -1,6 +1,5 @@
 package com.bullSaloon.bull
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -10,23 +9,20 @@ import android.util.Log
 import android.view.WindowManager
 import com.bullSaloon.bull.databinding.ActivitySplashScreenBinding
 import com.bullSaloon.bull.genericClasses.SingletonUserData
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import android.content.pm.PackageManager
-
-import android.content.pm.PackageInfo
-import android.util.Base64
-import java.lang.Exception
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
+import com.google.firebase.ktx.initialize
+import com.google.firebase.storage.FirebaseStorage
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @Suppress("DEPRECATION")
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +37,63 @@ class SplashScreenActivity : AppCompatActivity() {
         )
 
 //        assigning Basic user data (user_id, user_name, mobile_number) to UserData View Model to be used in all app
+        val auth = SingletonInstances.getAuthInstance()
+        val db = SingletonInstances.getFireStoreInstance()
+        val storageRef = SingletonInstances.getStorageReference()
 
-        auth = Firebase.auth
+        if (auth.currentUser == null){
+            auth.signInWithEmailAndPassword(
+            "sharankumaraero@gmail.com" , "Sharan"
+                ).addOnSuccessListener {
+                    Log.i("TAGSplashScreenActivity", "auth login : ${it.credential}")
+                }.addOnFailureListener {
+                    Log.i("TAGSplashScreenActivity", "auth login error : ${it.message}")
+                }
+        }
 
-        Log.i(TAG,"user id: ${auth.currentUser?.uid}")
+//        db.collection("Users")
+//            .document("total_users")
+//            .get()
+//            .addOnSuccessListener {
+//                if (it.exists()){
+//                    val data = it.getLong("total_users")
+//                    Log.i(TAG,"total users : $data")
+//                } else {
+//                    Log.i(TAG,"total users does not exists")
+//                }
+//            }
+//            .addOnFailureListener {
+//                Log.i(TAG,"total users error : ${it.message}")
+//            }
 
-        printHashKey(this)
+//        val mapData = hashMapOf("user_id" to auth.currentUser?.uid,
+//                                "user_name" to "sharan Kumar",
+//                                "mobile_number" to "+919941677517")
+
+//        db.collection("Users")
+//            .document(auth.currentUser?.uid!!)
+//            .set(mapData)
+//            .addOnSuccessListener {
+//                Log.i(TAG," added success")
+//            }
+//            .addOnFailureListener {
+//                Log.i(TAG," added error : ${it.message}")
+//            }
+
+//        val timeStamp = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis())
+//        val data = hashMapOf("user_id" to timeStamp)
+//
+//        db.collection("Users")
+//            .document("total_users")
+//            .update("data",data)
+//            .addOnSuccessListener {
+//                Log.i(TAG," added success")
+//            }
+//            .addOnFailureListener {
+//                Log.i(TAG," added error : ${it.message}")
+//            }
+
+        Log.i(TAG, "user id : ${auth.currentUser?.uid}")
 
         Handler().postDelayed({
             if (auth.currentUser == null){
@@ -69,23 +116,6 @@ class SplashScreenActivity : AppCompatActivity() {
     private fun launchHomeActivity(){
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
-    }
-
-    fun printHashKey(pContext: Context) {
-        try {
-            val info: PackageInfo = pContext.packageManager
-                .getPackageInfo(pContext.packageName, PackageManager.GET_SIGNATURES)
-            for (signature in info.signatures) {
-                val md: MessageDigest = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                val hashKey: String = String(Base64.encode(md.digest(), 0))
-                Log.i(TAG, "printHashKey() Hash Key: $hashKey")
-            }
-        } catch (e: NoSuchAlgorithmException) {
-            Log.e(TAG, "printHashKey()", e)
-        } catch (e: Exception) {
-            Log.e(TAG, "printHashKey()", e)
-        }
     }
 
     companion object {
