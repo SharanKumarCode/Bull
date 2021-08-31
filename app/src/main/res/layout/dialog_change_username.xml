@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:padding="30dp"
+    android:background="@drawable/bg_popup_rounded"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/changeUserNameTextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.11"
+
+        app:boxBackgroundMode="outline"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+
+        app:errorEnabled="true"
+        app:counterTextColor="@color/white"
+        app:counterTextAppearance="@style/counterText"
+        app:hintEnabled="false"
+        app:hintTextAppearance="@style/HintText">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/changeUserNameReviewTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintEnterName"
+            android:inputType="textMultiLine"
+            android:textColorHint="@color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/changeUserNameDialogCancelButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/changeUserNameDialogOkButton"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeUserNameTextInputLayout"
+
+        android:layout_marginTop="30dp"
+        android:tint="@color/white"
+
+        android:src="@drawable/ic_baseline_close_black_40"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/changeUserNameDialogOkButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/teal_200"
+        android:text="@string/buttonOK"
+
+        android:textColor="@color/black"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toEndOf="@+id/changeUserNameDialogCancelButton"
+        app:layout_constraintTop_toBottomOf="@+id/changeUserNameTextInputLayout" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,15 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.transition.TransitionInflater
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuBuilder
@@ -30,6 +33,8 @@ import com.bullSaloon.bull.genericClasses.dataClasses.UserDataClass
 import com.bullSaloon.bull.viewModel.UserDataViewModel
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.facebook.login.LoginManager
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import java.io.File
 
 class SettingsFragment : Fragment() {
@@ -81,6 +86,10 @@ class SettingsFragment : Fragment() {
 
         binding.aboutButton.setOnClickListener {
             showAboutDialog()
+        }
+
+        binding.changeUserNameButton.setOnClickListener {
+            showChangeUserNameDialog()
         }
 
         binding.cacheSizeText.text = "${initializeCache() / (1024 * 1024)} MB"
@@ -137,7 +146,7 @@ class SettingsFragment : Fragment() {
                 data = BitmapFactory.decodeResource(this.resources, R.drawable.ic_baseline_person_24)
             }
 
-            Log.i("TAGProfile", "user profile updated fragment : $data")
+            Log.i(TAG, "user profile updated fragment : $data")
 
             GlideApp.with(this)
                 .load(data)
@@ -159,17 +168,73 @@ class SettingsFragment : Fragment() {
 
         imageRef.delete()
             .addOnSuccessListener {
-                Log.i("TAG","profile pic is deleted")
+                Log.i(TAG,"profile pic is deleted")
                 Toast.makeText(context,"Profile Picture is deleted. Restart App to Update Profile Pic",
                     Toast.LENGTH_SHORT).show()
                 (activity as MainActivity).updateProfilePicOutsideMain()
                 setProfilePhoto()
             }
             .addOnFailureListener {
-                Log.i("TAG","Error : ${it.message}")
+                Log.i(TAG,"Error : ${it.message}")
                 Toast.makeText(context,"Error occurred. Please try again after sometime or check your internet connection",
                     Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun showChangeUserNameDialog(){
+
+        val dialog = Dialog(requireContext())
+
+        dialog.setContentView(R.layout.dialog_change_username)
+
+        val closeButton = dialog.findViewById<ImageButton>(R.id.changeUserNameDialogCancelButton)
+        val okButton = dialog.findViewById<Button>(R.id.changeUserNameDialogOkButton)
+        val userNameTextField = dialog.findViewById<TextInputEditText>(R.id.changeUserNameReviewTextField)
+        val userNameTextInputLayout = dialog.findViewById<TextInputLayout>(R.id.changeUserNameTextInputLayout)
+
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        userNameTextField.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                when {
+                    userNameTextField.text?.length!! < 5 -> {
+                        userNameTextInputLayout.error = "minimum 5 characters required"
+                    }
+                    userNameTextField.text?.length!! > 20 -> {
+                        userNameTextInputLayout.error = "restrict name to 20 characters"
+                    }
+                    else -> {
+                        userNameTextInputLayout.error = null
+                    }
+                }
+            }
+        })
+
+        okButton.setOnClickListener {
+            val userNameTextLength = userNameTextField.text?.length
+
+            if (userNameTextLength != null) {
+                if (userNameTextLength in 5..20){
+                    updateUserNameFireStore(userNameTextField.text.toString())
+                    dialog.show()
+                } else{
+                    Toast.makeText(context,"Enter Valid Username",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        dialog.show()
     }
 
     private fun showAboutDialog(){
@@ -185,6 +250,24 @@ class SettingsFragment : Fragment() {
         }
 
         dialog.show()
+    }
+
+    private fun updateUserNameFireStore(userNameText: String){
+        db.collection("Users")
+            .document(auth.currentUser?.uid!!)
+            .update("user_name", userNameText)
+            .addOnSuccessListener {
+                Toast.makeText(context,"Username successfully updated. \n\nRestart app to view changes",
+                    Toast.LENGTH_SHORT).show()
+
+                Log.i(TAG, "Username successfully updated")
+            }
+            .addOnFailureListener {e->
+                Toast.makeText(context,"Username update failed. \n\nPlease try again later",
+                    Toast.LENGTH_SHORT).show()
+
+                Log.i(TAG, "Username update failed error : ${e.message}")
+            }
     }
 
     private fun initializeCache(): Long {
@@ -206,5 +289,9 @@ class SettingsFragment : Fragment() {
             }
         }
         return size
+    }
+
+    companion object {
+        private const val TAG = "TAGSettingsFragment"
     }
 }

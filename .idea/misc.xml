@@ -22,6 +22,7 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_about_us.xml" value="0.5" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_box_followers_list.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_camera_caption_saloon.xml" value="0.32592592592592595" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_change_username.xml" value="0.3087719298245614" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_fetching_location_data.xml" value="0.33" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_saloon_rating.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_saloon_review.xml" value="0.13518518518518519" />
@@ -29,7 +30,7 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_bull_magic.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_bull_magic_target_user.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_camera.xml" value="0.33" />
-        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_create_account.xml" value="0.1503623188405797" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_create_account.xml" value="0.33" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_saloon_photos.xml" value="0.11458333333333333" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_saloon_pricing.xml" value="0.13935185185185187" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_saloon_review.xml" value="0.1503623188405797" />
