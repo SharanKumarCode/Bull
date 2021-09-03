@@ -84,7 +84,6 @@ class UploadImageToFirebaseService : Service() {
         val data = dataBundle?.getParcelable<UploadImageServicePayload>("service_data")
 
         if (data != null) {
-            userName = data.getUserName()
             userID = data.getUserID()
             photoFileTempPath = data.getPhotoFileTempPath()
             activityFlag = data.getActivityFlag()
@@ -203,8 +202,7 @@ class UploadImageToFirebaseService : Service() {
                 "nices_userid" to arrayListOf<String>(),
                 "photoID" to photoUUID,
                 "saloon_name" to saloonName,
-                "user_id" to SingletonUserData.userData.user_id,
-                "user_name" to SingletonUserData.userData.user_name)
+                "user_id" to SingletonUserData.userData.user_id)
 
             db.collection("Users")
                 .document(auth.currentUser?.uid.toString())

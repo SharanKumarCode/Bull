@@ -73,6 +73,4 @@
         app:layout_constraintStart_toEndOf="@+id/changeUserNameDialogCancelButton"
         app:layout_constraintTop_toBottomOf="@+id/changeUserNameTextInputLayout" />
 
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

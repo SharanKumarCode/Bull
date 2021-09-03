@@ -3,6 +3,9 @@
     <string name="facebook_app_id">2629927187154177</string>
     <string name="fb_login_protocol_scheme">fb2629927187154177</string>
 
+    <string name="textAppDeveloperName">Sharan Kumar</string>
+    <string name="textAppOwnerName">Shanthosh Sivan</string>
+
     <!--    Text/Placeholder/Hints/Helper Texts-->
     <string name="hintSearchEdit">Search for shops</string>
     <string name="hintEnterMobileNumber">Enter Mobile Number</string>
@@ -28,6 +31,8 @@
     <string name="placeHolderCommentsCount">3</string>
     <string name="placeHolderNiceCount">20</string>
     <string name="placeHolderAppVersion">Version : 1.0</string>
+    <string name="placeHolderTime">%1$d : %2$d %3$s</string>
+    <string name="placeHolderLikes">0</string>
 
 
     <string name="textViewSaloonName">Shop Name</string>
@@ -36,7 +41,7 @@
     <string name="textDoNotHaveAccount">Do not have an account?</string>
     <string name="textUploading">Uploading...</string>
     <string name="textProgressIndicator">%1$s</string>
-    <string name="textBullMagicImageDate">%1$d %2$s %3$d</string>
+    <string name="textBullMagicImageDate">%1$d %2$s %3$s</string>
     <string name="textTabNices">Nices</string>
     <string name="textTabReviews">Reviews</string>
     <string name="textTabComments">Comments</string>
@@ -60,7 +65,8 @@
     <string name="textTurnOnGPS">Turn ON GPS to sort Saloon by Distance</string>
     <string name="textFetchingLocationData">"Please wait.. Fetching Location Data.. "</string>
     <string name="textFetchingLocationDataFailed">"Unable to fetch location data. \n\n Saloon distance cannot be determined. \n\n Continue to use the app and try again later to use location services"</string>
-
+    <string name="textAppOwner">App Owned By</string>
+    <string name="textAppDeveloper">App Developed By</string>
 
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
 
@@ -95,6 +101,9 @@
     <string name="buttonChangeUserName">Change User Name</string>
     <string name="buttonChangeProfilePic">Change Profile Pic</string>
     <string name="buttonClearCache">Clear Cache</string>
+    <string name="buttonReply">Reply</string>
+    <string name="buttonDelete">Delete</string>
+    <string name="buttonCancel">Cancel</string>
 
     <!--    Content Description Texts-->
     <string name="contentDescription">Bull Logo</string>
@@ -131,9 +140,7 @@
     <string name="popUpMenuItemRemovePhoto">Remove Photo</string>
 
     <string name="hello_blank_fragment">hello_blank_fragment</string>
-    <string name="textAppDeveloper">App Developed By</string>
-    <string name="textAppDeveloperName">Sharan Kumar</string>
-    <string name="textAppOwner">App Owned By</string>
-    <string name="textAppOwnerName">Shanthosh Sivan</string>
+    <string name="textDeleteComment">Are you sure to delete the comment?</string>
+
 
 </resources>

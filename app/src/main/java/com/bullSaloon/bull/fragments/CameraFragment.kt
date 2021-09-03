@@ -497,7 +497,6 @@ class CameraFragment : Fragment() {
         try {
             val serviceIntent = Intent(requireContext(), UploadImageToFirebaseService::class.java)
             val serviceData = UploadImageServicePayload(
-                userData["user_name"]!!,
                 userData["id"]!!,
                 photoFileTemp.absolutePath,
                 saloonName,

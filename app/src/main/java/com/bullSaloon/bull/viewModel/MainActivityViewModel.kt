@@ -4,6 +4,7 @@ package com.bullSaloon.bull.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bullSaloon.bull.genericClasses.dataClasses.BullMagicListData
+import com.bullSaloon.bull.genericClasses.dataClasses.CommentDataClass
 import com.bullSaloon.bull.genericClasses.dataClasses.SaloonDataClass
 import com.google.firebase.firestore.GeoPoint
 
@@ -14,6 +15,7 @@ class MainActivityViewModel: ViewModel() {
     private var userLocationData = MutableLiveData<GeoPoint>()
     private var saloonRefreshDataState = MutableLiveData<SaloonRefreshData>()
     private var bullMagicListData = MutableLiveData<MutableList<BullMagicListData>>()
+    private var commentDataList = MutableLiveData<MutableList<CommentDataClass>>()
     val temp = mutableListOf<BullMagicListData>()
 
     fun assignShopData(shop: MutableList<SaloonDataClass>){
@@ -43,6 +45,14 @@ class MainActivityViewModel: ViewModel() {
 
     fun getBullMagicDataList(): MutableLiveData<MutableList<BullMagicListData>>{
         return bullMagicListData
+    }
+
+    fun putCommentListData(data: MutableList<CommentDataClass>){
+        commentDataList.value = data
+    }
+
+    fun getCommentListData(): MutableLiveData<MutableList<CommentDataClass>> {
+        return commentDataList
     }
 
     fun assignUserLocationData(data: GeoPoint){

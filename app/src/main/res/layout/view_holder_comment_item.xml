@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/commentUserProfPicImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/commentTimeText"
+        android:layout_alignEnd="@+id/commentTimeText"
+        app:srcCompat="@drawable/ic_baseline_person_black_40" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/commentTimeText"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/commentUserProfPicImage"
+
+        android:layout_marginTop="10dp"
+
+        android:gravity="center"
+        android:text="@string/placeHolderTime"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/commentDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/commentTimeText"
+        android:layout_marginTop="5dp"
+
+        android:layout_alignStart="@+id/commentTimeText"
+        android:layout_alignEnd="@+id/commentTimeText"
+
+        android:gravity="center"
+
+        android:text="@string/textBullMagicImageDate"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:id="@+id/commentContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toEndOf="@+id/commentUserProfPicImage"
+        android:background="@drawable/bg_comments">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/commentUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+
+            android:layout_marginBottom="10dp"
+
+            android:fontFamily="@font/architects_daughter"
+            android:text="@string/placeHolderUserName"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/commentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/commentUserName"
+
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/placeHolderReview" />
+
+        <TextView
+            android:id="@+id/commentLikeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/commentText"
+            android:layout_alignStart="@+id/commentText"
+
+            android:layout_alignTop="@+id/commentLikeButton"
+            android:layout_alignBottom="@+id/commentLikeButton"
+            android:layout_marginStart="30dp"
+
+            android:gravity="center"
+            android:text="@string/placeHolderLikes"
+            android:textColor="@color/teal_200"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/commentLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/commentText"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/commentLikeText"
+
+            android:background="@android:color/transparent"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_baseline_like_blank_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/commentReplyButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignTop="@+id/commentLikeButton"
+            android:layout_alignBottom="@+id/commentLikeButton"
+            android:layout_marginStart="10dp"
+
+            android:textAllCaps="false"
+
+            android:layout_toEndOf="@+id/commentLikeButton"
+            android:text="@string/buttonReply"
+            android:textColor="@color/teal_200" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/commentDeleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignTop="@+id/commentLikeButton"
+            android:layout_alignBottom="@+id/commentLikeButton"
+
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/commentReplyButton"
+            android:background="@android:color/transparent"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_baseline_delete_24" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#8899" />
+
+</RelativeLayout>

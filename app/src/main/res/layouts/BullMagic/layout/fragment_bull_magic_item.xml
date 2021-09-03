@@ -52,30 +52,28 @@
             android:id="@+id/bullMagicItemUserProfilePic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            app:srcCompat="@drawable/ic_baseline_person_black_40"
             android:layout_below="@+id/bullMagicPhotoItemImageView"
-            />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/ic_baseline_person_black_40" />
 
         <TextView
             android:id="@+id/bullMagicItemUserName"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:text="@string/placeHolderUserName"
-
-            android:textSize="18sp"
-            android:textStyle="bold"
-
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="10dp"
+            android:layout_below="@+id/bullMagicPhotoItemImageView"
 
             android:layout_alignTop="@+id/bullMagicItemUserProfilePic"
-            android:layout_alignBottom="@+id/bullMagicItemUserProfilePic"
-            android:layout_below="@+id/bullMagicPhotoItemImageView"
-            android:layout_toEndOf="@+id/bullMagicItemUserProfilePic"
             android:layout_alignEnd="@+id/bullMagicPhotoItemImageView"
-            />
+
+            android:layout_alignBottom="@+id/bullMagicItemUserProfilePic"
+            android:layout_marginStart="10dp"
+
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/bullMagicItemUserProfilePic"
+            android:text="@string/placeHolderUserName"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
 
         <TextView
@@ -146,14 +144,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
 
-                android:layout_toEndOf="@+id/bullMagicCommentsImageView"
                 android:layout_alignTop="@+id/bullMagicNiceImageView"
-                android:paddingTop="8dp"
                 android:layout_marginStart="22dp"
+                android:layout_toEndOf="@+id/bullMagicCommentsImageView"
+                android:paddingTop="8dp"
 
                 android:text="@string/placeHolderNiceCount"
-                android:textSize="18sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
             <ImageView
                 android:contentDescription="@string/contentDescriptionNiceStatus"
@@ -187,32 +185,33 @@
             android:id="@+id/bullMagicItemEnterCommentLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:layout_below="@+id/bullMagicNicesAndCommentsContainer"
+            android:layout_alignStart="@+id/bullMagicNicesAndCommentsContainer"
 
+            android:layout_alignEnd="@+id/bullMagicShareImageView"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:layout_alignStart="@+id/bullMagicNicesAndCommentsContainer"
-            android:layout_alignEnd="@+id/bullMagicShareImageView"
-            android:layout_below="@+id/bullMagicNicesAndCommentsContainer">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/bullMagicEditCommentTextView"
+                android:id="@+id/bullMagicEditCommentTextLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:counterMaxLength="100"
-                app:counterEnabled="true"
-                app:hintEnabled="false"
-
                 android:layout_weight="2"
+                app:counterEnabled="true"
 
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:counterMaxLength="400"
+
+                app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bullMagicEditCommentTextField"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:hint="@string/hintComment"/>
+                    android:hint="@string/hintComment"
+                    android:inputType="textMultiLine" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -231,21 +230,19 @@
             android:layout_height="wrap_content"
 
             android:layout_below="@+id/bullMagicItemEnterCommentLayout"
-            android:layout_marginTop="20dp"
-            />
+            android:layout_marginTop="20dp" />
 
         <TextView
             android:id="@+id/bullMagicItemCommentStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/textNoComments"
-            android:textSize="18sp"
-
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/bullMagicItemCommentRecyclerView"
+            android:layout_alignParentStart="true"
+
+            android:layout_alignParentEnd="true"
+            android:text="@string/textNoComments"
             android:textAlignment="center"
-            />
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

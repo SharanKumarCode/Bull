@@ -53,3 +53,11 @@ data class UserDataClass(
     val user_name: String,
     val mobileNumber: String,
     val profilePicBitmap: Bitmap? = null)
+
+data class CommentDataClass(
+    val commentID: String,
+    val commentUserID: String,
+    val comment: String,
+    val timestamp: String,
+    val photoUserID: String
+)

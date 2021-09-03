@@ -4,7 +4,6 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class UploadImageServicePayload(
-    private val userName: String,
     private val userID: String,
     private val photoFileTempPath: String,
     private val saloonName: String,
@@ -13,7 +12,6 @@ class UploadImageServicePayload(
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-        userName = parcel.readString().toString(),
         userID = parcel.readString().toString(),
         photoFileTempPath = parcel.readString().toString(),
         saloonName = parcel.readString().toString(),
@@ -22,7 +20,6 @@ class UploadImageServicePayload(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(userName)
         parcel.writeString(userID)
         parcel.writeString(photoFileTempPath)
         parcel.writeString(saloonName)
@@ -32,10 +29,6 @@ class UploadImageServicePayload(
 
     override fun describeContents(): Int {
         return 0
-    }
-
-    fun getUserName(): String {
-        return userName
     }
 
     fun getUserID(): String {
