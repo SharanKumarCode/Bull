@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.saloon.SaloonFragment">
 
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/saloonFragmentContainer"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -14,4 +13,5 @@
         android:layout_height="match_parent"
         app:defaultNavHost="false"
         app:navGraph="@navigation/navgraph" />
+
 </FrameLayout>

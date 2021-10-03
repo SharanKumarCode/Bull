@@ -85,6 +85,7 @@ class UploadImageToFirebaseService : Service() {
 
         if (data != null) {
             userID = data.getUserID()
+            userName = data.getUserName()
             photoFileTempPath = data.getPhotoFileTempPath()
             activityFlag = data.getActivityFlag()
             saloonName = data.getSaloonName()

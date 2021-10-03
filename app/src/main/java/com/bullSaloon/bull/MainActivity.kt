@@ -104,8 +104,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.topAppBar.setOnMenuItemClickListener {
 
-            Log.i(TAG, "menu item clicked : ${it.itemId}")
-
             when(it!!.itemId)
             {
                 R.id.menuItemSettings -> {
@@ -304,8 +302,8 @@ class MainActivity : AppCompatActivity() {
                 .asBitmap()
                 .load(data)
                 .circleCrop()
-                .placeholder(R.drawable.ic_baseline_person_black_40)
-                .fallback(R.drawable.ic_baseline_person_black_40)
+                .placeholder(R.drawable.ic_baseline_delete_24)
+                .fallback(R.drawable.ic_baseline_delete_40)
                 .into(object : CustomTarget<Bitmap>(60, 60){
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         navItemImage.icon = BitmapDrawable(resources, resource)

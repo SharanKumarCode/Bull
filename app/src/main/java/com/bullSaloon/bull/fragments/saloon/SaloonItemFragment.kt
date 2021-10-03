@@ -1,6 +1,8 @@
 package com.bullSaloon.bull.fragments.saloon
 
+import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
@@ -14,11 +16,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.os.HandlerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -30,16 +31,23 @@ import com.bullSaloon.bull.adapters.SaloonItemViewPagerAdapter
 import com.bullSaloon.bull.databinding.FragmentSaloonItemBinding
 import com.bullSaloon.bull.fragments.CameraFragment
 import com.bullSaloon.bull.genericClasses.GlideApp
+import com.bullSaloon.bull.genericClasses.dataClasses.UserDataClass
 import com.bullSaloon.bull.viewModel.MainActivityViewModel
+import com.bullSaloon.bull.viewModel.UserDataViewModel
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.slider.RangeSlider
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
+import java.time.Month
 
 
 class SaloonItemFragment : Fragment() {
@@ -47,11 +55,15 @@ class SaloonItemFragment : Fragment() {
     private var _binding: FragmentSaloonItemBinding? = null
     private val binding get() = _binding!!
     private lateinit var saloonID: String
+    private lateinit var saloonName: String
     private lateinit var dataViewModel: MainActivityViewModel
+    private lateinit var dataUserViewModel: UserDataViewModel
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private var storageRef = SingletonInstances.getStorageReference()
+    private lateinit var basicUserData: UserDataClass
+    private var priceList = mutableListOf<String>()
     private var rating = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +86,7 @@ class SaloonItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
+        dataUserViewModel = ViewModelProvider(requireActivity()).get(UserDataViewModel::class.java)
         db = SingletonInstances.getFireStoreInstance()
         auth = SingletonInstances.getAuthInstance()
 
@@ -86,6 +99,14 @@ class SaloonItemFragment : Fragment() {
             override fun handleOnBackPressed() {
                 navController?.navigate(R.id.action_shopItemFragment_to_shopListFragment)
             }
+        })
+
+        generatePricingFireStoreData()
+
+//        Getting data from ViewModel - UserDataViewModel
+
+        dataUserViewModel.getUserBasicData().observe(viewLifecycleOwner, { data ->
+            basicUserData = data
         })
 
 //        Getting data from ViewModel - MainActivityViewModel
@@ -108,6 +129,7 @@ class SaloonItemFragment : Fragment() {
             }
 
             saloonID = data.saloonID.toString()
+            saloonName = data.saloonName.toString()
 
 //            set saloon display picture
             setSaloonDisplayPic(data.imageSource!!)
@@ -127,6 +149,10 @@ class SaloonItemFragment : Fragment() {
         }
         binding.googleMapImageView.setOnClickListener{
             locationActivity(shopAddress)
+        }
+
+        binding.appointmentSaloonItemButton.setOnClickListener {
+            startAppointmentDialog()
         }
 
         val viewPagerAdapter = SaloonItemViewPagerAdapter(this)
@@ -321,6 +347,120 @@ class SaloonItemFragment : Fragment() {
         dialog.show()
     }
 
+    private fun startAppointmentDialog(){
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_appointment)
+
+        var serviceInputValidityFlag = false
+        var dateInputValidityFlag = false
+        var timeInputValidityFlag = false
+
+        val selectedStyle = dialog.findViewById<TextInputLayout>(R.id.selectServiceTextInputLayoutAppointmentDialog)
+        val selectedDate = dialog.findViewById<TextInputLayout>(R.id.selectDateTextInputLayoutAppointmentDialog)
+        val selectedTime = dialog.findViewById<TextInputLayout>(R.id.selectTimeTextInputLayoutAppointmentDialog)
+        val okButton = dialog.findViewById<MaterialButton>(R.id.okButtonAppointmentDialog)
+        val closeButton = dialog.findViewById<AppCompatImageButton>(R.id.closeButtonAppointmentDialog)
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, priceList)
+        (selectedStyle.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+
+        var selectedServiceText = ""
+        var dateText = ""
+        var timeText = ""
+
+        okButton.setOnClickListener {
+            if (serviceInputValidityFlag && dateInputValidityFlag && timeInputValidityFlag){
+                uploadAppointmentToFireStore(selectedServiceText, dateText, timeText)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(requireActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        (selectedStyle.editText as? AutoCompleteTextView)?.onItemClickListener = object : AdapterView.OnItemClickListener {
+
+            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                serviceInputValidityFlag = true
+                selectedServiceText = p0?.adapter?.getItem(p2).toString()
+            }
+
+        }
+
+        val selectedDateEditText = selectedDate.findViewById<TextInputEditText>(R.id.selectDateTextInputEditAppointmentDialog)
+
+        selectedDateEditText.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(requireContext())
+            datePickerDialog.setOnDateSetListener { _, i, i2, i3 ->
+                val month = Month.of(i2+1).toString().lowercase().replaceFirstChar { c -> c.uppercase() }
+                selectedDateEditText.setText(requireContext().resources.getString(R.string.placeHolderDate, i3.toString(), month, i.toString()))
+                dateInputValidityFlag = true
+                dateText = selectedDateEditText.text.toString()
+            }
+
+            val c = Calendar.getInstance()
+            datePickerDialog.datePicker.minDate = c.timeInMillis
+            c.add(Calendar.DATE, 7)
+            datePickerDialog.datePicker.maxDate = c.timeInMillis
+            datePickerDialog.show()
+        }
+
+        val selectedTimeEditText = selectedTime.findViewById<TextInputEditText>(R.id.selectTimeTextInputEditAppointmentDialog)
+
+        selectedTimeEditText.setOnClickListener {
+            val timePickerListener = object : TimePickerDialog.OnTimeSetListener{
+                override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
+
+                    when (p1){
+                        0 -> selectedTimeEditText.setText(requireContext().resources.getString(R.string.placeHolderTime, "12", p2.toString().padStart(2, '0'), "AM"))
+                        12 -> selectedTimeEditText.setText(requireContext().resources.getString(R.string.placeHolderTime, "12", p2.toString().padStart(2, '0'), "PM"))
+                        in 1..12 -> selectedTimeEditText.setText(requireContext().resources.getString(R.string.placeHolderTime, p1.toString().padStart(2, '0'), p2.toString().padStart(2, '0'), "AM"))
+                        in 12..24 -> selectedTimeEditText.setText(requireContext().resources.getString(R.string.placeHolderTime, (p1-12).toString().padStart(2, '0'), p2.toString().padStart(2, '0'), "PM"))
+                    }
+
+                    timeInputValidityFlag = true
+                    timeText = selectedTimeEditText.text.toString()
+                }
+
+            }
+            val timePickerDialog = TimePickerDialog(requireContext(), timePickerListener,8,0,false)
+            timePickerDialog.show()
+        }
+
+        val width = resources.displayMetrics.widthPixels
+
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.show()
+
+    }
+
+    private fun generatePricingFireStoreData(){
+
+        val dataViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
+        dataViewModel.getShopData().observe(viewLifecycleOwner, { data ->
+            saloonID = data.saloonID.toString()
+
+            db.collection("Saloons")
+                .document(saloonID)
+                .get()
+                .addOnSuccessListener {
+                    if (it.exists()){
+                        val pricingList = it.get("pricing_list") as HashMap<String, Number>
+
+                        pricingList.forEach { (key, _) ->
+                            priceList.add(key)
+                        }
+                        priceList.add("Other")
+                    }
+                }
+                .addOnFailureListener {e->
+                    Log.i("TAG", "Error in fetching pricing data : ${e.message}")
+                }
+        })
+    }
+
     private fun uploadRatingToFireStore(review: String = ""){
 
         val timeStamp = SimpleDateFormat(CameraFragment.FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())
@@ -359,11 +499,6 @@ class SaloonItemFragment : Fragment() {
                     val newReviewCount = if (review == "") oldReviewCount.toLong() else (oldReviewCount + 1).toLong()
                     val newAverageRating = ((oldAverageRating * ratingCount) + rating.toDouble()) / (ratingCount + 1 )
 
-                    Log.i(TAG,"old Average Rating : $oldAverageRating")
-                    Log.i(TAG,"number Rating : $ratingCount")
-                    Log.i(TAG,"new Sum Rating : ${(oldAverageRating * ratingCount) + rating}")
-                    Log.i(TAG,"new Average Rating : $newAverageRating")
-
                     val updateRatingReviewCountMap = mutableMapOf(
                         "current_average_rating" to newAverageRating,
                         "number_of_ratings" to (ratingCount + 1),
@@ -390,6 +525,58 @@ class SaloonItemFragment : Fragment() {
             }
             .addOnFailureListener {e->
                 Log.i(TAG, "error in getting average Rating : ${e.message}")
+            }
+    }
+
+    private fun uploadAppointmentToFireStore(service: String, date: String, time: String){
+
+        val loadingDialogBuilder = AlertDialog.Builder(requireContext())
+        loadingDialogBuilder.setView(R.layout.dialog_loading)
+        loadingDialogBuilder.setCancelable(false)
+
+        val loadingDialog = loadingDialogBuilder.create()
+        loadingDialog.findViewById<TextView>(R.id.loadingTextLoadingDialog)?.text =
+            requireContext().resources.getString(R.string.placeHolderLoadingText, "Booking Appointment")
+
+        Log.i(TAG, "loading text : ${loadingDialog.findViewById<TextView>(R.id.loadingTextLoadingDialog)?.text}")
+        loadingDialog.show()
+
+        val appointmentID = UUID.randomUUID().toString()
+        val appointmentMap = hashMapOf("appointment_id" to appointmentID,
+                                                        "user_id" to basicUserData.user_id,
+                                                        "user_name" to basicUserData.user_name,
+                                                        "saloon_id" to saloonID,
+                                                        "saloon_name" to saloonName,
+                                                        "service" to service,
+                                                        "date" to date,
+                                                        "time" to time)
+
+        db.collection("Users")
+            .document(basicUserData.user_id)
+            .collection("appointments")
+            .document(appointmentID)
+            .set(appointmentMap)
+            .addOnSuccessListener {
+                db.collection("Saloons")
+                    .document(saloonID)
+                    .collection("appointments")
+                    .document(appointmentID)
+                    .set(appointmentMap)
+                    .addOnSuccessListener {
+                        Log.i(TAG, "Appointment made")
+                        Snackbar.make(requireActivity(),binding.tabInputSaloonItem,"Appointment made Successfully", Snackbar.LENGTH_SHORT).show()
+                        loadingDialog.dismiss()
+                    }
+                    .addOnFailureListener { e->
+                        Log.i(TAG, "error in uploading Appointment : ${e.message}")
+                        Snackbar.make(requireActivity(),binding.tabInputSaloonItem,"Error in making appointment. \n\n Please try again later", Snackbar.LENGTH_SHORT).show()
+                        loadingDialog.dismiss()
+                    }
+            }
+            .addOnFailureListener {e->
+                Log.i(TAG, "error in uploading Appointment : ${e.message}")
+                Snackbar.make(requireActivity(),binding.tabInputSaloonItem,"Error in making appointment. \n\n Please try again later", Snackbar.LENGTH_SHORT).show()
+                loadingDialog.dismiss()
             }
     }
 

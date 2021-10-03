@@ -498,6 +498,7 @@ class CameraFragment : Fragment() {
             val serviceIntent = Intent(requireContext(), UploadImageToFirebaseService::class.java)
             val serviceData = UploadImageServicePayload(
                 userData["id"]!!,
+                userData["user_name"]!!,
                 photoFileTemp.absolutePath,
                 saloonName,
                 captionText,
@@ -522,6 +523,7 @@ class CameraFragment : Fragment() {
         if (this::photoFileTemp.isInitialized){
             photoFileTemp.delete()
         }
+
         Log.i(TAG, "PhotoFile Deleted")
 
         setButtonVisibility(ViewVisibility.UPLOAD_COMPLETE_VISIBILITY)
@@ -578,8 +580,6 @@ class CameraFragment : Fragment() {
         }
 
     }
-
-
 
     companion object {
         private const val TAG = "CameraX"

@@ -1,7 +1,6 @@
 package com.bullSaloon.bull.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,6 @@ import com.bullSaloon.bull.fragments.yourProfile.YourProfilePhotosFragment
 import com.bullSaloon.bull.genericClasses.GlideApp
 import com.bullSaloon.bull.genericClasses.dataClasses.MyPhotosData
 import com.bullSaloon.bull.viewModel.YourProfileViewModel
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 
 class YourProfilePhotosRecyclerViewAdapter(lists: MutableList<MyPhotosData>, dataViewModel: YourProfileViewModel, childFragmentManager: YourProfilePhotosFragment): RecyclerView.Adapter<YourProfilePhotosRecyclerViewAdapter.YourProfilePhotosRecyclerViewHolder>(){
 
@@ -69,8 +66,6 @@ class YourProfilePhotosRecyclerViewAdapter(lists: MutableList<MyPhotosData>, dat
     }
 
     private fun startYourProfilePhotoItemFragment(childFragManager: YourProfilePhotosFragment){
-
-        Log.i("TAGNav", "photo is clicked")
 
         val yourProfilePhotoItemFragmentHost = childFragManager.parentFragmentManager.findFragmentById(R.id.YourProfilePhotoFragmentContainer)
         val navController = yourProfilePhotoItemFragmentHost?.findNavController()

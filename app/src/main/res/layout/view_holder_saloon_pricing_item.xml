@@ -35,11 +35,6 @@
             android:textStyle="bold"
             />
 
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="5dp"-->
-<!--            android:background="@color/teal_200"/>-->
-
         <TextView
             android:id="@+id/saloonPricingPriceText"
             android:layout_width="match_parent"

@@ -46,7 +46,7 @@ class SaloonReviewRecyclerAdapter(_lists: MutableList<SaloonReviewFragment.Ratin
         val month = dateFormatted.month.toString()
             .lowercase()
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        holderBinding.saloonReviewDate.text = holderBinding.root.resources.getString(R.string.textBullMagicImageDate,dateFormatted.dayOfMonth,month,dateFormatted.year)
+        holderBinding.saloonReviewDate.text = holderBinding.root.resources.getString(R.string.textBullMagicImageDate,dateFormatted.dayOfMonth,month,dateFormatted.year.toString())
 
 //        set review
         holderBinding.saloonReviewUserReviewText.text = lists[position].review
@@ -65,8 +65,6 @@ class SaloonReviewRecyclerAdapter(_lists: MutableList<SaloonReviewFragment.Ratin
             5 -> setRatingPic(holderBinding, R.drawable.ic_rating_five_stars)
             else -> setRatingPic(holderBinding, R.drawable.ic_rating_one_stars)
         }
-
-
     }
 
     override fun getItemCount(): Int {

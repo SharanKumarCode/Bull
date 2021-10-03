@@ -24,11 +24,13 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/activity_home.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/activity_splash_screen.xml" value="0.13580246913580246" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_about_us.xml" value="0.5" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_appointment.xml" value="0.3087719298245614" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_box_followers_list.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_camera_caption_saloon.xml" value="0.32592592592592595" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_change_username.xml" value="0.3087719298245614" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_delete_comment.xml" value="0.33" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_fetching_location_data.xml" value="0.33" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_loading.xml" value="0.33" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_saloon_rating.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_saloon_review.xml" value="0.13518518518518519" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_turn_on_location.xml" value="0.25" />
@@ -39,7 +41,7 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_saloon_photos.xml" value="0.11458333333333333" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_saloon_pricing.xml" value="0.13935185185185187" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_saloon_review.xml" value="0.1503623188405797" />
-        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_settings.xml" value="0.5" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_sign_in.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_sign_up_and_sign_in.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile.xml" value="0.1503623188405797" />
@@ -49,6 +51,7 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_photos.xml" value="0.12082204155374887" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_photos_container.xml" value="0.12082204155374887" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_review.xml" value="0.12082204155374887" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/list_item.xml" value="0.3087719298245614" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/navigation_header.xml" value="0.12082204155374887" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/view_holder_bullmagic_targetuser_item.xml" value="0.12082204155374887" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/view_holder_comment_item.xml" value="0.5" />
@@ -63,6 +66,7 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/BullMagic/layout/view_holder_bull_magic_item.xml" value="0.23097826086956522" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/fragment_saloon_item.xml" value="0.24768518518518517" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/fragment_saloon_list.xml" value="0.5" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/fragment_saloon_pricing.xml" value="0.3087719298245614" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/fragment_saloon_review.xml" value="0.24768518518518517" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/view_holder_shop_item.xml" value="0.16" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/StyleLists/layout/drawable/avd_gps_icon.xml" value="0.19675925925925927" />

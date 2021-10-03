@@ -14,6 +14,9 @@
     <string name="hintCaption">Caption (Optional)</string>
     <string name="hintComment">Enter comment..</string>
     <string name="hintReview">Enter Review..</string>
+    <string name="hintSelectService">Select Service</string>
+    <string name="hintSelectDate">Date of Appointment</string>
+    <string name="hintSelectTime">Time of Appointment</string>
 
     <string name="placeHolderAreaName">Gandhipuram</string>
     <string name="placeHolderOpenStatus">Open</string>
@@ -26,12 +29,15 @@
     <string name="placeHolderSaloonAddress">Saloon Address</string>
     <string name="placeHolderReviewCount">5</string>
     <string name="placeHolderMobileNumber">+919941677517</string>
-    <string name="placeHolderNoComments">No Comments yet...</string>
+    <string name="placeHolderNoComments">No Comments yet</string>
     <string name="placeholderPricingLabel">Haircut</string>
     <string name="placeHolderCommentsCount">3</string>
     <string name="placeHolderNiceCount">20</string>
     <string name="placeHolderAppVersion">Version : 1.0</string>
-    <string name="placeHolderTime">%1$d : %2$d %3$s</string>
+    <string name="placeHolderTime">%1$s : %2$s %3$s</string>
+    <string name="placeHolderDate">%1$s , %2$s %3$s</string>
+    <string name="placeHolderLoadingText">Please wait! %1$s</string>
+
     <string name="placeHolderLikes">0</string>
 
 
@@ -39,7 +45,7 @@
     <string name="textResendOtp">Resending OTP in %1$d secs</string>
     <string name="textAlreadyHaveAccount">Already have an account?</string>
     <string name="textDoNotHaveAccount">Do not have an account?</string>
-    <string name="textUploading">Uploading...</string>
+    <string name="textUploading">Uploading</string>
     <string name="textProgressIndicator">%1$s</string>
     <string name="textBullMagicImageDate">%1$d %2$s %3$s</string>
     <string name="textTabNices">Nices</string>
@@ -67,6 +73,7 @@
     <string name="textFetchingLocationDataFailed">"Unable to fetch location data. \n\n Saloon distance cannot be determined. \n\n Continue to use the app and try again later to use location services"</string>
     <string name="textAppOwner">App Owned By</string>
     <string name="textAppDeveloper">App Developed By</string>
+    <string name="textDeleteComment">Are you sure to delete the comment?</string>
 
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
 
@@ -99,11 +106,13 @@
     <string name="buttonLoadMoreSaloons">Load more saloons</string>
     <string name="buttonLoadMore">load more</string>
     <string name="buttonChangeUserName">Change User Name</string>
-    <string name="buttonChangeProfilePic">Change Profile Pic</string>
+    <string name="buttonChangeProfilePic">Change Display Picture</string>
     <string name="buttonClearCache">Clear Cache</string>
     <string name="buttonReply">Reply</string>
     <string name="buttonDelete">Delete</string>
     <string name="buttonCancel">Cancel</string>
+    <string name="buttonSavedStyles">Saved Styles</string>
+    <string name="buttonYourAppointments">Your Appointments</string>
 
     <!--    Content Description Texts-->
     <string name="contentDescription">Bull Logo</string>
@@ -140,7 +149,6 @@
     <string name="popUpMenuItemRemovePhoto">Remove Photo</string>
 
     <string name="hello_blank_fragment">hello_blank_fragment</string>
-    <string name="textDeleteComment">Are you sure to delete the comment?</string>
 
 
 </resources>

@@ -92,6 +92,6 @@ class YourProfilePhotosFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "TAG"
+        private const val TAG = "TAGYourProfilePhotosFragment"
     }
 }

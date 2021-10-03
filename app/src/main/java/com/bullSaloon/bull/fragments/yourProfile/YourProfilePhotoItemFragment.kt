@@ -78,7 +78,7 @@ class YourProfilePhotoItemFragment : Fragment() {
             val month = dateFormatted.month.toString()
                 .lowercase()
                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-            binding.yourProfilePhotoItemDate.text = resources.getString(R.string.textBullMagicImageDate,dateFormatted.dayOfMonth,month,dateFormatted.year)
+            binding.yourProfilePhotoItemDate.text = resources.getString(R.string.textBullMagicImageDate,dateFormatted.dayOfMonth,month,dateFormatted.year.toString())
 
 //            set image
             setImageFromFirebase(requireContext(), binding, data.imageRef)
