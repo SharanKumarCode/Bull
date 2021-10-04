@@ -4,20 +4,34 @@
     <color name="teal_200_comp_red">#FFDA0318</color>
     <color name="teal_700">#FF018786</color>
     <color name="teal_700_comp_red">#FF870102</color>
-    <color name="black">#DD000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
 
-    <color name="openStatusColor">#0FFF33</color>
-    <color name="closeStatusColor">#FF3925</color>
+    <color name="black_200">#FF1F1F1F</color>
+    <color name="black_700">#FF0F0F0F</color>
+    <color name="black_mild">#99212224</color>
 
     <color name="mainActivityBg">#1F1F1F</color>
-
     <color name="mainActButtonBgColorActive">#EEEEEE</color>
     <color name="semiTransparentWhite">#5BFFFFFF</color>
 
-    <color name="random_color_1">#5A03DA</color>
-    <color name="random_color_2">#DA0318</color>
-    <color name="random_color_3">#83DA03</color>
-
+    <color name="openStatusColor">#0FFF33</color>
+    <color name="closeStatusColor">#FF3925</color>
+    <color name="googleMapIconInactive">#960A0A</color>
+    <color name="googleMapIconActive">#EA4335</color>
     <color name="facebookColor">#1877F2</color>
+
+<!--    <color name="random_color_1">#5A03DA</color>-->
+<!--    <color name="random_color_2">#DA0318</color>-->
+<!--    <color name="random_color_3">#83DA03</color>-->
+
+    <color name="random_color_1">#FFBB86FC</color>
+    <color name="random_color_2">#FF6200EE</color>
+    <color name="random_color_3">#FF3700B3</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
 </resources>

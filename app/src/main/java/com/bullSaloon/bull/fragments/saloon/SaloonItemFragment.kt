@@ -48,6 +48,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 import java.time.Month
+import kotlin.collections.HashMap
 
 
 class SaloonItemFragment : Fragment() {
@@ -56,6 +57,7 @@ class SaloonItemFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var saloonID: String
     private lateinit var saloonName: String
+    private lateinit var saloonArea: String
     private lateinit var dataViewModel: MainActivityViewModel
     private lateinit var dataUserViewModel: UserDataViewModel
 
@@ -118,6 +120,7 @@ class SaloonItemFragment : Fragment() {
             binding.saloonItemAddressTextView.text = data.saloonAddress
             contact = data.contact.toString()
             shopAddress = "${data.saloonName} ${data.saloonAddress}"
+            saloonArea = data.areaName!!
 
 //            Set Open Status
             if (data.openStatus == true){
@@ -224,7 +227,7 @@ class SaloonItemFragment : Fragment() {
 
     private fun setSaloonDisplayPic(profilePicRef: String){
 
-        val imageRef = storageRef.child(profilePicRef)
+        val imageRef = storageRef.storage.getReferenceFromUrl(profilePicRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()
@@ -364,12 +367,12 @@ class SaloonItemFragment : Fragment() {
         (selectedStyle.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
         var selectedServiceText = ""
-        var dateText = ""
-        var timeText = ""
+        val dateMap = hashMapOf<String, Int>()
+        val timeMap = hashMapOf<String, String>()
 
         okButton.setOnClickListener {
             if (serviceInputValidityFlag && dateInputValidityFlag && timeInputValidityFlag){
-                uploadAppointmentToFireStore(selectedServiceText, dateText, timeText)
+                uploadAppointmentToFireStore(selectedServiceText, dateMap, timeMap)
                 dialog.dismiss()
             } else {
                 Toast.makeText(requireActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show()
@@ -397,7 +400,10 @@ class SaloonItemFragment : Fragment() {
                 val month = Month.of(i2+1).toString().lowercase().replaceFirstChar { c -> c.uppercase() }
                 selectedDateEditText.setText(requireContext().resources.getString(R.string.placeHolderDate, i3.toString(), month, i.toString()))
                 dateInputValidityFlag = true
-                dateText = selectedDateEditText.text.toString()
+
+                dateMap["Day"] = i3
+                dateMap["Month"] = i2+1
+                dateMap["Year"] = i
             }
 
             val c = Calendar.getInstance()
@@ -413,18 +419,39 @@ class SaloonItemFragment : Fragment() {
             val timePickerListener = object : TimePickerDialog.OnTimeSetListener{
                 override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
 
+                    var hour = ""
+                    val minute = p2.toString().padStart(2, '0')
+                    var amPm = ""
+
                     when (p1){
-                        0 -> selectedTimeEditText.setText(requireContext().resources.getString(R.string.placeHolderTime, "12", p2.toString().padStart(2, '0'), "AM"))
-                        12 -> selectedTimeEditText.setText(requireContext().resources.getString(R.string.placeHolderTime, "12", p2.toString().padStart(2, '0'), "PM"))
-                        in 1..12 -> selectedTimeEditText.setText(requireContext().resources.getString(R.string.placeHolderTime, p1.toString().padStart(2, '0'), p2.toString().padStart(2, '0'), "AM"))
-                        in 12..24 -> selectedTimeEditText.setText(requireContext().resources.getString(R.string.placeHolderTime, (p1-12).toString().padStart(2, '0'), p2.toString().padStart(2, '0'), "PM"))
+                        0 -> {
+                            hour = "12"
+                            amPm = "AM"
+                        }
+                        12 -> {
+                            hour = "12"
+                            amPm = "PM"
+                        }
+                        in 1..12 -> {
+                            hour = p1.toString().padStart(2, '0')
+                            amPm = "AM"
+                        }
+                        in 12..24 -> {
+                            hour = (p1-12).toString().padStart(2, '0')
+                            amPm = "AM"
+                        }
                     }
 
-                    timeInputValidityFlag = true
-                    timeText = selectedTimeEditText.text.toString()
-                }
+                    selectedTimeEditText.setText(requireContext().resources.getString(R.string.placeHolderTime, hour, minute, amPm))
 
+                    timeInputValidityFlag = true
+
+                    timeMap["Hour"] = hour
+                    timeMap["Minute"] = minute
+                    timeMap["AmPm"] = amPm
+                }
             }
+
             val timePickerDialog = TimePickerDialog(requireContext(), timePickerListener,8,0,false)
             timePickerDialog.show()
         }
@@ -528,15 +555,13 @@ class SaloonItemFragment : Fragment() {
             }
     }
 
-    private fun uploadAppointmentToFireStore(service: String, date: String, time: String){
+    private fun uploadAppointmentToFireStore(service: String, date: HashMap<String, Int>, time: HashMap<String, String>){
 
         val loadingDialogBuilder = AlertDialog.Builder(requireContext())
         loadingDialogBuilder.setView(R.layout.dialog_loading)
         loadingDialogBuilder.setCancelable(false)
 
         val loadingDialog = loadingDialogBuilder.create()
-        loadingDialog.findViewById<TextView>(R.id.loadingTextLoadingDialog)?.text =
-            requireContext().resources.getString(R.string.placeHolderLoadingText, "Booking Appointment")
 
         Log.i(TAG, "loading text : ${loadingDialog.findViewById<TextView>(R.id.loadingTextLoadingDialog)?.text}")
         loadingDialog.show()
@@ -547,6 +572,7 @@ class SaloonItemFragment : Fragment() {
                                                         "user_name" to basicUserData.user_name,
                                                         "saloon_id" to saloonID,
                                                         "saloon_name" to saloonName,
+                                                        "area" to saloonArea,
                                                         "service" to service,
                                                         "date" to date,
                                                         "time" to time)

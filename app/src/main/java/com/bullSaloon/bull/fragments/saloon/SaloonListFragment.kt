@@ -132,7 +132,9 @@ class SaloonListFragment : Fragment() {
                     val openStatus: Boolean? = document.getBoolean("open_status")
                     val contact: String? = document.getString("contact")
                     val saloonAddress: String? = document.getString("address")
-                    val haircutPrice: Number? = document.getLong("cutting_shaving_price")
+                    val pricingList = document.get("pricing_list") as HashMap<String, Number>
+                    val haircutPrice: Number? = pricingList["Haircut"]
+                    val shavingPrice: Number? = pricingList["Shaving"]
                     val locationData: GeoPoint = document.getGeoPoint("location_data")!!
 
                     lastVisible = it.documents[it.size() - 1]
@@ -141,7 +143,7 @@ class SaloonListFragment : Fragment() {
                     val reviewCount = document.getLong("average_rating.number_of_reviews")?.toInt()
 
                     val saloonNameUnderScore = saloonName?.replace("\\s".toRegex(),"_")
-                    val imageUrl = "Saloon_Images/$saloonID/${saloonNameUnderScore}_displayPicture.jpg"
+                    val imageUrl = document.getString("display_pic_image_ref") ?: "gs://bull-saloon.appspot.com/Saloon_Images/$saloonID/${saloonNameUnderScore}_displayPicture.jpg"
                     val distance = 0F
 
                     val saloonData = SaloonDataClass(
@@ -154,6 +156,7 @@ class SaloonListFragment : Fragment() {
                         contact,
                         saloonAddress,
                         haircutPrice,
+                        shavingPrice,
                         reviewCount,
                         locationData,
                         distance)

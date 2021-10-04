@@ -93,5 +93,10 @@
                 android:defaultValue="profilePicture" />
         </action>
     </fragment>
+    <fragment
+        android:id="@+id/appointmentsFragment"
+        android:name="com.bullSaloon.bull.fragments.AppointmentsFragment"
+        android:label="fragment_appointments"
+        tools:layout="@layout/fragment_appointments" />
 
 </navigation>

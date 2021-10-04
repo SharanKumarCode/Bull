@@ -95,13 +95,6 @@ class MainActivity : AppCompatActivity() {
             navController?.navigate(R.id.cameraFragment)
         }
 
-//        disable reselection of bottomNavigationView items
-        binding.bottomNavigationView.setOnItemReselectedListener(object : NavigationBarView.OnItemReselectedListener{
-            override fun onNavigationItemReselected(item: MenuItem) {
-
-            }
-        })
-
         binding.topAppBar.setOnMenuItemClickListener {
 
             when(it!!.itemId)

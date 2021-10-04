@@ -44,6 +44,7 @@ data class SaloonDataClass(val saloonID: String?,
                            val contact: String?,
                            val saloonAddress: String?,
                            val haircutPrice: Number?,
+                           val shavingPrice: Number?,
                            val reviewCount: Number?,
                            val locationData: GeoPoint?,
                            var distance: Float?)
@@ -60,4 +61,16 @@ data class CommentDataClass(
     val comment: String,
     val timestamp: String,
     val photoUserID: String
+)
+
+data class AppointmentDataClass(
+    val appointmentID: String,
+    val userID: String,
+    val user_name: String,
+    val saloonID: String,
+    val saloonName: String,
+    val areaName: String,
+    val service: String,
+    val date: String,
+    val time: String
 )

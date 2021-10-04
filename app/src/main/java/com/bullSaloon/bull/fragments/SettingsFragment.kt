@@ -94,6 +94,12 @@ class SettingsFragment : Fragment() {
 
         binding.cacheSizeText.text = "${initializeCache() / (1024 * 1024)} MB"
 
+        binding.yourAppointments.setOnClickListener {
+            val navHostFragment = this.parentFragment?.childFragmentManager?.findFragmentById(R.id.fragment)
+            val navController = navHostFragment?.findNavController()
+            navController?.navigate(R.id.appointmentsFragment)
+        }
+
         setProfilePhoto()
     }
 
@@ -135,28 +141,6 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setProfilePhoto(){
-
-//        val dataVieModel = ViewModelProvider(requireActivity()).get(UserDataViewModel::class.java)
-//
-//        dataVieModel.getProfilePic().observe(viewLifecycleOwner,{
-//
-//            var data = it
-//
-//            if (it == null){
-//                data = BitmapFactory.decodeResource(this.resources, R.drawable.ic_baseline_person_24)
-//            }
-//
-//            Log.i(TAG, "user profile updated fragment : $data")
-//
-//            GlideApp.with(this)
-//                .load(data)
-//                .centerInside()
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .skipMemoryCache(true)
-//                .placeholder(R.drawable.ic_baseline_person_24)
-//                .fallback(R.drawable.ic_baseline_person_24)
-//                .into(binding.profilePicImage)
-//        })
 
         val userNameSpaces = data.user_name.replace("\\s".toRegex(), "_")
         val imageUrl = "gs://bull-saloon.appspot.com/User_Images/${data.user_id}/${userNameSpaces}_profilePicture.jpg"

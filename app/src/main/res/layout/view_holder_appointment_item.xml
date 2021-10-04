@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="5dp"
+    android:paddingEnd="5dp"
+    android:paddingTop="20dp"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/appointmentCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+
+        android:layout_marginStart="13dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/black_700"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+
+                android:id="@+id/appointmentSaloonDisplayImageView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/deelux_saloon">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <TextView
+                android:id="@+id/appointmentSaloonNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appointmentSaloonDisplayImageView"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/textViewSaloonName"
+                android:textAlignment="center"
+                android:textColor="#DDDDDD"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/appointmentAreaNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appointmentSaloonNameTextView"
+                android:layout_alignStart="@+id/appointmentSaloonNameTextView"
+                android:layout_alignEnd="@+id/appointmentSaloonNameTextView"
+                android:layout_marginTop="5dp"
+                android:text="@string/placeHolderAreaName"
+                android:textColor="#BBBBBB"
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appointmentTimeLabelImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+
+                android:layout_below="@+id/appointmentAreaNameTextView"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="90dp"
+                android:layout_marginTop="20dp"
+                android:tint="@color/teal_200"
+                app:srcCompat="@drawable/ic_baseline_time_40" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/appointmentTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignTop="@+id/appointmentTimeLabelImage"
+                android:layout_alignBottom="@+id/appointmentTimeLabelImage"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@+id/appointmentTimeLabelImage"
+
+                android:gravity="center"
+
+                android:text="@string/placeHolderTime"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appointmentDateLabelImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/appointmentTimeLabelImage"
+                android:layout_alignStart="@+id/appointmentTimeLabelImage"
+                android:layout_marginTop="20dp"
+                app:srcCompat="@drawable/ic_appointment_icon"
+                android:tint="@color/teal_200"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/appointmentDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignTop="@+id/appointmentDateLabelImage"
+                android:layout_alignBottom="@+id/appointmentDateLabelImage"
+                android:layout_alignStart="@+id/appointmentTimeText"
+                android:gravity="center"
+                android:text="@string/placeHolderDate"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appointmentLabelServiceNameText"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+
+                android:layout_below="@+id/appointmentDateLabelImage"
+                android:layout_alignStart="@+id/appointmentDateLabelImage"
+                android:layout_marginTop="25dp"
+                app:srcCompat="@drawable/ic_style_icon_menu_white"
+                android:tint="@color/teal_200"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/appointmentServiceNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignStart="@+id/appointmentTimeText"
+                android:layout_alignTop="@+id/appointmentLabelServiceNameText"
+                android:layout_alignBottom="@+id/appointmentLabelServiceNameText"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
+
+                android:gravity="start"
+
+                android:text="@string/placeHolderServiceName"
+                android:textAlignment="textStart"
+                android:textSize="18sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelAppointmentButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@+id/appointmentServiceNameText"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="95dp"
+                android:layout_marginEnd="95dp"
+                android:text="@string/buttonCancel"
+                android:textAllCaps="false"
+                android:textColor="@color/teal_200_comp_red"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

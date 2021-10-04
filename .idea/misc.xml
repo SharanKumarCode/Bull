@@ -34,6 +34,7 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_saloon_rating.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_saloon_review.xml" value="0.13518518518518519" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/dialog_turn_on_location.xml" value="0.25" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_appointments.xml" value="0.3087719298245614" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_bull_magic.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_bull_magic_target_user.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_camera.xml" value="0.33" />
@@ -44,15 +45,16 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_settings.xml" value="0.5" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_sign_in.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_sign_up_and_sign_in.xml" value="0.1503623188405797" />
-        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile.xml" value="0.1503623188405797" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile.xml" value="0.1" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_comments.xml" value="0.1503623188405797" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_nice.xml" value="0.1503623188405797" />
-        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_photo_item.xml" value="0.5" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_photo_item.xml" value="0.2517482517482518" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_photos.xml" value="0.12082204155374887" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_photos_container.xml" value="0.12082204155374887" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/fragment_your_profile_review.xml" value="0.12082204155374887" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/list_item.xml" value="0.3087719298245614" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/navigation_header.xml" value="0.12082204155374887" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layout/view_holder_appointment_item.xml" value="0.3087719298245614" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/view_holder_bullmagic_targetuser_item.xml" value="0.12082204155374887" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/view_holder_comment_item.xml" value="0.5" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layout/view_holder_dialog_box_followers.xml" value="0.12082204155374887" />
@@ -64,7 +66,7 @@
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/BullMagic/layout/fragment_bull_magic_list.xml" value="0.33" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/BullMagic/layout/fragment_bull_magic_target_user.xml" value="0.24768518518518517" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/BullMagic/layout/view_holder_bull_magic_item.xml" value="0.23097826086956522" />
-        <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/fragment_saloon_item.xml" value="0.24768518518518517" />
+        <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/fragment_saloon_item.xml" value="0.20454545454545456" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/fragment_saloon_list.xml" value="0.5" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/fragment_saloon_pricing.xml" value="0.3087719298245614" />
         <entry key="..\:/Sample/Bull/app/src/main/res/layouts/Shops/layout/fragment_saloon_review.xml" value="0.24768518518518517" />

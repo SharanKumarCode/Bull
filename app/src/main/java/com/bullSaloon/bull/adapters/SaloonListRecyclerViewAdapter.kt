@@ -95,7 +95,7 @@ class SaloonListRecyclerViewAdapter(lists: MutableList<SaloonDataClass>, dataVie
 
     private fun setSaloonDisplayPic(binding: ViewHolderShopItemBinding, profilePicRef: String){
 
-        val imageRef = storageRef.storage.reference.child(profilePicRef)
+        val imageRef = storageRef.storage.getReferenceFromUrl(profilePicRef)
 
         GlideApp.with(binding.root.context)
             .asBitmap()

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="100dp"
-    android:background="@color/mainActivityBg"
+    android:background="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.yourProfile.YourProfilePhotoItemFragment">
 

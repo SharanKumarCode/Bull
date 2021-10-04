@@ -36,12 +36,9 @@
     <string name="placeHolderAppVersion">Version : 1.0</string>
     <string name="placeHolderTime">%1$s : %2$s %3$s</string>
     <string name="placeHolderDate">%1$s , %2$s %3$s</string>
-    <string name="placeHolderLoadingText">Please wait! %1$s</string>
-
     <string name="placeHolderLikes">0</string>
 
-
-    <string name="textViewSaloonName">Shop Name</string>
+    <string name="textViewSaloonName">Saloon Name</string>
     <string name="textResendOtp">Resending OTP in %1$d secs</string>
     <string name="textAlreadyHaveAccount">Already have an account?</string>
     <string name="textDoNotHaveAccount">Do not have an account?</string>
@@ -74,6 +71,7 @@
     <string name="textAppOwner">App Owned By</string>
     <string name="textAppDeveloper">App Developed By</string>
     <string name="textDeleteComment">Are you sure to delete the comment?</string>
+    <string name="textLoadingAppointment">Please wait! Booking appointment</string>
 
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
 
@@ -112,7 +110,7 @@
     <string name="buttonDelete">Delete</string>
     <string name="buttonCancel">Cancel</string>
     <string name="buttonSavedStyles">Saved Styles</string>
-    <string name="buttonYourAppointments">Your Appointments</string>
+    <string name="buttonYourAppointments">Appointments</string>
 
     <!--    Content Description Texts-->
     <string name="contentDescription">Bull Logo</string>
@@ -149,6 +147,9 @@
     <string name="popUpMenuItemRemovePhoto">Remove Photo</string>
 
     <string name="hello_blank_fragment">hello_blank_fragment</string>
+    <string name="textNoAppointments">You have not made any appointments</string>
+    <string name="placeHolderServiceName">Haircut + Shaving</string>
+    <string name="buttonCancelAppointment">Cancel Appointment</string>
 
 
 </resources>
