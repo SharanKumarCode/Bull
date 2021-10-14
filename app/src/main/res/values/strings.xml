@@ -36,6 +36,7 @@
     <string name="placeHolderAppVersion">Version : 1.0</string>
     <string name="placeHolderTime">%1$s : %2$s %3$s</string>
     <string name="placeHolderDate">%1$s , %2$s %3$s</string>
+    <string name="placeHolderServiceName">Haircut + Shaving</string>
     <string name="placeHolderLikes">0</string>
 
     <string name="textViewSaloonName">Saloon Name</string>
@@ -72,6 +73,7 @@
     <string name="textAppDeveloper">App Developed By</string>
     <string name="textDeleteComment">Are you sure to delete the comment?</string>
     <string name="textLoadingAppointment">Please wait! Booking appointment</string>
+    <string name="textLoadingCancelAppointment">Please wait! Cancelling appointment</string>
 
     <string name="helperEnterMobileNumber">Enter mobile number without country code</string>
 
@@ -148,7 +150,7 @@
 
     <string name="hello_blank_fragment">hello_blank_fragment</string>
     <string name="textNoAppointments">You have not made any appointments</string>
-    <string name="placeHolderServiceName">Haircut + Shaving</string>
+
     <string name="buttonCancelAppointment">Cancel Appointment</string>
 
 

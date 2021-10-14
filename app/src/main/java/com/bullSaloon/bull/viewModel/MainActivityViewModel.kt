@@ -16,6 +16,7 @@ class MainActivityViewModel: ViewModel() {
     private var saloonRefreshDataState = MutableLiveData<SaloonRefreshData>()
     private var bullMagicListData = MutableLiveData<MutableList<BullMagicListData>>()
     private var commentDataList = MutableLiveData<MutableList<CommentDataClass>>()
+    private var saloonPriceList = MutableLiveData<MutableList<String>>()
     val temp = mutableListOf<BullMagicListData>()
 
     fun assignShopData(shop: MutableList<SaloonDataClass>){
@@ -36,6 +37,14 @@ class MainActivityViewModel: ViewModel() {
 
     fun getShopData():MutableLiveData<SaloonDataClass>{
         return saloonData
+    }
+
+    fun assignSaloonPriceList(data: MutableList<String>){
+        saloonPriceList.value = data
+    }
+
+    fun getSaloonPriceList(): MutableLiveData<MutableList<String>>{
+        return saloonPriceList
     }
 
     fun putBullMagicData(data: BullMagicListData){

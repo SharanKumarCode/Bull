@@ -1,12 +1,15 @@
 package com.bullSaloon.bull.adapters
 
+import android.content.Context
 import android.content.DialogInterface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.bullSaloon.bull.R
 import com.bullSaloon.bull.SingletonInstances
@@ -104,6 +107,18 @@ class AppointmentRecyclerViewAdapter(lists: MutableList<AppointmentDataClass>, _
     }
 
     private fun cancelAppointment(binding: ViewHolderAppointmentItemBinding){
+
+        val loadingDialogBuilder = AlertDialog.Builder(binding.root.context)
+        val layoutInflater: LayoutInflater = binding.root.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val customView = layoutInflater.inflate(R.layout.dialog_loading, null, false)
+        customView.findViewById<TextView>(R.id.loadingTextLoadingDialog)?.setText(R.string.textLoadingCancelAppointment)
+
+        loadingDialogBuilder.setView(customView)
+        loadingDialogBuilder.setCancelable(false)
+
+        val loadingDialog = loadingDialogBuilder.create()
+        loadingDialog.show()
+
         db.collection("Users")
             .document(userID)
             .collection("appointments")
@@ -117,15 +132,19 @@ class AppointmentRecyclerViewAdapter(lists: MutableList<AppointmentDataClass>, _
                     .delete()
                     .addOnSuccessListener {
                         Log.i(TAG,"Appointment cancelled successfully")
+                        Toast.makeText(binding.root.context, "Appointment Cancelled Successfully", Toast.LENGTH_SHORT).show()
+                        loadingDialog.dismiss()
                         fragment.returnGetAppointmentListFireStore()
                     }
                     .addOnFailureListener { e->
                         Log.i(TAG,"Error in cancelling appointment: ${e.message}")
+                        loadingDialog.dismiss()
                         Toast.makeText(binding.root.context, "Error in Cancelling Appointment. \n\n Please try again later", Toast.LENGTH_SHORT).show()
                     }
             }
             .addOnFailureListener { e->
                 Log.i(TAG,"Error in cancelling appointment: ${e.message}")
+                loadingDialog.dismiss()
                 Toast.makeText(binding.root.context, "Error in Cancelling Appointment. \n\n Please try again later", Toast.LENGTH_SHORT).show()
             }
     }

@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_otp_box"
-    android:foregroundTint="@color/black"
-    android:backgroundTint="@color/black"
+    android:foregroundTint="@color/white"
+    android:backgroundTint="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -14,11 +14,13 @@
         android:layout_marginStart="30dp"
         android:layout_alignTop="@+id/selectServiceTextInputLayoutAppointmentDialog"
         android:layout_alignBottom="@+id/selectServiceTextInputLayoutAppointmentDialog"
+        android:tint="@color/black"
         app:srcCompat="@drawable/ic_style_icon_menu_white"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/selectServiceTextInputLayoutAppointmentDialog"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/labelSelectServiceAppointmentDialog"
@@ -26,12 +28,17 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginTop="20dp"
-        android:hint="@string/hintSelectService">
+
+        app:boxBackgroundColor="@color/black"
+        app:boxStrokeColor="@color/teal_200"
+        app:hintEnabled="false">
 
             <AutoCompleteTextView
                 android:id="@+id/selectServiceDropDownAppointmentDialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/hintSelectService"
+                android:textColorHint="@color/white"
                 android:inputType="none"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -46,7 +53,7 @@
         android:layout_alignStart="@+id/labelSelectServiceAppointmentDialog"
         android:layout_alignEnd="@+id/labelSelectServiceAppointmentDialog"
         app:srcCompat="@drawable/ic_appointment_icon"
-        android:tint="@color/white"/>
+        android:tint="@color/black"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/selectDateTextInputLayoutAppointmentDialog"
@@ -59,7 +66,10 @@
         android:layout_alignStart="@+id/selectServiceTextInputLayoutAppointmentDialog"
         android:layout_alignEnd="@+id/selectServiceTextInputLayoutAppointmentDialog"
         android:layout_marginTop="30dp"
-        android:hint="@string/hintSelectDate">
+
+        app:boxBackgroundColor="@color/black"
+        app:boxStrokeColor="@color/teal_200"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/selectDateTextInputEditAppointmentDialog"
@@ -67,6 +77,9 @@
             android:layout_height="match_parent"
             android:focusable="false"
             android:focusableInTouchMode="false"
+
+            android:hint="@string/hintSelectDate"
+            android:textColorHint="@color/white"
             android:inputType="none"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -81,7 +94,7 @@
         android:layout_alignStart="@+id/labelSelectServiceAppointmentDialog"
         android:layout_alignEnd="@+id/labelSelectServiceAppointmentDialog"
         app:srcCompat="@drawable/ic_baseline_time_40"
-        android:tint="@color/white"/>
+        android:tint="@color/black"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/selectTimeTextInputLayoutAppointmentDialog"
@@ -94,7 +107,10 @@
         android:layout_alignStart="@+id/selectServiceTextInputLayoutAppointmentDialog"
         android:layout_alignEnd="@+id/selectServiceTextInputLayoutAppointmentDialog"
         android:layout_marginTop="30dp"
-        android:hint="@string/hintSelectTime">
+
+        app:boxBackgroundColor="@color/black"
+        app:boxStrokeColor="@color/teal_200"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/selectTimeTextInputEditAppointmentDialog"
@@ -102,7 +118,10 @@
             android:layout_height="match_parent"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:inputType="none"/>
+            android:inputType="none"
+
+            android:hint="@string/hintSelectTime"
+            android:textColorHint="@color/white"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,7 +136,7 @@
         android:layout_marginStart="30dp"
         android:src="@drawable/ic_baseline_close_black_40"
         android:backgroundTint="@android:color/transparent"
-        android:tint="@color/white"/>
+        android:tint="@color/black"/>
     
     <com.google.android.material.button.MaterialButton
         android:id="@+id/okButtonAppointmentDialog"
@@ -130,6 +149,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginStart="60dp"
         android:text="@string/buttonOK"
+        android:textColor="@color/black"
         android:backgroundTint="@color/teal_200"/>
 
 </RelativeLayout>

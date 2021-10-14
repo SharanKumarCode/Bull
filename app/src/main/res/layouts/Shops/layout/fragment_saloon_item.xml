@@ -303,6 +303,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+    
+<!--    <FrameLayout-->
+<!--        android:id="@+id/appointmentBottomSheet"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        style="?attr/bottomSheetStyle"-->
+<!--        app:layout_behaviour="com.google.android.material.bottomsheet.BottomSheetBehavior">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Bottom Sheet example"-->
+<!--            />-->
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/appointmentOkButtonBottomSheet"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/buttonOK"-->
+<!--            />-->
+
+<!--    </FrameLayout>-->
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
