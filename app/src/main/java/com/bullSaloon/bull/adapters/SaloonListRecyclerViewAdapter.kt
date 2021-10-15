@@ -58,7 +58,8 @@ class SaloonListRecyclerViewAdapter(lists: MutableList<SaloonDataClass>, dataVie
             else -> setRatingPic(holderBinding, R.drawable.ic_rating_one_stars)
         }
 
-        holderBinding.saloonHaircutPriceText.text = String.format(holderBinding.root.context.resources.getString(R.string.textHaircutPrice), saloonList[position].haircutPrice)
+        holderBinding.saloonHaircutPriceText.text = String.format(holderBinding.root.context.resources.getString(R.string.textHaircutPrice), saloonList[position].haircutPrice.toString())
+        holderBinding.saloonShavingPriceText.text = String.format(holderBinding.root.context.resources.getString(R.string.textHaircutPrice), saloonList[position].shavingPrice.toString())
 
         if (saloonList[position].distance != null){
             holderBinding.textSaloonDistanceLayout.visibility = View.VISIBLE
